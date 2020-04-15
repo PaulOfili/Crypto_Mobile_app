@@ -12,10 +12,11 @@
 */
 
 import React from 'react';
-import {Platform, StatusBar, Image} from 'react-native';
+import {Platform, StatusBar, Image, View} from 'react-native';
 import {Provider} from 'react-redux';
 import {Block, GalioProvider} from 'galio-framework';
-
+import 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {Images, products, materialTheme} from './constants/';
 
 import {NavigationContainer} from '@react-navigation/native';
@@ -46,14 +47,16 @@ export default class App extends React.Component {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
         <Provider store={store}>
-          <NavigationContainer>
-            <GalioProvider theme={materialTheme}>
-              <Block flex>
-                {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-                <Screens />
-              </Block>
-            </GalioProvider>
-          </NavigationContainer>
+          <SafeAreaProvider>          
+            <NavigationContainer>
+              <GalioProvider theme={materialTheme}>
+                <View style={{flex: 1}}>
+                  {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+                  <Screens />
+                </View>
+              </GalioProvider>
+            </NavigationContainer>
+          </SafeAreaProvider>
         </Provider>
       );
     }

@@ -348,7 +348,8 @@ export default class Components extends React.Component {
     const {navigation} = this.props;
 
     return (
-      <Block flex style={[styles.group, {paddingBottom: theme.SIZES.BASE * 5}]}>
+      // <Block flex style={[styles.group, {paddingBottom: theme.SIZES.BASE * 5}]}>
+      <Block>
         <Text bold size={16} style={styles.title}>
           Album
         </Text>
@@ -382,7 +383,7 @@ export default class Components extends React.Component {
 
   render() {
     return (
-      <Block flex center>
+      // <Block flex center>
         <ScrollView
           style={styles.components}
           showsVerticalScrollIndicator={false}>
@@ -396,7 +397,7 @@ export default class Components extends React.Component {
           {this.renderCards()}
           {this.renderAlbum()}
         </ScrollView>
-      </Block>
+      // </Block>
     );
   }
 }

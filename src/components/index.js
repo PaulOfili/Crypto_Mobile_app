@@ -6,5 +6,7 @@ import Product from './Product';
 import Drawer from './Drawer';
 import Header from './Header';
 import Switch from './Switch';
+import Banner from './Banner';
+import CurrencyCard from './CurrencyCard';
 
-export {Button, Select, Icon, Tabs, Product, Drawer, Header, Switch};
+export {Button, Select, Icon, Tabs, Product, Drawer, Header, Switch, Banner, CurrencyCard};
