@@ -9,7 +9,7 @@ import {
   Switch,
 } from 'react-native';
 import {Button, Block, Text, Input, theme} from 'galio-framework';
-
+import { Input as Input2, Button as Button2} from 'react-native-elements';
 const {width} = Dimensions.get('screen');
 const currencies = [
   {
@@ -41,7 +41,7 @@ export default class Transfer extends React.Component {
     Alert.alert('Transfer has been activated!!');
   };
 
-  renderCurrencies = () => {
+  renderCurrencyPicker = () => {
     return (
       <View style={styles.currencyPicker}>
         <Text>Choose account to debit</Text>
@@ -63,33 +63,49 @@ export default class Transfer extends React.Component {
   };
 
   render() {
+    
+
     return (
       <ScrollView>
         <Block flex style={styles.transfer}>
-          <Text size={16}>Welcome back Tayo</Text>
-          <Text size={16}>Account ID: GARS...WEIO</Text>
-          {this.renderCurrencies()}
+          {this.renderCurrencyPicker()}
           <View style={styles.recipientContainer}>
             <Text style={styles.recipientText}>Recipient:</Text>
-            <Input
+            <Input2
+              placeholder='Receiver email or public key'
+              inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
+            />
+            {/* <Input
               placeholder="Receiver email or public key"
               color={theme.COLORS.INFO}
               style={styles.inputField}
-            />
+            /> */}
           </View>
           <View style={styles.amountContainer}>
             <Text style={styles.amountText}>Amount to send:</Text>
-            <Input
+            <Input2
+              placeholder='Receiver email or public key'
+              inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
+            />
+            {/* <Input
               placeholder="Enter amount in figures"
               color={theme.COLORS.INFO}
               style={styles.inputField}
-            />
+            /> */}
           </View>
           <View style={styles.memoContainer}>
             <Text style={styles.memoText}>Memo:</Text>
-            <Input color={theme.COLORS.INFO} style={styles.inputField} />
+            {/* <Input color={theme.COLORS.INFO} style={styles.inputField} /> */}
+            <Input2
+              placeholder='Receiver email or public key'
+              inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
+            />
           </View>
-          <Button
+          <Button2
+            buttonStyle={styles.transferButton}
+            title="Transfer"
+          />
+          {/* <Button
             style={styles.transferButton}
             size="small"
             round
@@ -97,7 +113,7 @@ export default class Transfer extends React.Component {
             color="success"
             onPress={this.makeTransfer}>
             Transfer
-          </Button>
+          </Button> */}
         </Block>
       </ScrollView>
     );
@@ -116,9 +132,9 @@ const styles = StyleSheet.create({
   },
   inputField: {
     borderColor: theme.COLORS.INFO,
-    marginBottom: 10,
+    marginBottom: 30,
   },
   transferButton: {
-    marginTop: 15,
+    marginTop: 20,
   },
 });

@@ -60,7 +60,7 @@ export default class Withdraw extends React.Component {
     Alert.alert('Withdraw has been activated!!');
   };
 
-  renderCurrencies = () => {
+  renderCurrencyPicker = () => {
     return (
       <View style={styles.currencyPicker}>
         <Text>Debit Currency:</Text>
@@ -102,9 +102,7 @@ export default class Withdraw extends React.Component {
     return (
       <ScrollView>
         <Block flex style={styles.withdraw}>
-          <Text size={16}>Welcome back Tayo</Text>
-          <Text size={16}>Account ID: GARS...WEIO</Text>
-          {this.renderCurrencies()}
+          {this.renderCurrencyPicker()}
           {this.renderBanks()}
           <View style={styles.recipientContainer}>
             <Text style={styles.recipientText}>Account Number:</Text>
@@ -145,7 +143,7 @@ const styles = StyleSheet.create({
   withdraw: {
     width: width,
     padding: 20,
-    marginTop: 20,
+    // marginTop: 10,
   },
   currencyPicker: {
     marginTop: 30,

@@ -7,6 +7,7 @@ import {Icon, Product, Banner, CurrencyCard } from '../components';
 import {materialTheme, products, Images} from '../constants/';
 
 const {width} = Dimensions.get('screen');
+const cardWidth = (width - 60) / 2;
 // import products from '../constants/products';
 
 import * as balanceRequest from '../store/actions/balance';
@@ -23,14 +24,16 @@ class Balance extends React.Component {
       ? this.props.balance.balance[0].currencyName
       : '';
     return (
-        <View style={styles.balanceList}>
-          <CurrencyCard />
-          <CurrencyCard />
-          <CurrencyCard />          
-          <CurrencyCard />          
-          <CurrencyCard />          
-          <CurrencyCard />          
-        </View>
+      <Block
+            row
+            space="between"
+            style={styles.balanceList}>
+            {[1,2,3,4,5,6,7].map((_, index) => (
+              <Block key={`viewed-${index}`} style={styles.eachCard}>
+                <CurrencyCard/>
+              </Block>
+            ))}
+          </Block>
         
     );
   };
@@ -41,10 +44,10 @@ class Balance extends React.Component {
         <Block style={styles.balance}>
           <Banner />   
           <View style={styles.balanceStatsContainer}>
-            <Text style={styles.balanceStatTitle}>Balance</Text>
+            <Text  style={styles.balanceStatTitle}>All Cyptos</Text>
           </View>    
+            {this.renderCurrencies()}
              
-          {this.renderCurrencies()}
         </Block>
       </Container>
       
@@ -54,30 +57,32 @@ class Balance extends React.Component {
 
 const styles = StyleSheet.create({
   balance: {
-    width: width*0.95,
-    // height: '100%',
-    alignSelf: 'center',
-    // borderRadius: 7,
-    elevation: 1,
+    width: width,
     paddingBottom: 40
   },
 
   balanceStatsContainer: {
     marginTop: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingHorizontal: 20,
+    // justifyContent: 'center',
+    // alignItems: 'center',
   },
 
   balanceStatTitle: {
-    fontSize: 30,
-    borderBottomWidth: 3,
-    borderBottomColor: "#9C26B0"
+    fontSize: 13,
+    color: '#2196e6'
   },
   
   balanceList: {
-    paddingTop: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingTop: 20,
+    flexWrap: 'wrap',
+    marginHorizontal: theme.SIZES.BASE,
+    // borderWidth: 3
+  },
+  eachCard: {
+    // borderWidth: 4,
+    marginVertical: 4,
+    width: cardWidth,
   }
 });
 

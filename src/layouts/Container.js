@@ -4,11 +4,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function Container(props) {
 
 	return (
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            <SafeAreaView style={styles.container}>
+        <SafeAreaView style={styles.container} >
+        	<ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                     {props.children}
-		    </SafeAreaView>
-        </ScrollView>
+        	</ScrollView>
+		</SafeAreaView>
 	)
 }
 

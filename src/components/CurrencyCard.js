@@ -20,12 +20,14 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: '80%',
+        alignItems: 'center',
         marginVertical: 5,
         borderRadius: 5,
-        padding: 20,
-        backgroundColor: 'lightblue',
-        borderRadius: 4
+        height: 70,
+        paddingHorizontal: 10,
+        // padding: 20,
+        borderColor: '#586b71',
+        borderWidth: 1
     },
     regionText: {
         marginBottom: 5,

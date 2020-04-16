@@ -348,8 +348,8 @@ export default class Components extends React.Component {
     const {navigation} = this.props;
 
     return (
-      // <Block flex style={[styles.group, {paddingBottom: theme.SIZES.BASE * 5}]}>
-      <Block>
+      <Block flex style={[styles.group, {paddingBottom: theme.SIZES.BASE * 5, borderWidth:3}]}>
+      {/* <Block> */}
         <Text bold size={16} style={styles.title}>
           Album
         </Text>

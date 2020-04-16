@@ -8,7 +8,7 @@ import {
   View,
   Switch,
 } from 'react-native';
-import {Button, Block, Text, Input, theme, Checkbox} from 'galio-framework';
+import {Button, Block, Text, theme, Checkbox} from 'galio-framework';
 
 const {width} = Dimensions.get('screen');
 const currencies = [
@@ -46,7 +46,7 @@ export default class CreateAccount extends React.Component {
     Alert.alert(`Selected is ${this.state.currencyType} !!`);
   };
 
-  renderCurrencies = () => {
+  renderCurrencyPicker = () => {
     return (
       <View style={styles.currencyPicker}>
         <Text>Currency</Text>
@@ -67,19 +67,17 @@ export default class CreateAccount extends React.Component {
     return (
       <ScrollView>
         <Block flex style={styles.createAccount}>
-          <Text size={16}>Welcome back Tayo</Text>
-          <Text size={16}>Account ID: GARS...WEIO</Text>
-          {this.renderCurrencies()}
+          {this.renderCurrencyPicker()}
           <View style={styles.checkboxContainer}>
             <Checkbox
               label="I accept policy terms and conditions"
-              color="success"
+              color="info"
               initialValue={false}
               onChange={() => this.toggleCheckbox()}
             />
           </View>
           <Button
-            // disabled={this.state.acceptTermsChecked}
+            disabled={this.state.acceptTermsChecked}
             round
             uppercase
             color="success"
@@ -97,7 +95,7 @@ const styles = StyleSheet.create({
   createAccount: {
     width: width,
     padding: 20,
-    marginTop: 20,
+    marginTop: 10,
   },
   currencyPicker: {
     marginTop: 40,

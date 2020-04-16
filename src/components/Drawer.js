@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   activeStyle: {
-    backgroundColor: materialTheme.COLORS.ACTIVE,
+    backgroundColor: '#066995',
     borderRadius: 4,
   },
   shadow: {
