@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {Button, Block, Text, Input, theme} from 'galio-framework';
 import { Input as Input2, Button as Button2} from 'react-native-elements';
+import Container from '../layouts/Container';
 
 const {width} = Dimensions.get('screen');
 const currencies = [
@@ -101,7 +102,7 @@ export default class Withdraw extends React.Component {
 
   render() {
     return (
-      <ScrollView>
+      <Container>
         <Block flex style={styles.withdraw}>
           {this.renderCurrencyPicker()}
           {this.renderBanks()}
@@ -139,7 +140,7 @@ export default class Withdraw extends React.Component {
             {/* <Input color={theme.COLORS.INFO} style={styles.inputField} /> */}
           </View>
         </Block>
-      </ScrollView>
+      </Container>
     );
   }
 }

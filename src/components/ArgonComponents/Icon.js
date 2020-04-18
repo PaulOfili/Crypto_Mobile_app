@@ -8,7 +8,7 @@ class IconExtra extends React.Component {
     const { name, family, ...rest } = this.props;
     
     if (name && family) {
-      return <Icon name={'pin-3'} family={'Galio'} {...rest} />;
+      return <Icon name={name} family={family} {...rest} />;
     }
 
     return null;

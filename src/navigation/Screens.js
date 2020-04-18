@@ -11,6 +11,7 @@ import FundsScreen from '../screens/Funds';
 import TransferScreen from '../screens/Transfer';
 import WithdrawScreen from '../screens/Withdraw';
 import RegisterScreen from '../screens/Register';
+import LoginScreen from '../screens/Login'
 import ComponentsScreen from '../screens/Components';
 import HomeScreen from '../screens/Home';
 import OnboardingScreen from '../screens/Onboarding';
@@ -169,6 +170,17 @@ function RegisterStack(props) {
       <Stack.Screen
         name="Register"
         component={RegisterScreen}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function LoginStack(props) {
+  return (
+    <Stack.Navigator mode="card" headerMode="none">
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
       />
     </Stack.Navigator>
   );
@@ -396,7 +408,7 @@ function AppStack(props) {
       />
       <Drawer.Screen
         name="Sign In"
-        component={RegisterStack}
+        component={LoginStack}
         options={{
           drawerIcon: ({focused}) => (
             <Icon

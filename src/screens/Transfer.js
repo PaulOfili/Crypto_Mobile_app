@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {Button, Block, Text, Input, theme} from 'galio-framework';
 import { Input as Input2, Button as Button2} from 'react-native-elements';
+import Container from '../layouts/Container';
 const {width} = Dimensions.get('screen');
 const currencies = [
   {
@@ -66,7 +67,7 @@ export default class Transfer extends React.Component {
     
 
     return (
-      <ScrollView>
+      <Container>
         <Block flex style={styles.transfer}>
           {this.renderCurrencyPicker()}
           <View style={styles.recipientContainer}>
@@ -115,7 +116,7 @@ export default class Transfer extends React.Component {
             Transfer
           </Button> */}
         </Block>
-      </ScrollView>
+      </Container>
     );
   }
 }

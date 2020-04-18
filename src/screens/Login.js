@@ -4,7 +4,8 @@ import {
   ImageBackground,
   Dimensions,
   StatusBar,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  View
 } from "react-native";
 import { Block, Checkbox, Text, theme } from "galio-framework";
 
@@ -13,17 +14,17 @@ import { Images, argonTheme } from "../constants/ArgonConstants";
 
 const { width, height } = Dimensions.get("screen");
 
-class Register extends React.Component {
+class Login extends React.Component {
   render() {
     return (
       <Block flex middle>
-        {/* <StatusBar translucent backgroundColor="transparent" /> */}
+        {/* <StatusBar translucent backgroundColor="transparent"/> */}
         <ImageBackground
           source={Images.RegisterBackground}
           style={{ width, height, zIndex: 1 }}
         >
           <Block flex middle>
-            <Block style={styles.registerContainer}>
+            <Block style={styles.loginContainer}>
               {/* <Block flex={0.25} middle style={styles.socialConnect}>
                 <Text color="#8898AA" size={12}>
                   Sign up with
@@ -56,47 +57,25 @@ class Register extends React.Component {
                 </Block>
               </Block> */}
               <Block flex>
-                <Block flex={0.17} middle>
-                  <Text color="#8898AA" size={12}>
-                    Join us 
-                  </Text>
-                </Block>
+                  <View style={styles.welcomeContainer}>
+                    <Block>
+                      <Text color="#2196e6" size={30}>
+                        Welcome back,
+                      </Text>
+                    </Block>
+                    <Block>
+                      <Text color="#2196e6" size={25}>
+                        Tayo
+                      </Text>
+                    </Block>
+                  </View>
                 <Block flex center>
                   <KeyboardAvoidingView
                     style={{ flex: 1 }}
                     behavior="padding"
                     enabled
                   >
-                    <Block width={width * 0.8} style={{ marginBottom: 15 }}>
-                      <Input
-                        borderless
-                        placeholder="Name"
-                        iconContent={
-                          <Icon
-                            size={16}
-                            color={argonTheme.COLORS.ICON}
-                            name="user"
-                            family="AntDesign"
-                            style={styles.inputIcons}
-                          />
-                        }
-                      />
-                    </Block>
-                    <Block width={width * 0.8} style={{ marginBottom: 15 }}>
-                      <Input
-                        borderless
-                        placeholder="Email"
-                        iconContent={
-                          <Icon
-                            size={16}
-                            color={argonTheme.COLORS.ICON}
-                            name="email-outline"
-                            family="Material-Community"
-                            style={styles.inputIcons}
-                          />
-                        }
-                      />
-                    </Block>
+                   
                     <Block width={width * 0.8}>
                       <Input
                         password
@@ -113,30 +92,28 @@ class Register extends React.Component {
                         }
                       />
                     </Block>
-                    <Block row width={width * 0.75}>
-                      <Checkbox
-                        checkboxStyle={{
-                          borderWidth: 3
-                        }}
-                        color={argonTheme.COLORS.PRIMARY}
-                        label="I agree with the"
-                      />
+                    <Block middle>
+                      <Button color="primary" style={styles.createButton}>
+                        <Text bold size={14} color={argonTheme.COLORS.WHITE}>
+                          Login
+                        </Text>
+                      </Button>
+                    </Block>
+                    <Block middle width={width * 0.75}>
+                      
                       <Button
-                        style={{ width: 100, elevation: 0 }}
+                        style={{ width: 130, elevation: 0, marginTop: 30 }}
                         color="transparent"
                         textStyle={{
                           color: argonTheme.COLORS.PRIMARY,
                           fontSize: 14
                         }}
                       >
-                        Privacy Policy
-                      </Button>
-                    </Block>
-                    <Block middle>
-                      <Button color="primary" style={styles.createButton}>
-                        <Text bold size={14} color={argonTheme.COLORS.WHITE}>
-                          CREATE ACCOUNT
-                        </Text>
+                        <Block row>
+                          <Text muted>Not you?</Text>
+                          <Text style={{marginLeft: 10}}>Switch Account</Text>
+
+                        </Block>
                       </Button>
                     </Block>
                   </KeyboardAvoidingView>
@@ -151,7 +128,7 @@ class Register extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  registerContainer: {
+  loginContainer: {
     width: width * 0.9,
     height: height * 0.78,
     backgroundColor: "#F4F5F7",
@@ -165,6 +142,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     elevation: 1,
     overflow: "hidden"
+  },
+  welcomeContainer: {
+    marginTop: 80,
+    paddingHorizontal: 20,
+    marginBottom: 40
   },
   socialConnect: {
     backgroundColor: argonTheme.COLORS.WHITE,
@@ -203,4 +185,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Register;
+export default Login;

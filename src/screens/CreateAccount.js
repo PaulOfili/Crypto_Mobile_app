@@ -9,7 +9,7 @@ import {
   Switch,
 } from 'react-native';
 import {Button, Block, Text, theme, Checkbox} from 'galio-framework';
-
+import Container from '../layouts/Container';
 const {width} = Dimensions.get('screen');
 const currencies = [
   {
@@ -65,7 +65,7 @@ export default class CreateAccount extends React.Component {
 
   render() {
     return (
-      <ScrollView>
+      <Container>
         <Block flex style={styles.createAccount}>
           {this.renderCurrencyPicker()}
           <View style={styles.checkboxContainer}>
@@ -86,7 +86,7 @@ export default class CreateAccount extends React.Component {
             Create Account
           </Button>
         </Block>
-      </ScrollView>
+      </Container>
     );
   }
 }
