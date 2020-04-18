@@ -9,9 +9,9 @@ import {Icon} from 'galio-framework';
 // const IconGalioExtra = createIconSetFromIcoMoon(GalioConfig, 'GalioExtra');
 
 export default class IconExtra extends React.Component {
-  state = {
-    fontLoaded: true,
-  };
+  // state = {
+  //   fontLoaded: true,
+  // };
 
   render() {
     const {name, family, ...rest} = this.props;

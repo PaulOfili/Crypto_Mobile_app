@@ -244,6 +244,21 @@ class Header extends React.Component {
     return null;
   };
 
+  renderNext = () => {
+    const { hasNext } = this.props
+    
+    if (hasNext) {
+      return (
+        <TouchableOpacity>
+          <Text>
+            Next
+          </Text>
+        </TouchableOpacity>
+      )
+    }
+
+    return null;
+  }
   render() {
     const {back, previous, title, white, transparent, navigation} = this.props;
     console.log('back', this.props)
@@ -267,7 +282,7 @@ class Header extends React.Component {
           title={title}
           style={styles.navbar}
           transparent={transparent}
-          right={this.renderRight()}
+          right={this.renderNext()}
           rightStyle={{alignItems: 'center'}}
           leftStyle={{flex: 0.3, paddingTop: 2}}
           leftIconName={back ? 'chevron-left' : 'navicon'}

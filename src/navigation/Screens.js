@@ -10,6 +10,7 @@ import CreateAccountScreen from '../screens/CreateAccount';
 import FundsScreen from '../screens/Funds';
 import TransferScreen from '../screens/Transfer';
 import WithdrawScreen from '../screens/Withdraw';
+import RegisterScreen from '../screens/Register';
 import ComponentsScreen from '../screens/Components';
 import HomeScreen from '../screens/Home';
 import OnboardingScreen from '../screens/Onboarding';
@@ -153,9 +154,21 @@ function WithdrawStack(props) {
               title="Withdraw Funds"
               scene={scene}
               navigation={navigation}
+              hasNext
             />
           ),
         }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function RegisterStack(props) {
+  return (
+    <Stack.Navigator mode="card" headerMode="none">
+      <Stack.Screen
+        name="Register"
+        component={RegisterScreen}
       />
     </Stack.Navigator>
   );
@@ -383,7 +396,7 @@ function AppStack(props) {
       />
       <Drawer.Screen
         name="Sign In"
-        component={ProScreen}
+        component={RegisterStack}
         options={{
           drawerIcon: ({focused}) => (
             <Icon
@@ -397,7 +410,7 @@ function AppStack(props) {
       />
       <Drawer.Screen
         name="Sign Up"
-        component={ProScreen}
+        component={RegisterStack}
         options={{
           drawerIcon: ({focused}) => (
             <Icon

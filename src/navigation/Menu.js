@@ -8,7 +8,7 @@ import {
 import {Block, Text, theme} from 'galio-framework';
 import {useSafeArea} from 'react-native-safe-area-context';
 
-import {Icon, Drawer as DrawerCustomItem} from '../components';
+import {Icon, DrawerItem as DrawerCustomItem} from '../components';
 import {Images, materialTheme} from '../constants';
 
 function CustomDrawerContent({

@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import {Button, Block, Text, Input, theme} from 'galio-framework';
+import { Input as Input2, Button as Button2} from 'react-native-elements';
 
 const {width} = Dimensions.get('screen');
 const currencies = [
@@ -106,33 +107,37 @@ export default class Withdraw extends React.Component {
           {this.renderBanks()}
           <View style={styles.recipientContainer}>
             <Text style={styles.recipientText}>Account Number:</Text>
-            <Input
+            <Input2
+              placeholder='Receiver email or public key'
+              inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
+            />
+            {/* <Input
               placeholder="Receiver email or public key"
               color={theme.COLORS.INFO}
-              style={styles.inputField}
-            />
+              style={styles.inputField} */}
+            {/* /> */}
           </View>
           <View style={styles.amountContainer}>
             <Text style={styles.amountText}>Amount:</Text>
-            <Input
+            <Input2
+              placeholder='Enter amount in figures'
+              inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
+            />
+            {/* <Input
               placeholder="Enter amount in figures"
               color={theme.COLORS.INFO}
               style={styles.inputField}
-            />
+            /> */}
           </View>
           <View style={styles.memoContainer}>
+            
             <Text style={styles.memoText}>Narration:</Text>
-            <Input color={theme.COLORS.INFO} style={styles.inputField} />
+            <Input2
+              inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
+            />
+            
+            {/* <Input color={theme.COLORS.INFO} style={styles.inputField} /> */}
           </View>
-          <Button
-            style={styles.withdrawButton}
-            size="small"
-            round
-            uppercase
-            color="success"
-            onPress={this.makeWithdraw}>
-            Next
-          </Button>
         </Block>
       </ScrollView>
     );
@@ -155,9 +160,6 @@ const styles = StyleSheet.create({
   },
   inputField: {
     borderColor: theme.COLORS.INFO,
-    marginBottom: 10,
-  },
-  withdrawButton: {
-    marginTop: 15,
+    marginBottom: 30,
   },
 });
