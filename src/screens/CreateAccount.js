@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Dimensions,
@@ -9,6 +9,7 @@ import {
   Switch,
 } from 'react-native';
 import {Button, Block, Text, theme, Checkbox} from 'galio-framework';
+import { Button as Button2} from 'react-native-elements';
 import Container from '../layouts/Container';
 const {width} = Dimensions.get('screen');
 const currencies = [
@@ -18,42 +19,35 @@ const currencies = [
   },
   {
     label: 'Bitcoin',
-    value: 'bitcon',
+    value: 'bitcoin',
   },
   {
     label: 'Crypto',
     value: 'crypto',
   },
 ];
-export default class CreateAccount extends React.Component {
-  constructor() {
-    super();
 
-    this.state = {
-      currencyType: '',
-      acceptTermsChecked: false,
-    };
-  }
+function CreateAccount(props) {
 
-  toggleCheckbox = () => {
-    this.setState(prevState => ({
-      acceptTermsChecked: !prevState.acceptTermsChecked,
-    }));
+  const [currencyType, setCurrencyType] = useState('')
+  const [acceptTermsChecked, setAcceptTermsChecked] = useState(false)
+
+  const toggleCheckbox = () => {
+    setAcceptTermsChecked(!acceptTermsChecked);
   };
 
-  createAccount = () => {
-    console.log(this.state);
-    Alert.alert(`Selected is ${this.state.currencyType} !!`);
+  const createAccount = () => {
+    Alert.alert(`Selected is ${currencyType} !!`);
   };
 
-  renderCurrencyPicker = () => {
+  const renderCurrencyPicker = () => {
     return (
       <View style={styles.currencyPicker}>
         <Text>Currency</Text>
         <Picker
-          selectedValue={this.state.currencyType}
+          selectedValue={currencyType}
           onValueChange={(itemValue, itemIndex) =>
-            this.setState({currencyType: itemValue})
+            setCurrencyType(itemValue)
           }>
           {currencies.map(currency => (
             <Picker.Item label={currency.label} value={currency.value} />
@@ -63,32 +57,27 @@ export default class CreateAccount extends React.Component {
     );
   };
 
-  render() {
-    return (
-      <Container>
-        <Block flex style={styles.createAccount}>
-          {this.renderCurrencyPicker()}
-          <View style={styles.checkboxContainer}>
-            <Checkbox
-              label="I accept policy terms and conditions"
-              color="info"
-              initialValue={false}
-              onChange={() => this.toggleCheckbox()}
-            />
-          </View>
-          <Button
-            disabled={this.state.acceptTermsChecked}
-            round
-            uppercase
+  return (
+    <Container>
+      <Block flex style={styles.createAccount}>
+        {renderCurrencyPicker()}
+        <View style={styles.checkboxContainer}>
+          <Checkbox
+            label="I accept policy terms and conditions"
             color="success"
-            // onPress={this.createAccount}>
-            onPress={() => this.props.navigation.navigate('Test')}>
-            Create Account
-          </Button>
-        </Block>
-      </Container>
-    );
-  }
+            initialValue={false}
+            onChange={() => toggleCheckbox()}
+          />
+        </View>
+        <Button2
+          disabled={acceptTermsChecked}
+          buttonStyle={styles.createAccountButton}
+          title="Create Account"
+          onPress={createAccount}
+        />
+      </Block>
+    </Container>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -104,4 +93,10 @@ const styles = StyleSheet.create({
   checkboxContainer: {
     marginBottom: 30,
   },
+  createAccountButton: {
+    marginTop: 50,
+    backgroundColor: '#4CAF50'
+  }
 });
+
+export default CreateAccount;

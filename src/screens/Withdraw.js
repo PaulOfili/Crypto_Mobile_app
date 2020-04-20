@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Dimensions,
@@ -48,28 +48,23 @@ const banks = [
   },
 ];
 
-export default class Withdraw extends React.Component {
-  constructor() {
-    super();
+function Withdraw(props){
 
-    this.state = {
-      currencyType: '',
-      bankType: '',
-    };
-  }
+  const [currencyType, setCurrencyType] = useState('')
+  const [bankType, setbankType] = useState('')
 
-  makeWithdraw = () => {
+  const makeWithdraw = () => {
     Alert.alert('Withdraw has been activated!!');
   };
 
-  renderCurrencyPicker = () => {
+  const renderCurrencyPicker = () => {
     return (
       <View style={styles.currencyPicker}>
         <Text>Debit Currency:</Text>
         <Picker
-          selectedValue={this.state.currencyType}
+          selectedValue={currencyType}
           onValueChange={(itemValue, itemIndex) =>
-            this.setState({currencyType: itemValue})
+            setCurrencyType(itemValue)
           }>
           {currencies.map(currency => (
             <Picker.Item
@@ -83,14 +78,14 @@ export default class Withdraw extends React.Component {
     );
   };
 
-  renderBanks = () => {
+  const renderBanks = () => {
     return (
       <View style={styles.bankPicker}>
         <Text>Select a Bank:</Text>
         <Picker
-          selectedValue={this.state.bankType}
+          selectedValue={bankType}
           onValueChange={(itemValue, itemIndex) =>
-            this.setState({bankType: itemValue})
+            setBankType(itemValue)
           }>
           {banks.map(bank => (
             <Picker.Item key={bank.id} label={bank.label} value={bank.value} />
@@ -100,49 +95,35 @@ export default class Withdraw extends React.Component {
     );
   };
 
-  render() {
-    return (
-      <Container>
-        <Block flex style={styles.withdraw}>
-          {this.renderCurrencyPicker()}
-          {this.renderBanks()}
-          <View style={styles.recipientContainer}>
-            <Text style={styles.recipientText}>Account Number:</Text>
-            <Input2
-              placeholder='Receiver email or public key'
-              inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
-            />
-            {/* <Input
-              placeholder="Receiver email or public key"
-              color={theme.COLORS.INFO}
-              style={styles.inputField} */}
-            {/* /> */}
-          </View>
-          <View style={styles.amountContainer}>
-            <Text style={styles.amountText}>Amount:</Text>
-            <Input2
-              placeholder='Enter amount in figures'
-              inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
-            />
-            {/* <Input
-              placeholder="Enter amount in figures"
-              color={theme.COLORS.INFO}
-              style={styles.inputField}
-            /> */}
-          </View>
-          <View style={styles.memoContainer}>
-            
-            <Text style={styles.memoText}>Narration:</Text>
-            <Input2
-              inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
-            />
-            
-            {/* <Input color={theme.COLORS.INFO} style={styles.inputField} /> */}
-          </View>
-        </Block>
-      </Container>
-    );
-  }
+  return (
+    <Container>
+      <Block flex style={styles.withdraw}>
+        {renderCurrencyPicker()}
+        {renderBanks()}
+        <View style={styles.recipientContainer}>
+          <Text style={styles.recipientText}>Account Number:</Text>
+          <Input2
+            placeholder='Receiver email or public key'
+            inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
+          />
+        </View>
+        <View style={styles.amountContainer}>
+          <Text style={styles.amountText}>Amount:</Text>
+          <Input2
+            placeholder='Enter amount in figures'
+            inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
+          />
+        </View>
+        <View style={styles.memoContainer}>
+          
+          <Text style={styles.memoText}>Narration:</Text>
+          <Input2
+            inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
+          />
+        </View>
+      </Block>
+    </Container>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -156,11 +137,14 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   bankPicker: {
-    marginTop: 10,
-    marginBottom: 15,
+    marginVertical: 20,
   },
   inputField: {
     borderColor: theme.COLORS.INFO,
-    marginBottom: 30,
+    marginBottom: 35,
+    // height: 50
   },
 });
+
+
+export default Withdraw;

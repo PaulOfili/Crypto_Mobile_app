@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Dimensions,
@@ -29,27 +29,22 @@ const currencies = [
     value: 'crypto',
   },
 ];
-export default class Transfer extends React.Component {
-  constructor() {
-    super();
+function Transfer (props) {
 
-    this.state = {
-      currencyType: '',
-    };
-  }
+  const [currencyType, setCurrencyType] = useState('')
 
-  makeTransfer = () => {
+  const makeTransfer = () => {
     Alert.alert('Transfer has been activated!!');
   };
 
-  renderCurrencyPicker = () => {
+  const renderCurrencyPicker = () => {
     return (
       <View style={styles.currencyPicker}>
         <Text>Choose account to debit</Text>
         <Picker
-          selectedValue={this.state.currencyType}
+          selectedValue={currencyType}
           onValueChange={(itemValue, itemIndex) =>
-            this.setState({currencyType: itemValue})
+            setCurrencyType(itemValue)
           }>
           {currencies.map(currency => (
             <Picker.Item
@@ -63,62 +58,44 @@ export default class Transfer extends React.Component {
     );
   };
 
-  render() {
-    
-
-    return (
-      <Container>
-        <Block flex style={styles.transfer}>
-          {this.renderCurrencyPicker()}
-          <View style={styles.recipientContainer}>
-            <Text style={styles.recipientText}>Recipient:</Text>
-            <Input2
-              placeholder='Receiver email or public key'
-              inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
-            />
-            {/* <Input
-              placeholder="Receiver email or public key"
-              color={theme.COLORS.INFO}
-              style={styles.inputField}
-            /> */}
-          </View>
-          <View style={styles.amountContainer}>
-            <Text style={styles.amountText}>Amount to send:</Text>
-            <Input2
-              placeholder='Receiver email or public key'
-              inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
-            />
-            {/* <Input
-              placeholder="Enter amount in figures"
-              color={theme.COLORS.INFO}
-              style={styles.inputField}
-            /> */}
-          </View>
-          <View style={styles.memoContainer}>
-            <Text style={styles.memoText}>Memo:</Text>
-            {/* <Input color={theme.COLORS.INFO} style={styles.inputField} /> */}
-            <Input2
-              placeholder='Receiver email or public key'
-              inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
-            />
-          </View>
-          <Button2
-            buttonStyle={styles.transferButton}
-            title="Transfer"
+  return (
+    <Container>
+      <Block flex style={styles.transfer}>
+        {renderCurrencyPicker()}
+        <View style={styles.recipientContainer}>
+          <Text style={styles.recipientText}>Recipient:</Text>
+          <Input2
+            placeholder='Receiver email or public key'
+            inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
           />
-          {/* <Button
-            style={styles.transferButton}
-            size="small"
-            round
-            uppercase
-            color="success"
-            onPress={this.makeTransfer}>
-            Transfer
-          </Button> */}
-        </Block>
-      </Container>
-    );
-  }
+          {/* <Input
+            placeholder="Receiver email or public key"
+            color={theme.COLORS.INFO}
+            style={styles.inputField}
+          /> */}
+        </View>
+        <View style={styles.amountContainer}>
+          <Text style={styles.amountText}>Amount to send:</Text>
+          <Input2
+            placeholder='Receiver email or public key'
+            inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
+          />
+        </View>
+        <View style={styles.memoContainer}>
+          <Text style={styles.memoText}>Memo:</Text>
+          <Input2
+            placeholder='Receiver email or public key'
+            inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
+          />
+        </View>
+        <Button2
+          buttonStyle={styles.transferButton}
+          title="Transfer"
+          onPress={makeTransfer}
+        />
+      </Block>
+    </Container>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -139,3 +116,5 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 });
+
+export default Transfer;

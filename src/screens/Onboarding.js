@@ -12,51 +12,47 @@ const {height, width} = Dimensions.get('screen');
 import materialTheme from '../constants/Theme';
 import Images from '../constants/Images';
 
-export default class Onboarding extends React.Component {
-  render() {
-    const {navigation} = this.props;
+function Onboarding({navigation}) {
 
-    return (
-      
-      <Block flex safe style={styles.container}>
-        <StatusBar barStyle="light-content" translucent backgroundColor="transparent"/>
-        <Block flex center>
-          <ImageBackground
-            source={{uri: Images.Onboarding}}
-            style={{height: height-100, width: width, marginTop: '-15%', zIndex: 1, opacity: 0.3}}
-          />
-        </Block>
-        <Block flex space="between" style={styles.padded}>
-          <Block flex space="around" style={{zIndex: 2}}>
+  return (    
+    <Block flex safe style={styles.container}>
+      <StatusBar barStyle="light-content" translucent backgroundColor="transparent"/>
+      <Block flex center>
+        <ImageBackground
+          source={{uri: Images.Onboarding}}
+          style={{height: height-100, width: width, marginTop: '-15%', zIndex: 1, opacity: 0.3}}
+        />
+      </Block>
+      <Block flex space="between" style={styles.padded}>
+        <Block flex space="around" style={{zIndex: 2}}>
+          <Block>
             <Block>
-              <Block>
-                <Text color="white" size={60}>
-                  Interswitch
-                </Text>
-              </Block>
-              <Block row>
-                <Text color="white" size={30}>
-                  Blockchain
-                </Text>
-              </Block>
-              <Text size={16} color="rgba(255,255,255,0.6)">
-                Banking in Africa made easy
+              <Text color="white" size={60}>
+                Interswitch
               </Text>
             </Block>
-            <Block center>
-              <Button
-                shadowless
-                style={styles.button}
-                color={materialTheme.COLORS.BUTTON_COLOR}
-                onPress={() => navigation.navigate('Login')}>
-                GET STARTED
-              </Button>
+            <Block row>
+              <Text color="white" size={30}>
+                Blockchain
+              </Text>
             </Block>
+            <Text size={16} color="rgba(255,255,255,0.6)">
+              Banking in Africa made easy
+            </Text>
+          </Block>
+          <Block center>
+            <Button
+              shadowless
+              style={styles.button}
+              color={materialTheme.COLORS.BUTTON_COLOR}
+              onPress={() => navigation.navigate('Login')}>
+              GET STARTED
+            </Button>
           </Block>
         </Block>
       </Block>
-    );
-  }
+    </Block>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -75,3 +71,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0,
   },
 });
+
+export default Onboarding

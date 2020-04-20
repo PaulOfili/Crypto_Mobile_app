@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
 import {StyleSheet, Dimensions, View, Image, ScrollView} from 'react-native';
 import {connect} from 'react-redux';
 import {Button, Block, Text, Input, theme} from 'galio-framework';
@@ -10,19 +12,24 @@ const {width} = Dimensions.get('screen');
 const cardWidth = (width - 60) / 2;
 // import products from '../constants/products';
 
-import * as balanceRequest from '../store/actions/balance';
-import store from '../store';
+import { getBalance } from '../store/actions/balance';
 import Container from '../layouts/Container';
 
-class Balance extends React.Component {
-  componentDidMount = () => {
-    this.props.getBalance();
-  };
+function Balance(props) {
+  
+  const balance = useSelector((store) => store.balance)
 
-  renderCurrencies = () => {
-    const firstBalance = this.props.balance.balance
-      ? this.props.balance.balance[0].currencyName
-      : '';
+  const actionDispatch = useDispatch();
+  const getBalanceDispatch = useCallback(() => actionDispatch(getBalance()),[actionDispatch]);
+  
+  useEffect(() => {
+    getBalanceDispatch();
+  }, [getBalanceDispatch])
+
+  const renderCurrencies = () => {
+    const balanceList = balance.data
+    console.log(balanceList);
+
     return (
       <Block
             row
@@ -38,21 +45,18 @@ class Balance extends React.Component {
     );
   };
 
-  render() {
-    return (
-      <Container>
-        <Block style={styles.balance}>
-          <Banner />   
-          <View style={styles.balanceStatsContainer}>
-            <Text  style={styles.balanceStatTitle}>All Cyptos</Text>
-          </View>    
-            {this.renderCurrencies()}
-             
-        </Block>
-      </Container>
-      
-    );
-  }
+  return (
+    <Container>
+      <Block style={styles.balance}>
+        <Banner />   
+        <View style={styles.balanceStatsContainer}>
+          <Text  style={styles.balanceStatTitle}>All Cyptos</Text>
+        </View>    
+          {renderCurrencies()}
+      </Block>
+    </Container>
+    
+  );
 }
 
 const styles = StyleSheet.create({
@@ -86,19 +90,4 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = state => {
-  return {
-    balance: state.balance.data,
-  };
-};
-const mapDispatchToProps = dispatch => {
-  return {
-    getBalance: () => dispatch(balanceRequest.getBalance()),
-  };
-};
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Balance);
-
-// export default Balance;
+export default Balance;
