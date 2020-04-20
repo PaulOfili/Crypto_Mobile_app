@@ -9,6 +9,7 @@ import {Block, Text, theme} from 'galio-framework';
 import {useSafeArea} from 'react-native-safe-area-context';
 
 import {Icon, DrawerItem as DrawerCustomItem} from '../components';
+import SignOutButton from '../components/SignOutButton';
 import {Images, materialTheme} from '../constants';
 
 function CustomDrawerContent({
@@ -29,8 +30,8 @@ function CustomDrawerContent({
     'Profile',
     'Settings',
     'Components',
-    'Sign In',
-    'Sign Up',
+    // 'Sign In',
+    // 'Sign Up',
   ];
   return (
     <Block
@@ -70,17 +71,21 @@ function CustomDrawerContent({
               paddingRight: drawerPosition === 'right' ? insets.right : 0,
             },
           ]}
-          showsVerticalScrollIndicator={false}>
-          {screens.map((item, index) => {
-            return (
-              <DrawerCustomItem
-                title={item}
-                key={index}
-                navigation={navigation}
-                focused={state.index === index ? true : false}
-              />
-            );
-          })}
+          showsVerticalScrollIndicator={false}
+        >
+          {
+            screens.map((item, index) => {
+              return (
+                <DrawerCustomItem
+                  title={item}
+                  key={index}
+                  navigation={navigation}
+                  focused={state.index === index ? true : false}
+                />
+              );
+            })
+          }
+          <SignOutButton />
         </ScrollView>
       </Block>
       {/* <Block flex={0.3} style={{paddingLeft: 7, paddingRight: 14}}>

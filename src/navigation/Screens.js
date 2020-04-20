@@ -442,7 +442,7 @@ function AppStack(props) {
 export default function NavigationControllerContainer(props) {
 
   const isLoggedIn = useSelector((store) => store.auth.isLoggedIn)
-  console.log(isLoggedIn)
+
   return (
     
     <Stack.Navigator mode="card" headerMode="none">
@@ -451,8 +451,8 @@ export default function NavigationControllerContainer(props) {
           <Stack.Screen
             name="Onboarding"
             component={OnboardingScreen}
-            option={{
-              headerTransparent: true,
+            options={{
+              animationTypeForReplace: isLoggedIn ? 'push' : 'pop',
             }}
           />
           <Stack.Screen name="Login" component={LoginScreen} />

@@ -1,32 +1,26 @@
 import {put, call, takeLatest} from 'redux-saga/effects';
 import {LOGIN_USER, LOGIN_USER_SUCCESS, SHOW_TOAST} from '../../contants';
-import {saveCookieData} from '../../../session/cookies';
+// import {saveCookieData} from '../../../session/cookies';
 
 export function* loginUserSaga(action) {
-  const token = action.payload;
-  let decoded_token = token;
-
-  if (decoded_token.email) {
-    yield call(saveCookieData, decoded_token.exp, token);
+  const userToken = action.payload;
+    console.log('yeah')
+    // yield call(saveCookieData, decoded_token.exp, token);
     const userData = {
       firstName: 'Paul',
       email: 'p@g.com',
     };
+
+    const userDetails = {
+      userData,
+      userToken
+    }
+
     yield put({
       type: LOGIN_USER_SUCCESS,
-      payload: userData,
+      payload: userDetails,
     });
 
-    const options = {
-      text: 'You have been successfully logged in',
-      type: 'success',
-    };
-
-    yield put({
-      type: SHOW_TOAST,
-      payload: options,
-    });
-  }
 }
 
 export function* loginUserWatcher() {

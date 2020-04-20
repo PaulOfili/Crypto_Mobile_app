@@ -1,6 +1,7 @@
 import { LOGIN_USER, LOGIN_USER_SUCCESS, LOGOUT_USER } from '../../contants';
 
 const initialState = {
+    userToken: null,
     userData: {},
     isLoading: false,
     isLoggedIn: false
@@ -17,14 +18,17 @@ const authReducer = (state = initialState, action) => {
             return (
                 Object.assign({}, state, {
                     isLoggedIn: true,
-                    userData: action.payload,
+                    userToken: action.payload.userToken,
+                    userData: action.payload.userData,
                     isLoading: false
                 })
             )
         case LOGOUT_USER:
+            console.log('yh')
             return (
                 Object.assign({}, state, {
                     userData: {},
+                    userToken: null,
                     isLoggedIn: false,
                     isLoading: false
                 })

@@ -7,7 +7,6 @@ import {
   Platform,
 } from 'react-native';
 import {Block, Button, Text, theme} from 'galio-framework';
-
 const {height, width} = Dimensions.get('screen');
 
 import materialTheme from '../constants/Theme';
@@ -18,12 +17,13 @@ export default class Onboarding extends React.Component {
     const {navigation} = this.props;
 
     return (
-      <Block flex style={styles.container}>
-        <StatusBar barStyle="light-content" />
+      
+      <Block flex safe style={styles.container}>
+        <StatusBar barStyle="light-content" translucent backgroundColor="transparent"/>
         <Block flex center>
           <ImageBackground
             source={{uri: Images.Onboarding}}
-            style={{height: height, width: width, marginTop: '-35%', zIndex: 1}}
+            style={{height: height-100, width: width, marginTop: '-15%', zIndex: 1, opacity: 0.3}}
           />
         </Block>
         <Block flex space="between" style={styles.padded}>

@@ -20,8 +20,9 @@ const { width, height } = Dimensions.get("screen");
 function Login({navigation}) {
 
   const actionDispatch = useDispatch();
-  const loginUserDispatch = useCallback(() => actionDispatch(loginUser(data)),[actionDispatch]);
-    return (
+  const loginUserDispatch = useCallback((data) => actionDispatch(loginUser(data)),[actionDispatch]);
+    
+  return (
       <Block flex middle>
         {/* <StatusBar translucent backgroundColor="transparent"/> */}
         <ImageBackground
@@ -65,12 +66,7 @@ function Login({navigation}) {
                   <View style={styles.welcomeContainer}>
                     <Block>
                       <Text color="#2196e6" size={30}>
-                        Welcome back,
-                      </Text>
-                    </Block>
-                    <Block>
-                      <Text color="#2196e6" size={25}>
-                        Tayo
+                        Welcome back.
                       </Text>
                     </Block>
                   </View>
@@ -80,7 +76,21 @@ function Login({navigation}) {
                     behavior="padding"
                     enabled
                   >
-                   
+                    <Block width={width * 0.8}>
+                      <Input
+                        borderless
+                        placeholder="Email"
+                        iconContent={
+                          <Icon
+                            size={16}
+                            color={argonTheme.COLORS.ICON}
+                            name="email-outline"
+                            family="Material-Community"
+                            style={styles.inputIcons}
+                          />
+                        }
+                      />
+                    </Block>
                     <Block width={width * 0.8}>
                       <Input
                         password
@@ -99,7 +109,7 @@ function Login({navigation}) {
                     </Block>
                     <Block middle>
                       <Button 
-                        onPress={() => loginUserDispatch([])}
+                        onPress={() => loginUserDispatch('token')}
                         color="primary" style={styles.createButton}>
                         <Text bold size={14} color={argonTheme.COLORS.WHITE}>
                           Login
