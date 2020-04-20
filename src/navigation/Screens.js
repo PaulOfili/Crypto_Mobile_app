@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {Easing, Animated, Buttons, Dimensions} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
@@ -438,17 +439,28 @@ function AppStack(props) {
   );
 }
 
-export default function OnboardingStack(props) {
+export default function NavigationControllerContainer(props) {
+
+  const isLoggedIn = useSelector((store) => store.auth.isLoggedIn)
+  console.log(isLoggedIn)
   return (
+    
     <Stack.Navigator mode="card" headerMode="none">
-      <Stack.Screen
-        name="Onboarding"
-        component={OnboardingScreen}
-        option={{
-          headerTransparent: true,
-        }}
-      />
-      <Stack.Screen name="App" component={AppStack} />
+      {!isLoggedIn ? (
+        <>
+          <Stack.Screen
+            name="Onboarding"
+            component={OnboardingScreen}
+            option={{
+              headerTransparent: true,
+            }}
+          />
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Register" component={RegisterScreen} />
+        </>
+      ) :
+        <Stack.Screen name="App" component={AppStack} />
+    }
     </Stack.Navigator>
   );
 }

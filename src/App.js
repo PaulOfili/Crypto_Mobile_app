@@ -46,16 +46,17 @@ export default class App extends React.Component {
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
+
         <Provider store={store}>
           <SafeAreaProvider>          
-            <NavigationContainer>
               <GalioProvider theme={materialTheme}>
                 <View style={{flex: 1}}>
                   {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-                  <Screens />
+                  <NavigationContainer>
+                    <Screens />
+                  </NavigationContainer>
                 </View>
               </GalioProvider>
-            </NavigationContainer>
           </SafeAreaProvider>
         </Provider>
       );

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useCallback } from "react";
+import { useSelector, useDispatch } from 'react-redux'
 import {
   StyleSheet,
   ImageBackground,
@@ -11,11 +12,15 @@ import { Block, Checkbox, Text, theme } from "galio-framework";
 
 import { Button, Icon, Input } from "../components/ArgonComponents";
 import { Images, argonTheme } from "../constants/ArgonConstants";
+import {loginUser} from "../store/actions/auth";
 
 const { width, height } = Dimensions.get("screen");
 
-class Login extends React.Component {
-  render() {
+
+function Login({navigation}) {
+
+  const actionDispatch = useDispatch();
+  const loginUserDispatch = useCallback(() => actionDispatch(loginUser(data)),[actionDispatch]);
     return (
       <Block flex middle>
         {/* <StatusBar translucent backgroundColor="transparent"/> */}
@@ -93,7 +98,9 @@ class Login extends React.Component {
                       />
                     </Block>
                     <Block middle>
-                      <Button color="primary" style={styles.createButton}>
+                      <Button 
+                        onPress={() => loginUserDispatch([])}
+                        color="primary" style={styles.createButton}>
                         <Text bold size={14} color={argonTheme.COLORS.WHITE}>
                           Login
                         </Text>
@@ -102,6 +109,7 @@ class Login extends React.Component {
                     <Block middle width={width * 0.75}>
                       
                       <Button
+                        onPress={() => navigation.navigate('Register')}
                         style={{ width: 130, elevation: 0, marginTop: 30 }}
                         color="transparent"
                         textStyle={{
@@ -110,8 +118,8 @@ class Login extends React.Component {
                         }}
                       >
                         <Block row>
-                          <Text muted>Not you?</Text>
-                          <Text style={{marginLeft: 10}}>Switch Account</Text>
+                          <Text muted>New here?</Text>
+                          <Text style={{marginLeft: 10}} >Register to join</Text>
 
                         </Block>
                       </Button>
@@ -124,7 +132,6 @@ class Login extends React.Component {
         </ImageBackground>
       </Block>
     );
-  }
 }
 
 const styles = StyleSheet.create({

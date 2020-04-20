@@ -14,7 +14,11 @@ import { Images, argonTheme } from "../constants/ArgonConstants";
 const { width, height } = Dimensions.get("screen");
 
 class Register extends React.Component {
+
   render() {
+
+    const { navigation } = this.props;
+    
     return (
       <Block flex middle>
         {/* <StatusBar translucent backgroundColor="transparent" /> */}
@@ -137,6 +141,24 @@ class Register extends React.Component {
                         <Text bold size={14} color={argonTheme.COLORS.WHITE}>
                           CREATE ACCOUNT
                         </Text>
+                      </Button>
+                    </Block>
+                    <Block middle width={width * 0.75}>
+                      
+                      <Button
+                        onPress={() => navigation.navigate('Login')}
+                        style={{ width: 180, elevation: 0, marginTop: 30 }}
+                        color="transparent"
+                        textStyle={{
+                          color: argonTheme.COLORS.PRIMARY,
+                          fontSize: 14
+                        }}
+                      >
+                        <Block row>
+                          <Text muted>Already have an account?</Text>
+                          <Text style={{marginLeft: 10}} >Login here</Text>
+
+                        </Block>
                       </Button>
                     </Block>
                   </KeyboardAvoidingView>

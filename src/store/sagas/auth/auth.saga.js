@@ -9,10 +9,8 @@ export function* loginUserSaga(action) {
   if (decoded_token.email) {
     yield call(saveCookieData, decoded_token.exp, token);
     const userData = {
-      firstName: decoded_token.firstName,
-      lastName: decoded_token.lastName,
-      userName: decoded_token.user_name,
-      email: decoded_token.email,
+      firstName: 'Paul',
+      email: 'p@g.com',
     };
     yield put({
       type: LOGIN_USER_SUCCESS,

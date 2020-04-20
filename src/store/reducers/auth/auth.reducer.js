@@ -3,7 +3,7 @@ import { LOGIN_USER, LOGIN_USER_SUCCESS, LOGOUT_USER } from '../../contants';
 const initialState = {
     userData: {},
     isLoading: false,
-    isLoggedIn: true
+    isLoggedIn: false
 }
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
