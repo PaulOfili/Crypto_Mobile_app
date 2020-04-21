@@ -10,7 +10,7 @@ import {
 } from '../../contants';
 function* postAssignRequests(action) {
   try {
-    console.log(action);
+
     yield put({
       type: LOAD_CONFIRM_MODAL,
     });

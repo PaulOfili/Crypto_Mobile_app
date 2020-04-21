@@ -3,7 +3,7 @@ import {withNavigation} from '@react-navigation/compat';
 import {TouchableOpacity, StyleSheet, Platform, Dimensions} from 'react-native';
 import {Button, Block, NavBar, Input, Text, theme} from 'galio-framework';
 
-import Icon from './Icon';
+import { Icon } from './ArgonComponents';
 import materialTheme from '../constants/Theme';
 
 const {height, width} = Dimensions.get('window');
@@ -259,9 +259,20 @@ class Header extends React.Component {
 
     return null;
   }
+
+  renderLeft = () => {
+    return (
+      <Icon
+        size={23}
+        color={materialTheme.COLORS.ICON}
+        name="navicon"
+        family="Font-Awesome"
+      />
+    )
+  }
   render() {
-    const {back, previous, title, white, transparent, navigation} = this.props;
-    console.log('back', this.props)
+    const { back, title, white, transparent, navigation} = this.props;
+   
     // const { routeName } = navigation.state;
     const noShadow = [
       'Search',
@@ -278,15 +289,16 @@ class Header extends React.Component {
     return (
       <Block style={headerStyles}>
         <NavBar
-          back={back}
+          // back
           title={title}
           style={styles.navbar}
           // transparent={transparent}
+          left={this.renderLeft()}
           right={this.renderNext()}
           rightStyle={{alignItems: 'center'}}
-          leftStyle={{flex: 0.4, paddingTop: 2, fontSize: 30}}
+          leftStyle={{flex: 0.3, paddingTop: 2}}
           leftIconName={back ? 'chevron-left' : 'navicon'}
-          leftIconColor={white ? theme.COLORS.WHITE : theme.COLORS.ICON}
+          // leftIconColor={white ? theme.COLORS.WHITE : theme.COLORS.ICON}
           titleStyle={[
             styles.title,
             {color: theme.COLORS[white ? 'WHITE' : 'ICON']},

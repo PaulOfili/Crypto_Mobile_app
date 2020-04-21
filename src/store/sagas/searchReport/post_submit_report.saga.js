@@ -20,7 +20,7 @@ function* postSubmitReport(action) {
     try {        
 
         const response = yield call(submitSearchReport, action.requestId, action.payload)
-        console.log(response);
+    
         yield put({
             type: POST_SUBMIT_REPORT_SUCCESS,
         });

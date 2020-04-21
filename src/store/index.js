@@ -1,6 +1,6 @@
 import {createStore, applyMiddleware} from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import rootSaga from './sagas';
+import rootSaga from './sagas/rootSaga';
 // import {throttle} from 'lodash';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import rootReducer from './reducers/rootReducer';

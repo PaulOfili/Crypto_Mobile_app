@@ -1,16 +1,16 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text } from 'galio-framework'
-export default function Banner(props) {
-    
+
+export default function Banner({userData}) {
     return (
         <View style={styles.bannerContainer} >
             <View style={styles.bannerTextContainer}>
                 <Text muted style={styles.bannerTitleMuted}>Welcome back,</Text>
-                <Text h4 style={styles.bannerHeader}>Tayo</Text>  
+                <Text h4 style={styles.bannerHeader}>{userData.firstName}</Text>  
             </View>
 
-            <Text p size={13} color='white'>My Accounts</Text>
+            <Text p size={13} color='white'>My Account</Text>
         </View>
     )
 }
@@ -18,17 +18,11 @@ export default function Banner(props) {
 
 const styles = StyleSheet.create({
     bannerContainer: {
-        // justifyContent: 'center',
-        // alignItems: 'center',
-        // paddingHorizontal: 10,
-        // paddingVertical: 10,
         padding: 20,
-        backgroundColor: "#066995",
+        backgroundColor: "#005B82",
         width: '100%',
-        height: 230,
+        height: 200,
         alignSelf: 'center',
-        // borderRadius: 10,
-        marginBottom: 10
     },
 
     bannerHeader: {

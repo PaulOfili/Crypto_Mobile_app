@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
 import {
   StyleSheet,
   Dimensions,
@@ -11,6 +12,8 @@ import {
 import {Button, Block, Text, theme, Checkbox} from 'galio-framework';
 import { Button as Button2} from 'react-native-elements';
 import Container from '../layouts/Container';
+import { postCreateAccount } from '../store/actions/account';
+
 const {width} = Dimensions.get('screen');
 const currencies = [
   {
@@ -29,7 +32,12 @@ const currencies = [
 
 function CreateAccount(props) {
 
-  const [currencyType, setCurrencyType] = useState('')
+  const createAccountLoading = useSelector((store) => store.account.isLoading)
+
+  const actionDispatch = useDispatch();
+  const postCreateAccountDispatch = useCallback((data) => actionDispatch(postCreateAccount(data)),[actionDispatch]);
+
+  const [currencyType, setCurrencyType] = useState()
   const [acceptTermsChecked, setAcceptTermsChecked] = useState(false)
 
   const toggleCheckbox = () => {
@@ -37,7 +45,8 @@ function CreateAccount(props) {
   };
 
   const createAccount = () => {
-    Alert.alert(`Selected is ${currencyType} !!`);
+    // Alert.alert(`Selected is ${currencyType} !!`);
+    postCreateAccountDispatch('test')
   };
 
   const renderCurrencyPicker = () => {
@@ -71,6 +80,7 @@ function CreateAccount(props) {
         </View>
         <Button2
           disabled={acceptTermsChecked}
+          loading={createAccountLoading}
           buttonStyle={styles.createAccountButton}
           title="Create Account"
           onPress={createAccount}

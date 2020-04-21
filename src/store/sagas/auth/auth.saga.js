@@ -4,7 +4,6 @@ import {LOGIN_USER, LOGIN_USER_SUCCESS, SHOW_TOAST} from '../../contants';
 
 export function* loginUserSaga(action) {
   const userToken = action.payload;
-    console.log('yeah')
     // yield call(saveCookieData, decoded_token.exp, token);
     const userData = {
       firstName: 'Paul',

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  TouchableWithoutFeedback,
+  View,
   ScrollView,
   StyleSheet,
   Image,
@@ -30,15 +30,13 @@ function CustomDrawerContent({
     'Profile',
     'Settings',
     'Components',
-    // 'Sign In',
-    // 'Sign Up',
   ];
   return (
     <Block
       style={styles.container}
       forceInset={{top: 'always', horizontal: 'never'}}>
       <Block flex={0.25} style={styles.header}>
-        <TouchableWithoutFeedback
+        <View
           onPress={() => navigation.navigate('Profile')}>
           <Block style={styles.profile}>
             <Image source={{uri: profile.avatar}} style={styles.avatar} />
@@ -46,21 +44,7 @@ function CustomDrawerContent({
               {profile.name}
             </Text>
           </Block>
-        </TouchableWithoutFeedback>
-        <Block row>
-          <Block middle style={styles.pro}>
-            <Text size={16} color="white">
-              {profile.plan}
-            </Text>
-          </Block>
-          <Text size={16} muted style={styles.seller}>
-            {profile.type}
-          </Text>
-          <Text size={16} color={materialTheme.COLORS.WARNING}>
-            {profile.rating}{' '}
-            <Icon name="shape-star" family="GalioExtra" size={14} />
-          </Text>
-        </Block>
+        </View>
       </Block>
       <Block flex style={{paddingLeft: 7, paddingRight: 14, paddingTop: 7}}>
         <ScrollView
