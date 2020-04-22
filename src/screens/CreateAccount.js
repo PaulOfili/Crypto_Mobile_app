@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import {
   StyleSheet,
@@ -7,15 +7,16 @@ import {
   Picker,
   Alert,
   View,
-  Switch,
+  RefreshControl,
 } from 'react-native';
 import {Button, Block, Text, theme, Checkbox} from 'galio-framework';
 import { Button as Button2} from 'react-native-elements';
 import Container from '../layouts/Container';
+import { getCurrencies } from '../store/actions/commonData';
 import { postCreateAccount } from '../store/actions/account';
 
 const {width} = Dimensions.get('screen');
-const currencies = [
+const mockCurrencies = [
   {
     label: 'Naira',
     value: 'naira',
@@ -33,19 +34,28 @@ const currencies = [
 function CreateAccount(props) {
 
   const createAccountLoading = useSelector((store) => store.account.isLoading)
-
+  const currencies = useSelector((store) => store.commonData.currencies)
+  
   const actionDispatch = useDispatch();
   const postCreateAccountDispatch = useCallback((data) => actionDispatch(postCreateAccount(data)),[actionDispatch]);
+  const getCurrenciesDispatch = useCallback(() => actionDispatch(getCurrencies()), [actionDispatch]);
 
   const [currencyType, setCurrencyType] = useState()
   const [acceptTermsChecked, setAcceptTermsChecked] = useState(false)
+
+  useEffect(() => {
+    getCurrenciesDispatch()
+  }, [getCurrenciesDispatch])
+
+  const onRefresh = useCallback(() => {
+    getCurrenciesDispatch()
+  })
 
   const toggleCheckbox = () => {
     setAcceptTermsChecked(!acceptTermsChecked);
   };
 
   const createAccount = () => {
-    // Alert.alert(`Selected is ${currencyType} !!`);
     postCreateAccountDispatch('test')
   };
 
@@ -58,7 +68,7 @@ function CreateAccount(props) {
           onValueChange={(itemValue, itemIndex) =>
             setCurrencyType(itemValue)
           }>
-          {currencies.map(currency => (
+          {mockCurrencies.map(currency => (
             <Picker.Item label={currency.label} value={currency.value} />
           ))}
         </Picker>
@@ -66,26 +76,40 @@ function CreateAccount(props) {
     );
   };
 
+  // if (currencies.isLoading) {
+  //   return (
+  //     <Block flex safe middle>
+  //       <ActivityIndicator size='large'/>
+  //     </Block>
+  //   )
+  // }
+
   return (
     <Container>
-      <Block flex style={styles.createAccount}>
-        {renderCurrencyPicker()}
-        <View style={styles.checkboxContainer}>
-          <Checkbox
-            label="I accept policy terms and conditions"
-            color="success"
-            initialValue={false}
-            onChange={() => toggleCheckbox()}
+      <ScrollView showsVerticalScrollIndicator={false} refreshControl={
+        <RefreshControl refreshing={currencies.isLoading} onRefresh={onRefresh} />
+        }
+      >
+        <Block flex style={styles.createAccount}>
+          {renderCurrencyPicker()}
+          <View style={styles.checkboxContainer}>
+            <Checkbox
+              label="I accept policy terms and conditions"
+              color="success"
+              // initialValue={false}
+              value={acceptTermsChecked}
+              onChange={() => toggleCheckbox()}
+            />
+          </View>
+          <Button2
+            disabled={acceptTermsChecked}
+            loading={createAccountLoading}
+            buttonStyle={styles.createAccountButton}
+            title="Create Account"
+            onPress={createAccount}
           />
-        </View>
-        <Button2
-          disabled={acceptTermsChecked}
-          loading={createAccountLoading}
-          buttonStyle={styles.createAccountButton}
-          title="Create Account"
-          onPress={createAccount}
-        />
-      </Block>
+        </Block>
+      </ScrollView>
     </Container>
   );
 }

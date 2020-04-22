@@ -1,4 +1,4 @@
-import { POST_CREATE_ACCOUNT, POST_CREATE_ACCOUNT_SUCCESS, POST_CREATE_ACCOUNT_FAILURE } from '../../contants';
+import { POST_CREATE_ACCOUNT_START, POST_CREATE_ACCOUNT_SUCCESS, POST_CREATE_ACCOUNT_FAILURE } from '../../contants';
 
 const initialState = {
     data: {},
@@ -8,7 +8,7 @@ const initialState = {
 const createAccountReducer = function (state = initialState, action) {
     switch (action.type) {
 
-        case POST_CREATE_ACCOUNT: 
+        case POST_CREATE_ACCOUNT_START: 
             return {
                 ...state,
                 isLoading: true,

@@ -6,9 +6,7 @@ export default function Container(props) {
 	return (
         <SafeAreaView style={styles.container} >
 			<StatusBar barStyle="dark-content" backgroundColor='white'/>
-        	<ScrollView showsVerticalScrollIndicator={false}>
-                    {props.children}
-        	</ScrollView>
+            {props.children}
 		</SafeAreaView>
 	)
 }

@@ -1,7 +1,6 @@
 import React, { useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
-import {StyleSheet, Dimensions, View, Image, ScrollView} from 'react-native';
+import {StyleSheet, Dimensions, View, Image, ScrollView, ActivityIndicator, RefreshControl } from 'react-native';
 import {Button, Block, Text, Input, theme} from 'galio-framework';
 
 import {Icon, Product, Banner, CurrencyCard } from '../components';
@@ -19,13 +18,21 @@ function Balance(props) {
   const balance = useSelector((store) => store.balance)
 
   const actionDispatch = useDispatch();
-  const getBalanceDispatch = useCallback(() => actionDispatch(getBalance()),[actionDispatch]);
-  // const getAllAccountsDispatch = useCallback(() => actionDispatch(getAllAccounts()),[actionDispatch]);
+  const getBalanceDispatch = useCallback(() => actionDispatch(getBalance()), [actionDispatch]);
 
-  useFocusEffect(() => {
-    getBalanceDispatch();
-    // getAllAccountsDispatch();
-  }, [])
+  useEffect(() => {
+    getBalanceDispatch()
+  }, [getBalanceDispatch])
+
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     actionDispatch(getBalance())
+  //   },[actionDispatch, getBalance])
+  // );
+
+  const onRefresh = useCallback(() => {
+    getBalanceDispatch()
+  })
 
   const renderCurrencies = () => {
     const balanceList = balance.data
@@ -45,8 +52,8 @@ function Balance(props) {
     );
   };
 
-  // const cardColors = ['#0082BA', '#00C590']
-  const cardColors = ['#0082BA']
+  const cardColors = ['#0082BA', '#00C590']
+  // const cardColors = ['#0082BA']
 
   const checkFirstElement = (n) => {
     return n === 0
@@ -55,32 +62,46 @@ function Balance(props) {
   const checkLastlement = (n) => {
     return n === cardColors.length - 1 && cardColors.length > 1
   }
+
+  // if (balance.isLoading) {
+  //   return (
+  //     <Block flex safe middle>
+  //       <ActivityIndicator size='large'/>
+  //     </Block>
+  //   )
+  // }
+
   return (
     <Container>
-      <Block style={styles.balance}>
-        <Banner userData={userData}/> 
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.accountList}> 
-          {
-            cardColors.map((color, index) => (
-              <Block key={`accountCard-${index}`} style={[styles.accountCard, { 
-                backgroundColor: color,
-                marginLeft: checkFirstElement(index) ? 25 : 10 ,
-                marginRight: checkLastlement(index) ? 25 : 0
-                }]}>
-                <Text style={[styles.accountCard__name, {color: 'white'}]}>First wallet</Text>
-                <Text style={[styles.accountCard__number, {color: 'white'}]}>
-                  FFFE...GGDG
-                </Text>
-              </Block> 
-            ))
-          }
-        </ScrollView>
-        
-        <View style={styles.balanceStatsContainer}>
-          <Text  style={styles.balanceStatTitle}>All Cyptos</Text>
-        </View>    
-          {renderCurrencies()}
-      </Block>
+      <ScrollView showsVerticalScrollIndicator={false} refreshControl={
+        <RefreshControl refreshing={balance.isLoading} onRefresh={onRefresh} />
+        }
+      >
+        <Block style={styles.balance}>
+          <Banner userData={userData}/> 
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.accountList}> 
+            {
+              cardColors.map((color, index) => (
+                <Block key={`accountCard-${index}`} style={[styles.accountCard, { 
+                  backgroundColor: color,
+                  marginLeft: checkFirstElement(index) ? 25 : 10 ,
+                  marginRight: checkLastlement(index) ? 25 : 0
+                  }]}>
+                  <Text style={[styles.accountCard__name, {color: 'white'}]}>First wallet</Text>
+                  <Text style={[styles.accountCard__number, {color: 'white'}]}>
+                    FFFE...GGDG
+                  </Text>
+                </Block> 
+              ))
+            }
+          </ScrollView>
+          
+          <View style={styles.balanceStatsContainer}>
+            <Text  style={styles.balanceStatTitle}>All Cyptos</Text>
+          </View>    
+            {renderCurrencies()}
+        </Block>
+      </ScrollView>
     </Container>
     
   );

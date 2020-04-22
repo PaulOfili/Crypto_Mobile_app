@@ -1,11 +1,15 @@
 import {put, call, takeLatest, delay} from 'redux-saga/effects';
-import {POST_CREATE_ACCOUNT, POST_CREATE_ACCOUNT_SUCCESS, POST_CREATE_ACCOUNT_FAILURE} from '../../contants';
+import {POST_CREATE_ACCOUNT, POST_CREATE_ACCOUNT_START, POST_CREATE_ACCOUNT_SUCCESS, POST_CREATE_ACCOUNT_FAILURE} from '../../contants';
 import { postCreateAccount } from '../../../services/account.service';
 import * as RootNavigation from '../../../navigation/RootNavigation';
 import { Alert } from 'react-native';
 
 
 export function* createAccountWorker(action) {
+    yield put({
+        type: POST_CREATE_ACCOUNT_START,
+    });
+
     const requestBody = action.payload;
 
     try {
@@ -17,8 +21,18 @@ export function* createAccountWorker(action) {
             type: POST_CREATE_ACCOUNT_SUCCESS,
             payload: 'test',
         });
-  
-        RootNavigation.navigate('Balance');
+
+        Alert.alert(
+            'Success',
+            'Congratulations, you created an account',
+            [
+                {
+                    text: 'Ok',
+                    onPress: () => RootNavigation.navigate('Balance')
+                },
+            ],
+            { cancelable: false}
+        );
 
     } catch (error) {
         yield put({

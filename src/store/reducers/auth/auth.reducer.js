@@ -1,4 +1,4 @@
-import { LOGIN_USER, LOGIN_USER_SUCCESS, LOGOUT_USER } from '../../contants';
+import { LOGIN_USER_SUCCESS, LOGOUT_USER, LOGIN_USER_START } from '../../contants';
 
 const initialState = {
     userToken: null,
@@ -8,7 +8,7 @@ const initialState = {
 }
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
-        case LOGIN_USER:
+        case LOGIN_USER_START:
             return {
                 ...state,
                 isLoading: true

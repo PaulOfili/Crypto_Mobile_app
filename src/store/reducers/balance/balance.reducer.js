@@ -1,18 +1,18 @@
 import {
-  GET_BALANCE,
+  GET_BALANCE_START,
   GET_BALANCE_FAILURE,
   GET_BALANCE_SUCCESS,
 } from '../../contants';
 
 const initialState = {
-  data: [],
+  data: {},
   error: null,
   isLoading: false,
 };
 
 const balanceReducer = function(state = initialState, action) {
   switch (action.type) {
-    case GET_BALANCE: {
+    case GET_BALANCE_START: {
       return {
         ...state,
         isLoading: true,
