@@ -27,9 +27,9 @@ function CustomDrawerContent({
     'Funds',
     'Transfer',
     'Withdraw',
-    'Profile',
-    'Settings',
-    'Components',
+    // 'Profile',
+    // 'Settings',
+    // 'Components',
   ];
   return (
     <Block
@@ -37,19 +37,27 @@ function CustomDrawerContent({
       forceInset={{top: 'always', horizontal: 'never'}}>
       <Block flex={0.25} style={styles.header}>
         <View
-          onPress={() => navigation.navigate('Profile')}>
+          // onPress={() => navigation.navigate('Profile')}
+          >
           <Block style={styles.profile}>
-            <Image source={{uri: profile.avatar}} style={styles.avatar} />
+            {/* <Image source={{uri: profile.avatar}} style={styles.avatar} /> */}
+            <Icon 
+              size={100}
+              name="user"
+              family="EvilIcons"
+              color='white'
+            />
             <Text h5 color={'white'}>
               {profile.name}
             </Text>
           </Block>
         </View>
       </Block>
-      <Block flex style={{paddingLeft: 7, paddingRight: 14, paddingTop: 7}}>
+      <Block flex={0.75} style={{paddingLeft: 7, paddingRight: 14, paddingTop: 7}}>
         <ScrollView
           contentContainerStyle={[
             {
+              flex: 1,
               paddingTop: insets.top * 0.4,
               paddingLeft: drawerPosition === 'left' ? insets.left : 0,
               paddingRight: drawerPosition === 'right' ? insets.right : 0,
@@ -57,33 +65,25 @@ function CustomDrawerContent({
           ]}
           showsVerticalScrollIndicator={false}
         >
-          {
-            screens.map((item, index) => {
-              return (
-                <DrawerCustomItem
-                  title={item}
-                  key={index}
-                  navigation={navigation}
-                  focused={state.index === index ? true : false}
-                />
-              );
-            })
-          }
-          <SignOutButton />
+          <Block flex style={{justifyContent: 'space-between'}} >
+            <Block>
+              {
+                screens.map((item, index) => {
+                  return (
+                    <DrawerCustomItem
+                      title={item}
+                      key={index}
+                      navigation={navigation}
+                      focused={state.index === index ? true : false}
+                    />
+                  );
+                })
+              }
+            </Block>
+            <SignOutButton/>
+          </Block>
         </ScrollView>
       </Block>
-      {/* <Block flex={0.3} style={{paddingLeft: 7, paddingRight: 14}}>
-        <DrawerCustomItem
-          title="Sign In"
-          navigation={navigation}
-          focused={state.index === 8 ? true : false}
-        />
-        <DrawerCustomItem
-          title="Sign Up"
-          navigation={navigation}
-          focused={state.index === 9 ? true : false}
-        />
-      </Block> */}
     </Block>
   );
 }
@@ -98,12 +98,14 @@ const styles = StyleSheet.create({
     paddingBottom: theme.SIZES.BASE,
     paddingTop: theme.SIZES.BASE * 2,
     justifyContent: 'center',
+    alignItems: 'center',
   },
   footer: {
     paddingHorizontal: 28,
     justifyContent: 'flex-end',
   },
   profile: {
+    alignItems: 'center',
     marginBottom: theme.SIZES.BASE / 2,
   },
   avatar: {
@@ -111,18 +113,7 @@ const styles = StyleSheet.create({
     width: 40,
     borderRadius: 20,
     marginBottom: theme.SIZES.BASE,
-  },
-  pro: {
-    backgroundColor: materialTheme.COLORS.LABEL,
-    paddingHorizontal: 6,
-    marginRight: 8,
-    borderRadius: 4,
-    height: 19,
-    width: 38,
-  },
-  seller: {
-    marginRight: 16,
-  },
+  }
 });
 
 export default CustomDrawerContent;

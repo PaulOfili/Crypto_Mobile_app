@@ -22,45 +22,45 @@ class DrawerItem extends React.Component {
       case 'Balance':
         return (
           <Icon
-            size={16}
-            name="shop"
-            family="GalioExtra"
+            size={25}
+            name="account-balance-wallet"
+            family="Material"
             color={focused ? 'white' : materialTheme.COLORS.MUTED}
           />
         );
       case 'Create Account':
         return (
           <Icon
-            size={16}
-            name="md-woman"
-            family="ionicon"
+            size={25}
+            name="account"
+            family="Material-Community"
             color={focused ? 'white' : materialTheme.COLORS.MUTED}
           />
         );
       case 'Funds':
         return (
           <Icon
-            size={16}
-            name="man"
-            family="entypo"
+            size={25}
+            name="bank-transfer-in"
+            family="Material-Community"
             color={focused ? 'white' : materialTheme.COLORS.MUTED}
           />
         );
       case 'Transfer':
         return (
           <Icon
-            size={16}
-            name="baby"
-            family="GalioExtra"
+            size={25}
+            name="bank-transfer-out"
+            family="Material-Community"
             color={focused ? 'white' : materialTheme.COLORS.MUTED}
           />
         );
       case 'Withdraw':
         return (
           <Icon
-            size={16}
-            name="grid-on"
-            family="material"
+            size={25}
+            name="cash-multiple"
+            family="Material-Community"
             color={focused ? 'white' : materialTheme.COLORS.MUTED}
           />
         );
@@ -112,7 +112,7 @@ class DrawerItem extends React.Component {
       case 'Sign Out':
         return (
           <Icon
-            size={16}
+            size={30}
             name="md-person-remove"
             family="ionicon"
             color={focused ? 'white' : materialTheme.COLORS.MUTED}
@@ -155,10 +155,10 @@ class DrawerItem extends React.Component {
             styles.defaultStyle,
             focused ? [styles.activeStyle, styles.shadow] : null,
           ]}>
-          <Block middle flex={0.1} style={{marginRight: 28}}>
+          <Block flex={0.2} style={{marginRight: 2, justifyContent: 'center'}}>
             {this.renderIcon()}
           </Block>
-          <Block row center flex={0.9}>
+          <Block row center flex={0.8}>
             <Text
               size={18}
               color={

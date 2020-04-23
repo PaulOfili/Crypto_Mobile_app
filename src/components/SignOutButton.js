@@ -15,10 +15,10 @@ function SignOutButton() {
     const renderIcon = () => {
         return (
             <Icon
-            size={16}
-            name="ios-log-in"
-            family="ionicon"
-            color={materialTheme.COLORS.MUTED}
+            size={25}
+            name="logout"
+            family="AntDesign"
+            color='red'
             />
         );    
     }
@@ -31,10 +31,10 @@ function SignOutButton() {
           flex
           row
           style={styles.defaultStyle}>
-          <Block middle flex={0.1} style={{marginRight: 28}}>
+          <Block flex={0.2} style={{marginRight: 2, justifyContent: 'center'}}>
             {renderIcon()}
           </Block>
-          <Block row center flex={0.9}>
+          <Block row center flex={0.8}>
             <Text size={18}>
               Sign out
             </Text>
