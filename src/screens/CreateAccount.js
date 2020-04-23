@@ -42,7 +42,7 @@ function CreateAccount(props) {
   const postCreateAccountDispatch = useCallback((data) => actionDispatch(postCreateAccount(data)),[actionDispatch]);
   const getCurrenciesDispatch = useCallback(() => actionDispatch(getCurrencies()), [actionDispatch]);
 
-  const [currencyType, setCurrencyType] = useState()
+  const [currencyType, setCurrencyType] = useState('')
   const [acceptTermsChecked, setAcceptTermsChecked] = useState(false)
 
   useEffect(() => {

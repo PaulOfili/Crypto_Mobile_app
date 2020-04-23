@@ -129,7 +129,7 @@ function Login({navigation}) {
                       >
                         <Block row>
                           <Text muted>New here?</Text>
-                          <Text style={{marginLeft: 10}} >Register to join</Text>
+                          <Text style={{marginLeft: 10}} >Sign Up to join</Text>
 
                         </Block>
                       </Button>

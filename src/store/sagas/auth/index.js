@@ -1,9 +1,10 @@
 import { all } from 'redux-saga/effects';
-import { loginUserWatcher } from './auth.saga';
+import { loginUserWatcher, signUpUserWatcher } from './auth.saga';
 
 
 export default function* authSaga() {
     yield all([
-        loginUserWatcher()
+        loginUserWatcher(),
+        signUpUserWatcher()
     ])
 }

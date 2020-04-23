@@ -1,32 +1,75 @@
 import {put, call, takeLatest} from 'redux-saga/effects';
-import {LOGIN_USER, LOGIN_USER_START, LOGIN_USER_SUCCESS, SHOW_TOAST} from '../../contants';
-// import {saveCookieData} from '../../../session/cookies';
-
-export function* loginUserSaga(action) {
+import {
+  LOGIN_USER, 
+  LOGIN_USER_START, 
+  LOGIN_USER_SUCCESS,
+  LOGIN_USER_FAILURE,
+  SIGNUP_USER,
+  SIGNUP_USER_START,
+  SIGNUP_USER_SUCCESS,
+  SIGNUP_USER_FAILURE
+} from '../../contants';
+import { postSignUp, postLogin } from '../../../services/auth.service'
+// LOGIN SAGA
+export function* loginUserWorker(action) {
   
   yield put({
     type: LOGIN_USER_START,
   });
 
-  const userToken = action.payload;
-    // yield call(saveCookieData, decoded_token.exp, token);
-  const userData = {
-    firstName: 'Paul',
-    email: 'p@g.com',
-  };
+  // const userData = action.payload;
+  
+  try {
+    // const response = yield call(postLogin, userData);
+  
+    const userData = {
+      firstName: 'Paul',
+      email: 'p@g.com',
+    };
+  
+    const data = {
+      userData
+    }
+    yield put({
+      type: LOGIN_USER_SUCCESS,
+      payload: data,
+    });
 
-  const userDetails = {
-    userData,
-    userToken
+  } catch(error) {
+    console.log(error)
   }
-
-  yield put({
-    type: LOGIN_USER_SUCCESS,
-    payload: userDetails,
-  });
 
 }
 
 export function* loginUserWatcher() {
-  yield takeLatest(LOGIN_USER, loginUserSaga);
+  yield takeLatest(LOGIN_USER, loginUserWorker);
+}
+
+// SIGN UP SAGA
+export function* signUpUserWorker(action) {
+  
+  yield put({
+    type: SIGNUP_USER_START,
+  });
+
+  const userData = action.payload;
+  console.log(userData)
+  try{
+    const response = yield call(postSignUp, userData);
+  
+    console.log(response)
+  
+    yield put({
+      type: SIGNUP_USER_SUCCESS,
+      payload: 'Success',
+    });
+
+  } catch (error) {
+    console.log(error)
+  }
+
+}
+
+export function* signUpUserWatcher() {
+  yield takeLatest(SIGNUP_USER, signUpUserWorker);
 }

@@ -10,11 +10,11 @@ function* getBalanceWorker(action) {
   })
 
   try {
-    // const response = yield call(getBalance);
-    // console.log(response);
-    yield delay(2000);
+    const response = yield call(getBalance);
+    console.log(response);
+    // yield delay(2000);
 
-    const response = 'test'
+    // const response = 'test'
     yield put({
       type: GET_BALANCE_SUCCESS,
       payload: response,
