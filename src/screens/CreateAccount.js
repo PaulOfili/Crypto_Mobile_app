@@ -8,10 +8,12 @@ import {
   Alert,
   View,
   RefreshControl,
+  Text
 } from 'react-native';
-import {Button, Block, Text, theme, Checkbox} from 'galio-framework';
+import {Button, Block, theme, Checkbox} from 'galio-framework';
 import { Button as Button2} from 'react-native-elements';
 import Container from '../layouts/Container';
+import Toast from 'react-native-tiny-toast';
 import { getCurrencies } from '../store/actions/commonData';
 import { postCreateAccount } from '../store/actions/account';
 
@@ -83,13 +85,15 @@ function CreateAccount(props) {
   //     </Block>
   //   )
   // }
-
   return (
+    
     <Container>
+      
       <ScrollView showsVerticalScrollIndicator={false} refreshControl={
         <RefreshControl refreshing={currencies.isLoading} onRefresh={onRefresh} />
         }
       >
+        
         <Block flex style={styles.createAccount}>
           {renderCurrencyPicker()}
           <View style={styles.checkboxContainer}>
@@ -110,6 +114,15 @@ function CreateAccount(props) {
           />
         </Block>
       </ScrollView>
+      <Toast
+        mask
+        visible={true}
+        position={-0.1} 
+        shadow={true}
+        containerStyle={{backgroundColor: 'red', borderRadius: 0, paddingTop: 20, opacity: 0.2}}
+        // animation={true}
+        // hideOnPress={true}
+    >Error retrieving data. Check your connectivitity or try again.</Toast>
     </Container>
   );
 }
@@ -118,7 +131,7 @@ const styles = StyleSheet.create({
   createAccount: {
     width: width,
     padding: 20,
-    marginTop: 10,
+    marginTop: 2,
   },
   currencyPicker: {
     marginTop: 40,

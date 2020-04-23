@@ -27,7 +27,7 @@ const Drawer = createDrawerNavigator();
 
 const profile = {
   avatar: Images.Profile,
-  name: 'Omotayo Oke',
+  name: 'Paul Ofili',
 };
 
 function ProfileStack(props) {

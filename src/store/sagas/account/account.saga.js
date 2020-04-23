@@ -16,13 +16,8 @@ export function* createAccountWorker(action) {
         yield delay(4000);
 
         // const response = yield call(postCreateAccount, requestBody);
-        
-        yield put({
-            type: POST_CREATE_ACCOUNT_SUCCESS,
-            payload: 'test',
-        });
 
-        Alert.alert(
+        yield Alert.alert(
             'Success',
             'Congratulations, you created an account',
             [
@@ -33,6 +28,11 @@ export function* createAccountWorker(action) {
             ],
             { cancelable: false}
         );
+
+        yield put({
+            type: POST_CREATE_ACCOUNT_SUCCESS,
+            payload: 'test',
+        });
 
     } catch (error) {
         yield put({
