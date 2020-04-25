@@ -114,7 +114,7 @@ function CreateAccount(props) {
           />
         </Block>
       </ScrollView>
-      <Toast
+      {/* <Toast
         mask
         visible={true}
         position={-0.1} 
@@ -122,7 +122,7 @@ function CreateAccount(props) {
         containerStyle={{backgroundColor: 'red', borderRadius: 0, paddingTop: 20, opacity: 0.2}}
         // animation={true}
         // hideOnPress={true}
-    >Error retrieving data. Check your connectivitity or try again.</Toast>
+    >Error retrieving data. Check your connectivitity or try again.</Toast> */}
     </Container>
   );
 }

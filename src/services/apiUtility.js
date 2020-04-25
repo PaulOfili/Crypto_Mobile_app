@@ -6,6 +6,7 @@ export const apiCall = (
   requestParams,
 ) => {
   let headers = {
+    Accept: "application/json",
     'Content-type': 'application/json',
     ...customHeaders,
   };
@@ -21,8 +22,8 @@ export const apiCall = (
     url = `${url}?${urlParams}`;
   }
 
-  console.log(url, requestOptions);
-  return fetch(url, requestOptions)
+  console.log('Each url', url)
+  fetch(url, requestOptions)
     .then(handleResponse)
     .catch(handleError);
 };
@@ -60,6 +61,6 @@ const handleResponse = response => {
 };
 
 const handleError = error => {
-  console.log(error);
-  throw new Error('Something went wrong. Please try again later');
+  console.log(String(error));
+  throw String(error);
 };

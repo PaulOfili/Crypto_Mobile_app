@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { useSelector, useDispatch } from 'react-redux'
 import {
   StyleSheet,
@@ -13,7 +13,7 @@ import { Block, Checkbox, Text, theme } from "galio-framework";
 import { Button, Icon, Input } from "../components/ArgonComponents";
 import { Images, argonTheme } from "../constants/ArgonConstants";
 import {loginUser} from "../store/actions/auth";
-
+import { checkEmail } from '../utilities/formValidation';
 const { width, height } = Dimensions.get("screen");
 
 
@@ -22,6 +22,36 @@ function Login({navigation}) {
   const actionDispatch = useDispatch();
   const loginUserDispatch = useCallback((data) => actionDispatch(loginUser(data)),[actionDispatch]);
     
+  const [email, setEmail] = useState('')
+  const [emailError, setEmailError] = useState(false)
+  const [password, setPassword] = useState('')
+  const [passwordError, setPasswordError] = useState(false)
+
+  const onEmailChange = (newEmail) => {
+    setEmail(newEmail)
+    setEmailError(false)
+  }
+
+  const onEmailBlur = () => {
+    setEmailError(!checkEmail(email))
+  }
+
+  const onPasswordChange = (newPassword) => {
+    setPassword(newPassword)
+    // setPasswordError(!checkPassword(newPassword))
+  }
+
+  const onLogin = () => {
+    const requestBody = {
+      email,
+      password,
+    }
+    if (email && !emailError && 
+        password && !passwordError) {
+          loginUserDispatch(requestBody)
+        }
+  }
+
   return (
       <Block flex middle>
         {/* <StatusBar translucent backgroundColor="transparent"/> */}
@@ -31,37 +61,6 @@ function Login({navigation}) {
         >
           <Block flex middle>
             <Block style={styles.loginContainer}>
-              {/* <Block flex={0.25} middle style={styles.socialConnect}>
-                <Text color="#8898AA" size={12}>
-                  Sign up with
-                </Text>
-                <Block row style={{ marginTop: theme.SIZES.BASE }}>
-                  <Button style={{ ...styles.socialButtons, marginRight: 30 }}>
-                    <Block row>
-                      <Icon
-                        name="logo-github"
-                        family="Ionicon"
-                        size={14}
-                        color={"black"}
-                        style={{ marginTop: 2, marginRight: 5 }}
-                      />
-                      <Text style={styles.socialTextButtons}>GITHUB</Text>
-                    </Block>
-                  </Button>
-                  <Button style={styles.socialButtons}>
-                    <Block row>
-                      <Icon
-                        name="logo-google"
-                        family="Ionicon"
-                        size={14}
-                        color={"black"}
-                        style={{ marginTop: 2, marginRight: 5 }}
-                      />
-                      <Text style={styles.socialTextButtons}>GOOGLE</Text>
-                    </Block>
-                  </Button>
-                </Block>
-              </Block> */}
               <Block flex>
                   <View style={styles.welcomeContainer}>
                     <Block>
@@ -78,7 +77,10 @@ function Login({navigation}) {
                   >
                     <Block width={width * 0.8}>
                       <Input
-                        borderless
+                        error={emailError}
+                        value={email}
+                        onChangeText={text => onEmailChange(text)}
+                        onBlur={onEmailBlur}
                         placeholder="Email"
                         iconContent={
                           <Icon
@@ -93,8 +95,10 @@ function Login({navigation}) {
                     </Block>
                     <Block width={width * 0.8}>
                       <Input
+                        error={passwordError}
+                        value={password}
+                        onChangeText={text => onPasswordChange(text)}
                         password
-                        borderless
                         placeholder="Password"
                         iconContent={
                           <Icon
@@ -109,7 +113,7 @@ function Login({navigation}) {
                     </Block>
                     <Block middle>
                       <Button 
-                        onPress={() => loginUserDispatch('token')}
+                        onPress={onLogin}
                         color="primary" style={styles.createButton}>
                         <Text bold size={14} color={argonTheme.COLORS.WHITE}>
                           Login

@@ -18,10 +18,10 @@ function Balance(props) {
   const balance = useSelector((store) => store.balance)
 
   const actionDispatch = useDispatch();
-  const getBalanceDispatch = useCallback(() => actionDispatch(getBalance()), [actionDispatch]);
+  const getBalanceDispatch = useCallback((email) => actionDispatch(getBalance(email)), [actionDispatch]);
 
   useEffect(() => {
-    getBalanceDispatch()
+    getBalanceDispatch(userData.email)
   }, [getBalanceDispatch])
 
   // useFocusEffect(
@@ -30,8 +30,18 @@ function Balance(props) {
   //   },[actionDispatch, getBalance])
   // );
 
+  // async function testCall() {
+	// 	let response = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+
+
+	// 	if (response.status == 200) {
+	// 		let result = await response.json();
+
+  //     console.log(result)
+  //   }
+  // }
   const onRefresh = useCallback(() => {
-    getBalanceDispatch()
+    getBalanceDispatch(userData.email)
   })
 
   const renderCurrencies = () => {

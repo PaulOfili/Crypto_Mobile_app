@@ -10,6 +10,7 @@ import {
   SIGNUP_USER_FAILURE
 } from '../../contants';
 import { postSignUp, postLogin } from '../../../services/auth.service'
+import { Alert } from 'react-native';
 // LOGIN SAGA
 export function* loginUserWorker(action) {
   
@@ -17,25 +18,31 @@ export function* loginUserWorker(action) {
     type: LOGIN_USER_START,
   });
 
-  // const userData = action.payload;
   
   try {
-    // const response = yield call(postLogin, userData);
-  
+
+    const requestBody = action.payload;
+    const response = yield call(postLogin, requestBody);
+    console.log(response)
+
     const userData = {
       firstName: 'Paul',
-      email: 'p@g.com',
+      // email: requestBody.email,
+      email: 'demi.babajide@gmail.com',
     };
   
-    const data = {
-      userData
-    }
     yield put({
       type: LOGIN_USER_SUCCESS,
-      payload: data,
+      payload: userData,
     });
 
   } catch(error) {
+
+    yield put({
+      type: LOGIN_USER_FAILURE,
+    });
+    
+    Alert.alert(error)
     console.log(error)
   }
 
@@ -43,33 +50,4 @@ export function* loginUserWorker(action) {
 
 export function* loginUserWatcher() {
   yield takeLatest(LOGIN_USER, loginUserWorker);
-}
-
-// SIGN UP SAGA
-export function* signUpUserWorker(action) {
-  
-  yield put({
-    type: SIGNUP_USER_START,
-  });
-
-  const userData = action.payload;
-  console.log(userData)
-  try{
-    const response = yield call(postSignUp, userData);
-  
-    console.log(response)
-  
-    yield put({
-      type: SIGNUP_USER_SUCCESS,
-      payload: 'Success',
-    });
-
-  } catch (error) {
-    console.log(error)
-  }
-
-}
-
-export function* signUpUserWatcher() {
-  yield takeLatest(SIGNUP_USER, signUpUserWorker);
 }

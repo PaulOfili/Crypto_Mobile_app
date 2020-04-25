@@ -1,7 +1,6 @@
 import { LOGIN_USER_SUCCESS, LOGOUT_USER, LOGIN_USER_START } from '../../contants';
 
 const initialState = {
-    userToken: null,
     userData: {},
     isLoading: false,
     isLoggedIn: false
@@ -17,9 +16,8 @@ const authReducer = (state = initialState, action) => {
         case LOGIN_USER_SUCCESS:
             return {
                 ...state,
+                userData: action.payload,
                 isLoggedIn: true,
-                userToken: action.payload.userToken,
-                userData: action.payload.userData,
                 isLoading: false
             }
 
@@ -27,7 +25,6 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 userData: {},
-                userToken: null,
                 isLoggedIn: false,
                 isLoading: false
             }
