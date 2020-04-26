@@ -22,8 +22,8 @@ export const apiCall = (
     url = `${url}?${urlParams}`;
   }
 
-  console.log('Each url', url)
-  fetch(url, requestOptions)
+  console.log('Total request', url, requestOptions)
+  return fetch(url, requestOptions)
     .then(handleResponse)
     .catch(handleError);
 };
@@ -40,27 +40,27 @@ const createUrlParams = (params, encode) => {
   return query;
 };
 const handleResponse = response => {
-  const contentType = response.headers.get('content-type');
-  const isJson = contentType && contentType.indexOf('application/json') !== -1;
+  console.log('handle', response)
   if (response.ok) {
-    if (isJson) {
-      return response.json();
-    }
-    return response.text();
+    return response.json().then(responseData => {
+      return responseData;
+    })
   } else {
-    if (isJson) {
-      return response.json().then(error => {
-        const errorMessage = error.message || error.description;
-
-        return Promise.reject(Object.assign(errorMessage, {response}));
-      });
-    } else {
-      throw new Error('Something went wrong');
-    }
+    return response.json().then(responseData => {
+      const errorMessage = responseData.message || responseData.description;
+      throw new Error(errorMessage);
+      // return Promise.reject({...errorMessage, ...response});
+    });
   }
 };
 
 const handleError = error => {
-  console.log(String(error));
-  throw String(error);
+  console.log('error from handleError', error.message);
+  const errorMessage = error.message || error.description;
+
+  if(errorMessage === 'Network request failed') {
+    throw new Error('Check your internet connection or try again.')
+  } else {
+    throw new Error(errorMessage);
+  }
 };

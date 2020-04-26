@@ -18,6 +18,7 @@ import { Images, argonTheme } from "../constants/ArgonConstants";
 import { signUpUser, loginUser } from '../store/actions/auth';
 import { checkEmail, checkPhoneNumber, checkConfirmPassword } from '../utilities/formValidation';
 import * as API_URLS from '../services/constants';
+import { object } from "prop-types";
 const { width, height } = Dimensions.get("screen");
 
 function Register({navigation}) {
@@ -36,6 +37,7 @@ function Register({navigation}) {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [confirmPasswordError, setConfirmPasswordError] = useState(false)
   const [acceptTermsChecked, setAcceptTermsChecked] = useState(false)
+  const [registerLoading, setRegisterLoading] = useState(false)
 
   const toggleCheckbox = () => {
     setAcceptTermsChecked(!acceptTermsChecked);
@@ -86,6 +88,8 @@ function Register({navigation}) {
         password && !passwordError && 
         confirmPassword && !confirmPasswordError) {
         
+        setRegisterLoading(true);
+
         let url = API_URLS.SIGNUP_USER        
         return fetch(url,  { 
           method: 'POST',
@@ -98,9 +102,10 @@ function Register({navigation}) {
             return response.json()
         })
         .then(responseData => {
-          console.log('response', responseData)
+          setRegisterLoading(false)
           if (responseData) {
             if (responseData.message && responseData.message === 'successful'){
+              
               loginUserDispatch({email, password})
             } 
             else {
@@ -110,7 +115,14 @@ function Register({navigation}) {
           }
         })
         .catch((error) => {
-            console.log('error', error);
+          setRegisterLoading(false)
+          const errorMessage = error.message || error.description;
+
+          if(errorMessage === 'Network request failed') {
+            Alert.alert('Check your internet connection or try again.')
+          } else {
+            Alert.alert(errorMessage)
+          }
         });
     } else {
       Alert.alert("Complete all fields")
@@ -269,6 +281,7 @@ function Register({navigation}) {
                       </Block>
                       <Block middle>
                         <Button2
+                          loading={registerLoading}
                           disabled={acceptTermsChecked}
                           buttonStyle={styles.signUpButton}
                           title="Sign Up"

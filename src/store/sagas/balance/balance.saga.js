@@ -12,7 +12,6 @@ function* getBalanceWorker(action) {
 
   try {
     const response = yield call(getBalance, action.payload);
-    console.log(response);
 
     yield put({
       type: GET_BALANCE_SUCCESS,
@@ -20,14 +19,13 @@ function* getBalanceWorker(action) {
     });
 
   } catch(error) {
-    console.log(error);
 
     yield put({
       type: GET_BALANCE_FAILURE,
-      payload: 'Error',
+      payload: error.message,
     });
 
-    Alert.alert('Please try again')
+    Alert.alert(error.message)
   }
 }
 

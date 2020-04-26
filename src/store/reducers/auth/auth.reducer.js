@@ -1,4 +1,4 @@
-import { LOGIN_USER_SUCCESS, LOGOUT_USER, LOGIN_USER_START } from '../../contants';
+import { LOGIN_USER_SUCCESS, LOGOUT_USER, LOGIN_USER_START, LOGIN_USER_FAILURE } from '../../contants';
 
 const initialState = {
     userData: {},
@@ -18,6 +18,11 @@ const authReducer = (state = initialState, action) => {
                 ...state,
                 userData: action.payload,
                 isLoggedIn: true,
+                isLoading: false
+            }
+        case LOGIN_USER_FAILURE:
+            return {
+                ...state,
                 isLoading: false
             }
 

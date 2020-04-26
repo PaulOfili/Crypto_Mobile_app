@@ -21,7 +21,7 @@ function Balance(props) {
   const getBalanceDispatch = useCallback((email) => actionDispatch(getBalance(email)), [actionDispatch]);
 
   useEffect(() => {
-    getBalanceDispatch(userData.email)
+    getBalanceDispatch('paul@gmail.com')
   }, [getBalanceDispatch])
 
   // useFocusEffect(
@@ -30,40 +30,41 @@ function Balance(props) {
   //   },[actionDispatch, getBalance])
   // );
 
-  // async function testCall() {
-	// 	let response = await fetch('https://jsonplaceholder.typicode.com/todos/1');
-
-
-	// 	if (response.status == 200) {
-	// 		let result = await response.json();
-
-  //     console.log(result)
-  //   }
-  // }
   const onRefresh = useCallback(() => {
-    getBalanceDispatch(userData.email)
+    getBalanceDispatch('paul@gmail.com')
   })
 
   const renderCurrencies = () => {
     const balanceList = balance.data
 
-    return (
-      <Block
-            row
-            space="between"
-            style={styles.balanceList}>
-            {[1,2,3,4,5,6,7].map((_, index) => (
-              <Block key={`viewed-${index}`} style={styles.eachCard}>
-                <CurrencyCard/>
-              </Block>
-            ))}
-          </Block>
-        
-    );
+    if (balanceList && balanceList.balance) {
+      return (
+        <Block
+              row
+              space="between"
+              style={styles.balanceList}>
+              {balanceList.balance.map((each_balance, index) => (
+                <Block key={`viewed-${index}`} style={styles.eachCard}>
+                  <CurrencyCard balanceData={each_balance}/>
+                </Block>
+              ))}
+            </Block>
+          
+      );
+    } else {
+      return (
+        <Block safe middle style={{ marginTop: 80}}>
+          <Text>No currency yet. Create an account </Text>
+          <View style={{marginTop: 30}}>
+            <Icon size={40} family='Material-Community' name='account-plus'/>
+          </View>
+        </Block>
+      )
+    }
   };
 
-  const cardColors = ['#0082BA', '#00C590']
-  // const cardColors = ['#0082BA']
+  // const cardColors = ['#0082BA', '#00C590']
+  const cardColors = ['#0082BA']
 
   const checkFirstElement = (n) => {
     return n === 0
@@ -80,7 +81,7 @@ function Balance(props) {
   //     </Block>
   //   )
   // }
-
+  const publicKey = balance.data.publicKey;
   return (
     <Container>
       <ScrollView showsVerticalScrollIndicator={false} refreshControl={
@@ -89,23 +90,26 @@ function Balance(props) {
       >
         <Block style={styles.balance}>
           <Banner userData={userData}/> 
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.accountList}> 
-            {
-              cardColors.map((color, index) => (
-                <Block key={`accountCard-${index}`} style={[styles.accountCard, { 
-                  backgroundColor: color,
-                  marginLeft: checkFirstElement(index) ? 25 : 10 ,
-                  marginRight: checkLastlement(index) ? 25 : 0
-                  }]}>
-                  <Text style={[styles.accountCard__name, {color: 'white'}]}>First wallet</Text>
-                  <Text style={[styles.accountCard__number, {color: 'white'}]}>
-                    FFFE...GGDG
-                  </Text>
-                </Block> 
-              ))
-            }
-          </ScrollView>
-          
+          {
+            (publicKey) && (
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.accountList}> 
+                {
+                  cardColors.map((color, index) => (
+                    <Block key={`accountCard-${index}`} style={[styles.accountCard, { 
+                      backgroundColor: color,
+                      marginLeft: checkFirstElement(index) ? 25 : 10 ,
+                      marginRight: checkLastlement(index) ? 25 : 0
+                      }]}>
+                      <Text style={[styles.accountCard__name, {color: 'white'}]}>First wallet</Text>
+                      <Text style={[styles.accountCard__number, {color: 'white'}]}>
+                        {publicKey.substring(0,4) + '...' + publicKey.substring(publicKey.length-4, publicKey.length)}
+                      </Text>
+                    </Block> 
+                  ))
+                }
+              </ScrollView>
+            )
+          }
           <View style={styles.balanceStatsContainer}>
             <Text  style={styles.balanceStatTitle}>All Cyptos</Text>
           </View>    

@@ -5,7 +5,7 @@ import {
   } from '../../contants';
   
   const initialState = {
-    data: {},
+    data: [],
     error: null,
     isLoading: false,
     loadingBarProgress: 0

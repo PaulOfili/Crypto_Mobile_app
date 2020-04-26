@@ -16,6 +16,7 @@ import Container from '../layouts/Container';
 import Toast from 'react-native-tiny-toast';
 import { getCurrencies } from '../store/actions/commonData';
 import { postCreateAccount } from '../store/actions/account';
+import { CurrencyCard } from '../components';
 
 const {width} = Dimensions.get('screen');
 const mockCurrencies = [
@@ -37,7 +38,6 @@ function CreateAccount(props) {
 
   const createAccountLoading = useSelector((store) => store.account.isLoading)
   const currencies = useSelector((store) => store.commonData.currencies)
-  
   const actionDispatch = useDispatch();
   const postCreateAccountDispatch = useCallback((data) => actionDispatch(postCreateAccount(data)),[actionDispatch]);
   const getCurrenciesDispatch = useCallback(() => actionDispatch(getCurrencies()), [actionDispatch]);
@@ -58,7 +58,16 @@ function CreateAccount(props) {
   };
 
   const createAccount = () => {
-    postCreateAccountDispatch('test')
+    if (currencyType == '') {
+      Alert.alert('Pick a currency before proceeding!')
+    } else {
+      const requestBody = {
+        email: "paul@gmail.com",
+        currencyCode: currencyType
+      }
+
+      postCreateAccountDispatch(requestBody)
+    }
   };
 
   const renderCurrencyPicker = () => {
@@ -70,9 +79,10 @@ function CreateAccount(props) {
           onValueChange={(itemValue, itemIndex) =>
             setCurrencyType(itemValue)
           }>
-          {mockCurrencies.map(currency => (
-            <Picker.Item label={currency.label} value={currency.value} />
-          ))}
+            <Picker.Item label='Pick a currency' value='' />
+            {currencies.data.map(currency => (
+              <Picker.Item key={currency.id} label={currency.currencyName} value={currency.currencyCode} />
+            ))}
         </Picker>
       </View>
     );

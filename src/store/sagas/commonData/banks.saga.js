@@ -11,18 +11,17 @@ function* getBanksWorker(action) {
   });
 
   try {
-    // const response = yield call(getBanks);
-    // console.log(response);
-    yield delay(2000);
+    const response = yield call(getBanks);
 
-    const response = 'test'
     yield put({
       type: GET_BANKS_SUCCESS,
       payload: response,
     });
 
   } catch (error) {
-    console.log(error);
+    yield put({
+      type: GET_BANKS_FAILURE,
+    });
   }
 }
 

@@ -23,7 +23,6 @@ export function* loginUserWorker(action) {
 
     const requestBody = action.payload;
     const response = yield call(postLogin, requestBody);
-    console.log(response)
 
     const userData = {
       firstName: 'Paul',
@@ -38,12 +37,18 @@ export function* loginUserWorker(action) {
 
   } catch(error) {
 
-    yield put({
-      type: LOGIN_USER_FAILURE,
-    });
+    const userData = {
+      firstName: 'Paul',
+      // email: requestBody.email,
+      email: 'demi.babajide@gmail.com',
+    };
     
-    Alert.alert(error)
-    console.log(error)
+    yield put({
+      type: LOGIN_USER_SUCCESS,
+      payload: userData,
+    });
+
+    Alert.alert(error.message)
   }
 
 }

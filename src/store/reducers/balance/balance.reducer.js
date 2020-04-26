@@ -29,6 +29,7 @@ const balanceReducer = function(state = initialState, action) {
     case GET_BALANCE_FAILURE: {
       return {
         ...state,
+        // date: {},
         error: action.payload,
         isLoading: false,
       };

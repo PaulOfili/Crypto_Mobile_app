@@ -4,3 +4,5 @@ export const GET_BALANCE = `${API_BASE_URL}/${VERSION}/paple/balances`;
 export const GET_BANKS = `${API_BASE_URL}/${VERSION}/paple/banks`;
 export const SIGNUP_USER = `${API_BASE_URL}/${VERSION}/paple/user/signup`
 export const LOGIN_USER = `${API_BASE_URL}/${VERSION}/paple/user/login`
+export const CREATE_ACCOUNT = `${API_BASE_URL}/${VERSION}/paple/createaccount`
+export const GET_CURRENCIES = `${API_BASE_URL}/${VERSION}/paple/currencies`

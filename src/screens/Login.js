@@ -6,7 +6,8 @@ import {
   Dimensions,
   StatusBar,
   KeyboardAvoidingView,
-  View
+  View,
+  Alert
 } from "react-native";
 import { Block, Checkbox, Text, theme } from "galio-framework";
 
@@ -18,6 +19,8 @@ const { width, height } = Dimensions.get("screen");
 
 
 function Login({navigation}) {
+
+  const loginLoading = useSelector((store) => store.auth.isLoading)
 
   const actionDispatch = useDispatch();
   const loginUserDispatch = useCallback((data) => actionDispatch(loginUser(data)),[actionDispatch]);
@@ -49,7 +52,9 @@ function Login({navigation}) {
     if (email && !emailError && 
         password && !passwordError) {
           loginUserDispatch(requestBody)
-        }
+    } else {
+      Alert.alert('Complete all fields');
+    }
   }
 
   return (
@@ -113,6 +118,7 @@ function Login({navigation}) {
                     </Block>
                     <Block middle>
                       <Button 
+                        loading={loginLoading}
                         onPress={onLogin}
                         color="primary" style={styles.createButton}>
                         <Text bold size={14} color={argonTheme.COLORS.WHITE}>
