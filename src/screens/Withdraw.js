@@ -82,8 +82,8 @@ function Withdraw(props){
     };
 
 
-    if (senderCurrencyType &&
-        recipientCurrencyType &&
+    if (currencyType &&
+        bankType &&
         recipient &&
         amount && parseFloat(amount) !== 0 &&
         memo && !memoError) {
