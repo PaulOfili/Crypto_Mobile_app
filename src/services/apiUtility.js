@@ -27,7 +27,7 @@ export const apiCall = (
     fetch(url, requestOptions)
     .then(handleResponse)
     .catch(handleError),
-    new Promise((_, reject) => setTimeout(() => reject(new Error('Request took too long. Please try again!')), 10000))
+    new Promise((_, reject) => setTimeout(() => reject(new Error('Request took too long. Please try again!')), 12000))
   ])
 };
 

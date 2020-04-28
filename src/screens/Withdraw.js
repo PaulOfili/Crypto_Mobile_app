@@ -25,6 +25,7 @@ function Withdraw(props){
 
   const toastRef = useRef();
 
+  const userData = useSelector((store) => store.auth.userData)
   const banks = useSelector((store) => store.commonData.banks)
   const currencies = useSelector((store) => store.commonData.currencies)
   
