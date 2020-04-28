@@ -7,7 +7,9 @@ import {
   StatusBar,
   KeyboardAvoidingView,
   View,
-  Alert
+  Alert,
+  TouchableWithoutFeedback,
+  Keyboard
 } from "react-native";
 import { Block, Checkbox, Text, theme } from "galio-framework";
 
@@ -80,70 +82,73 @@ function Login({navigation}) {
                     behavior="padding"
                     enabled
                   >
-                    <Block width={width * 0.8}>
-                      <Input
-                        error={emailError}
-                        value={email}
-                        onChangeText={text => onEmailChange(text)}
-                        onBlur={onEmailBlur}
-                        placeholder="Email"
-                        iconContent={
-                          <Icon
-                            size={16}
-                            color={argonTheme.COLORS.ICON}
-                            name="email-outline"
-                            family="Material-Community"
-                            style={styles.inputIcons}
+                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                      <View style={{flex: 1}}>
+                        <Block width={width * 0.8}>
+                          <Input
+                            error={emailError}
+                            value={email}
+                            onChangeText={text => onEmailChange(text)}
+                            onBlur={onEmailBlur}
+                            placeholder="Email"
+                            iconContent={
+                              <Icon
+                                size={16}
+                                color={argonTheme.COLORS.ICON}
+                                name="email-outline"
+                                family="Material-Community"
+                                style={styles.inputIcons}
+                              />
+                            }
                           />
-                        }
-                      />
-                    </Block>
-                    <Block width={width * 0.8}>
-                      <Input
-                        error={passwordError}
-                        value={password}
-                        onChangeText={text => onPasswordChange(text)}
-                        password
-                        placeholder="Password"
-                        iconContent={
-                          <Icon
-                            size={16}
-                            color={argonTheme.COLORS.ICON}
-                            name="lock"
-                            family="AntDesign"
-                            style={styles.inputIcons}
-                          />
-                        }
-                      />
-                    </Block>
-                    <Block middle>
-                      <Button 
-                        loading={loginLoading}
-                        onPress={onLogin}
-                        color="primary" style={styles.createButton}>
-                        <Text bold size={14} color={argonTheme.COLORS.WHITE}>
-                          Login
-                        </Text>
-                      </Button>
-                    </Block>
-                    <Block middle width={width * 0.75}>
-                      
-                      <Button
-                        onPress={() => navigation.navigate('Register')}
-                        style={{ width: 130, elevation: 0, marginTop: 30 }}
-                        color="transparent"
-                        textStyle={{
-                          color: argonTheme.COLORS.PRIMARY,
-                          fontSize: 14
-                        }}
-                      >
-                        <Block row>
-                          <Text muted>New here?</Text>
-                          <Text style={{marginLeft: 10}} >Sign Up to join</Text>
-
                         </Block>
-                      </Button>
-                    </Block>
+                        <Block width={width * 0.8}>
+                          <Input
+                            error={passwordError}
+                            value={password}
+                            onChangeText={text => onPasswordChange(text)}
+                            password
+                            placeholder="Password"
+                            iconContent={
+                              <Icon
+                                size={16}
+                                color={argonTheme.COLORS.ICON}
+                                name="lock"
+                                family="AntDesign"
+                                style={styles.inputIcons}
+                              />
+                            }
+                          />
+                        </Block>
+                        <Block middle>
+                          <Button 
+                            loading={loginLoading}
+                            onPress={onLogin}
+                            color="primary" style={styles.createButton}>
+                            <Text bold size={14} color={argonTheme.COLORS.WHITE}>
+                              Login
+                            </Text>
+                          </Button>
+                        </Block>
+                        <Block middle width={width * 0.75}>
+                          
+                          <Button
+                            onPress={() => navigation.navigate('Register')}
+                            style={{ width: 130, elevation: 0, marginTop: 30 }}
+                            color="transparent"
+                            textStyle={{
+                              color: argonTheme.COLORS.PRIMARY,
+                              fontSize: 14
+                            }}
+                          >
+                            <Block row>
+                              <Text muted>New here?</Text>
+                              <Text style={{marginLeft: 10}} >Sign Up to join</Text>
+                            </Block>
+                          </Button>
+                        </Block>
+                      </View>
+                    </TouchableWithoutFeedback>
                   </KeyboardAvoidingView>
                 </Block>
               </Block>

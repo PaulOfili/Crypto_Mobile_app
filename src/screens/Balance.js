@@ -35,7 +35,6 @@ function Balance(props) {
 
   useFocusEffect(
     useCallback(() => {
-      console.log(toastRef)
       if (balance.error) {
         toastRef.current.openToast();
       }

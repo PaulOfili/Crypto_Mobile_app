@@ -1,17 +1,16 @@
-import React, { useState, forwardRef, useImperativeHandle } from 'react';
-import { Animated, View, Text, StyleSheet } from 'react-native';
+import React, { forwardRef, useImperativeHandle } from 'react';
+import { Animated, Text, StyleSheet } from 'react-native';
 
 let animatedValue = new Animated.Value(70)
 
 const Toast = forwardRef(({text}, ref) => {
-
     useImperativeHandle(ref, () => ({
        openToast() {
             Animated.timing(
                 animatedValue,
                 {
                     toValue: 0,
-                    duration: 200
+                    duration: 50
                 }
             ).start(closeToast())
        }
@@ -29,14 +28,18 @@ const Toast = forwardRef(({text}, ref) => {
         }, 2000)
     }
 
-    return (
-        <Animated.View style={styles.toastContainer}>   
-            <Text style={styles.toastContent}>
-               {text}
-            </Text>
-        </Animated.View>
-    )
-})
+    if (text) {
+        return (
+            <Animated.View style={styles.toastContainer}>   
+                <Text style={styles.toastContent}>
+                   {text}
+                </Text>
+            </Animated.View>
+        )
+    } else {
+        return null;
+    }
+});
 
 const styles = StyleSheet.create({
     toastContainer: {

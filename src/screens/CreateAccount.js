@@ -47,7 +47,6 @@ function CreateAccount(props) {
 
   useFocusEffect(
     useCallback(() => {
-      console.log(toastRef)
       if (currencies.error) {
         toastRef.current.openToast();
       }

@@ -74,8 +74,6 @@ function FundAccount(props) {
       memo
     };
 
-    console.log(requestBody)
-
     if (buyCurrencyType &&
         amount && parseFloat(amount) !== 0 &&
         memo && !memoError) {

@@ -23,9 +23,12 @@ export const apiCall = (
   }
 
   console.log('Total request', url, requestOptions)
-  return fetch(url, requestOptions)
+  return Promise.race([
+    fetch(url, requestOptions)
     .then(handleResponse)
-    .catch(handleError);
+    .catch(handleError),
+    new Promise((_, reject) => setTimeout(() => reject(new Error('Request took too long. Please try again!')), 7000))
+  ])
 };
 
 const createUrlParams = (params, encode) => {

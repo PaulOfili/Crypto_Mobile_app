@@ -78,8 +78,6 @@ function Transfer (props) {
       memo
     };
 
-    console.log(requestBody)
-
     if (senderCurrencyType &&
         recipientCurrencyType &&
         recipient &&
