@@ -8,8 +8,8 @@ export function getCurrencies() {
 }
 
 export function getBanks() {
-  let url = `${API_URLS.GET_BANK}`;
+  let url = `${API_URLS.GET_BANKS}`;
 
-  return apiCall('GET', url, null, null, {email: 'demi.babajide@gmail.com'});
+  return apiCall('GET', url, null, null);
 }
 

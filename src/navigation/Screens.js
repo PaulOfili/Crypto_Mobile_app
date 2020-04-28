@@ -6,7 +6,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 
 import BalanceScreen from '../screens/Balance';
 import CreateAccountScreen from '../screens/CreateAccount';
-import FundsScreen from '../screens/Funds';
+import FundAccountScreen from '../screens/FundAccount';
 import TransferScreen from '../screens/Transfer';
 import WithdrawScreen from '../screens/Withdraw';
 import RegisterScreen from '../screens/Register';
@@ -101,16 +101,16 @@ function CreateAccountStack(props) {
   );
 }
 
-function FundsStack(props) {
+function FundAccountStack(props) {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
       <Stack.Screen
-        name="Funds"
-        component={FundsScreen}
+        name="Fund Account"
+        component={FundAccountScreen}
         options={{
           header: ({navigation, scene}) => (
             <Header 
-              title="Funds" 
+              title="Fund Account" 
               scene={scene} 
               navigation={navigation} />
           ),
@@ -152,7 +152,7 @@ function WithdrawStack(props) {
               title="Withdraw Funds"
               scene={scene}
               navigation={navigation}
-              hasNext
+              // hasNext
             />
           ),
         }}
@@ -237,119 +237,28 @@ function AppStack(props) {
       <Drawer.Screen
         name="Balance"
         component={BalanceStack}
-        options={{
-          drawerIcon: ({focused}) => (
-            <Icon
-              size={16}
-              name="shop"
-              family="GalioExtra"
-              color={focused ? 'white' : materialTheme.COLORS.MUTED}
-            />
-          ),
-        }}
       />
+
       <Drawer.Screen
         name="Create Account"
         component={CreateAccountStack}
-        options={{
-          drawerIcon: ({focused}) => (
-            <Icon
-              size={16}
-              name="shop"
-              family="GalioExtra"
-              color={focused ? 'white' : materialTheme.COLORS.MUTED}
-            />
-          ),
-        }}
       />
+
       <Drawer.Screen
-        name="Funds"
-        component={FundsStack}
-        options={{
-          drawerIcon: ({focused}) => (
-            <Icon
-              size={16}
-              name="gears"
-              family="font-awesome"
-              color={focused ? 'white' : materialTheme.COLORS.MUTED}
-              style={{marginRight: -3}}
-            />
-          ),
-        }}
+        name="Fund Account"
+        component={FundAccountStack}
       />
+
       <Drawer.Screen
         name="Transfer"
         component={TransferStack}
-        options={{
-          drawerIcon: ({focused}) => (
-            <Icon
-              size={16}
-              name="gears"
-              family="font-awesome"
-              color={focused ? 'white' : materialTheme.COLORS.MUTED}
-              style={{marginRight: -3}}
-            />
-          ),
-        }}
       />
+
       <Drawer.Screen
         name="Withdraw"
         component={WithdrawStack}
-        options={{
-          drawerIcon: ({focused}) => (
-            <Icon
-              size={16}
-              name="gears"
-              family="font-awesome"
-              color={focused ? 'white' : materialTheme.COLORS.MUTED}
-              style={{marginRight: -3}}
-            />
-          ),
-        }}
       />
-      <Drawer.Screen
-        name="Profile"
-        component={ProfileStack}
-        options={{
-          drawerIcon: ({focused}) => (
-            <Icon
-              size={16}
-              name="circle-10"
-              family="GalioExtra"
-              color={focused ? 'white' : materialTheme.COLORS.MUTED}
-            />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Settings"
-        component={SettingsStack}
-        options={{
-          drawerIcon: ({focused}) => (
-            <Icon
-              size={16}
-              name="circle-10"
-              family="GalioExtra"
-              color={focused ? 'white' : materialTheme.COLORS.MUTED}
-            />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Components"
-        component={ComponentsStack}
-        options={{
-          drawerIcon: ({focused}) => (
-            <Icon
-              size={16}
-              name="md-switch"
-              family="ionicon"
-              color={focused ? 'white' : materialTheme.COLORS.MUTED}
-              style={{marginRight: 2, marginLeft: 2}}
-            />
-          ),
-        }}
-      />
+
     </Drawer.Navigator>
   );
 }

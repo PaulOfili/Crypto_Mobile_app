@@ -2,7 +2,7 @@ import {put, takeLatest, call, delay} from 'redux-saga/effects';
 // import searchReportService from '../../../services/searchReport.service';
 import { getBanks } from '../../../services/common.service';
 
-import {GET_BANKS, GET_BANKS_SUCCESS, GET_BANKS_START} from '../../contants';
+import {GET_BANKS, GET_BANKS_SUCCESS, GET_BANKS_START, GET_BANKS_FAILURE} from '../../contants';
 
 function* getBanksWorker(action) {
 
@@ -21,6 +21,7 @@ function* getBanksWorker(action) {
   } catch (error) {
     yield put({
       type: GET_BANKS_FAILURE,
+      payload: error.message
     });
   }
 }

@@ -1,12 +1,13 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useFocusEffect } from '@react-navigation/native';
 import {StyleSheet, Dimensions, View, Image, ScrollView, ActivityIndicator, RefreshControl } from 'react-native';
 import {Button, Block, Text, Input, theme} from 'galio-framework';
 
 import {Icon, Product, Banner, CurrencyCard } from '../components';
 import {materialTheme, products, Images} from '../constants/';
 import Container from '../layouts/Container';
-
+import Toast from '../components/Toast';
 import { getBalance } from '../store/actions/balance';
 
 const {width} = Dimensions.get('screen');
@@ -14,6 +15,8 @@ const cardWidth = (width - 60) / 2;
 
 function Balance(props) {
   
+  const toastRef = useRef();
+
   const userData = useSelector((store) => store.auth.userData)
   const balance = useSelector((store) => store.balance)
 
@@ -24,11 +27,20 @@ function Balance(props) {
     getBalanceDispatch('paul@gmail.com')
   }, [getBalanceDispatch])
 
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     actionDispatch(getBalance())
-  //   },[actionDispatch, getBalance])
-  // );
+  useEffect(() => {
+    if (balance.error) {
+      toastRef.current.openToast();
+    }
+  }, [balance.error])
+
+  useFocusEffect(
+    useCallback(() => {
+      console.log(toastRef)
+      if (balance.error) {
+        toastRef.current.openToast();
+      }
+    },[balance.error])
+  );
 
   const onRefresh = useCallback(() => {
     getBalanceDispatch('paul@gmail.com')
@@ -116,6 +128,7 @@ function Balance(props) {
             {renderCurrencies()}
         </Block>
       </ScrollView>
+      <Toast ref={toastRef} text={balance.error}/>
     </Container>
     
   );

@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getBanks, getCurrencies } from '../store/actions/commonData';
+import { useFocusEffect } from '@react-navigation/native';
 import {
   StyleSheet,
   Dimensions,
@@ -14,69 +14,83 @@ import {
 import {Button, Block, Text, Input, theme} from 'galio-framework';
 import { Input as Input2, Button as Button2} from 'react-native-elements';
 import Container from '../layouts/Container';
+import Toast from '../components/Toast';
+import { checkMinimumLength } from '../utilities/formValidation'
+import { getBanks, getCurrencies } from '../store/actions/commonData';
+import { postMakeWithdraw } from '../store/actions/trade';
 
 const {width} = Dimensions.get('screen');
-const mockCurrencies = [
-  {
-    id: 0,
-    label: 'Naira',
-    value: 'naira',
-  },
-  {
-    id: 1,
-    label: 'Bitcoin',
-    value: 'bitcon',
-  },
-  {
-    id: 2,
-    label: 'Crypto',
-    value: 'crypto',
-  },
-];
-
-const mockBanks = [
-  {
-    id: 0,
-    value: 'uba',
-    label: 'United Bank for Africa',
-  },
-  {
-    id: 1,
-    value: 'ecobank',
-    label: 'Ecobank',
-  },
-  {
-    id: 2,
-    value: 'gtbank',
-    label: 'GTBank',
-  },
-];
 
 function Withdraw(props){
 
+  const toastRef = useRef();
+
   const banks = useSelector((store) => store.commonData.banks)
   const currencies = useSelector((store) => store.commonData.currencies)
-
-  const [currencyType, setCurrencyType] = useState('');
-  const [bankType, setBankType] = useState('');
-
+  
   const actionDispatch = useDispatch();
   const getBanksDispatch = useCallback(() => actionDispatch(getBanks()), [actionDispatch]);
   const getCurrenciesDispatch = useCallback(() => actionDispatch(getCurrencies()), [actionDispatch]);
-
+  const postMakeWithdrawDispatch = useCallback((data) => actionDispatch(postMakeWithdraw(data)),[actionDispatch]);
+  
+  const [currencyType, setCurrencyType] = useState('');
+  const [bankType, setBankType] = useState('');
+  const [recipient, setRecipient] = useState('');
+  const [amount, setAmount] = useState('0');
+  const [memo, setMemo] = useState('');
+  const [memoError, setMemoError] = useState(false);
 
   useEffect(() => {
     getBanksDispatch()
     getCurrenciesDispatch()
   }, [getBanksDispatch, getCurrenciesDispatch])
 
+  useEffect(() => {
+    if (banks.error || currencies.error) {
+      toastRef.current.openToast();
+    }
+  }, [banks.error, currencies.error])
+
+  useFocusEffect(
+    useCallback(() => {
+      if (banks.error || currencies.error) {
+        toastRef.current.openToast();
+      }
+    },[banks.error, currencies.error])
+  );
+
   const onRefresh = useCallback(() => {
     getBanksDispatch();
     getCurrenciesDispatch();
   })
 
+  const onMemoChange = (newMemo) => {
+    setMemo(newMemo)
+
+    setMemoError(!checkMinimumLength(newMemo))
+  }
+
   const makeWithdraw = () => {
-    Alert.alert('Withdraw has been activated!!');
+    const requestBody = {
+      senderEmail: userData.email,
+      recipientPublicKeyOrEmail: recipient,
+      amount,
+      bank: bankType,
+      debitCurrency: currencyType,
+      memo
+    };
+
+
+    if (senderCurrencyType &&
+        recipientCurrencyType &&
+        recipient &&
+        amount && parseFloat(amount) !== 0 &&
+        memo && !memoError) {
+          Alert.alert("Coming Soon!!")
+          // postMakeWithdrawDispatch(requestBody);
+        } else {
+          Alert.alert("Please complete all fields properly")
+        }
   };
 
   const renderCurrencyPicker = () => {
@@ -88,19 +102,19 @@ function Withdraw(props){
           onValueChange={(itemValue, itemIndex) =>
             setCurrencyType(itemValue)
           }>
-          {mockCurrencies.map(currency => (
-            <Picker.Item
-              key={currency.id}
-              label={currency.label}
-              value={currency.value}
-            />
-          ))}
+          <Picker.Item label='Pick a currency' value=''/>
+          {currencies.data.map(currency => (
+            <Picker.Item 
+              key={currency.id} 
+              label={currency.currencyName}
+              value={currency.currencyCode} />
+            ))}
         </Picker>
       </View>
     );
   };
 
-  const renderBanks = () => {
+  const renderBankPicker = () => {
     return (
       <View style={styles.bankPicker}>
         <Text>Select a Bank:</Text>
@@ -109,21 +123,18 @@ function Withdraw(props){
           onValueChange={(itemValue, itemIndex) =>
             setBankType(itemValue)
           }>
-          {mockBanks.map(bank => (
-            <Picker.Item key={bank.id} label={bank.label} value={bank.value} />
-          ))}
+            <Picker.Item label='Select one' value='' style={{fontSize: 70}}/>
+            {Object.keys(banks.data).map(bank => (
+              <Picker.Item 
+                key={bank} 
+                label={banks.data[bank]}
+                value={bank} />
+            ))}
         </Picker>
       </View>
     );
   };
 
-  // if (banks.isLoading || currencies.isLoading) {
-  //   return (
-  //     <Block flex safe middle>
-  //       <ActivityIndicator size='large'/>
-  //     </Block>
-  //   )
-  // }
   
   return (
     <Container>
@@ -133,10 +144,13 @@ function Withdraw(props){
       >
         <Block flex style={styles.withdraw}>
           {renderCurrencyPicker()}
-          {renderBanks()}
+          {renderBankPicker()}
           <View style={styles.recipientContainer}>
-            <Text style={styles.recipientText}>Account Number:</Text>
+            <Text style={styles.recipientText}>Recipient:</Text>
             <Input2
+              selectable
+              value={recipient}
+              onChangeText={text => setRecipient(text)}
               placeholder='Receiver email or public key'
               inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
             />
@@ -144,14 +158,22 @@ function Withdraw(props){
           <View style={styles.amountContainer}>
             <Text style={styles.amountText}>Amount:</Text>
             <Input2
+              selectable
+              value={amount}
+              onChangeText={text => setAmount(text)}
               placeholder='Enter amount in figures'
               inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
+              keyboardType='numeric'
             />
           </View>
           <View style={styles.memoContainer}>
             
             <Text style={styles.memoText}>Memo:</Text>
             <Input2
+              selectable
+              value={memo}
+              onChangeText={text => onMemoChange(text)}
+              placeholder='Must be at least 5 characters long'
               inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
             />
           </View>
@@ -162,6 +184,7 @@ function Withdraw(props){
           />
         </Block>
       </ScrollView>
+      <Toast ref={toastRef} text={currencies.error || banks.error}/>
     </Container>
   );
 }
@@ -169,19 +192,18 @@ function Withdraw(props){
 const styles = StyleSheet.create({
   withdraw: {
     width: width,
-    padding: 20,
-    // marginTop: 10,
+    paddingHorizontal: 20,
+    marginTop: 30,
   },
   currencyPicker: {
-    marginTop: 30,
-    marginBottom: 5,
+    marginBottom: 20,
   },
   bankPicker: {
-    marginVertical: 20,
+    marginBottom: 20,
   },
   inputField: {
     borderColor: theme.COLORS.INFO,
-    marginBottom: 35,
+    marginBottom: 30,
     // height: 50
   },
   withdrawButton: {

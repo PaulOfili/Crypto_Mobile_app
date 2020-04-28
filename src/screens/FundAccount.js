@@ -17,11 +17,11 @@ import Container from '../layouts/Container';
 import Toast from '../components/Toast';
 import { checkMinimumLength } from '../utilities/formValidation'
 import { getCurrencies } from '../store/actions/commonData';
-import { postMakeTransfer } from '../store/actions/trade';
+import { postFundAccount } from '../store/actions/trade';
 
 const {width} = Dimensions.get('screen');
 
-function Transfer (props) {
+function FundAccount(props) {
 
   const toastRef = useRef();
 
@@ -30,11 +30,9 @@ function Transfer (props) {
 
   const actionDispatch = useDispatch();
   const getCurrenciesDispatch = useCallback(() => actionDispatch(getCurrencies()), [actionDispatch]);
-  const postMakeTransferDispatch = useCallback((data) => actionDispatch(postMakeTransfer(data)),[actionDispatch]);
+  const postFundAccountDispatch = useCallback((data) => actionDispatch(postFundAccount(data)),[actionDispatch]);
 
-  const [senderCurrencyType, setSenderCurrencyType] = useState('')
-  const [recipientCurrencyType, setRecipientCurrencyType] = useState('')
-  const [recipient, setRecipient] = useState('');
+  const [buyCurrencyType, setBuyCurrencyType] = useState('')
   const [amount, setAmount] = useState('0');
   const [memo, setMemo] = useState('');
   const [memoError, setMemoError] = useState(false);
@@ -66,60 +64,35 @@ function Transfer (props) {
 
     setMemoError(!checkMinimumLength(newMemo))
   }
-
-  const makeTransfer = () => {
+  
+  const fundAccount = () => {
     
     const requestBody = {
-      senderEmail: userData.email,
-      recipientPublicKeyOrEmail: recipient,
+      email: userData.email,
+      currencyToBuy: buyCurrencyType,
       amount,
-      currencyToSend: senderCurrencyType,
-      currencyToReceive: recipientCurrencyType,
       memo
     };
 
     console.log(requestBody)
 
-    if (senderCurrencyType &&
-        recipientCurrencyType &&
-        recipient &&
+    if (buyCurrencyType &&
         amount && parseFloat(amount) !== 0 &&
         memo && !memoError) {
-          postMakeTransferDispatch(requestBody);
+          postFundAccountDispatch(requestBody);
         } else {
-          Alert.alert("Please complete all fields properly")
+          Alert.alert('Please complete all fields properly.')
         }
   };
 
-  const renderSenderCurrencyPicker = () => {
+  const renderBuyCurrencyPicker = () => {
     return (
       <View style={styles.currencyPicker}>
-        <Text>Choose currency to send:</Text>
+        <Text>Choose currency to Buy:</Text>
         <Picker
-          selectedValue={senderCurrencyType}
+          selectedValue={buyCurrencyType}
           onValueChange={(itemValue, itemIndex) =>
-            setSenderCurrencyType(itemValue)
-          }>
-            <Picker.Item label='Pick a currency' value='' />
-           {currencies.data.map(currency => (
-              <Picker.Item 
-                key={currency.id} 
-                label={currency.currencyName}
-                value={currency.currencyCode} />
-            ))}
-        </Picker>
-      </View>
-    );
-  };
-
-  const renderRecipientCurrencyPicker = () => {
-    return (
-      <View style={styles.currencyPicker}>
-        <Text>Choose currency to be received in:</Text>
-        <Picker
-          selectedValue={recipientCurrencyType}
-          onValueChange={(itemValue, itemIndex) =>
-            setRecipientCurrencyType(itemValue)
+            setBuyCurrencyType(itemValue)
           }>
             <Picker.Item label='Pick a currency' value='' />
            {currencies.data.map(currency => (
@@ -139,26 +112,14 @@ function Transfer (props) {
         <RefreshControl refreshing={currencies.isLoading} onRefresh={onRefresh} />
         }
       >
-        <Block flex style={styles.transfer}>
-          {renderSenderCurrencyPicker()}
-          {renderRecipientCurrencyPicker()}
-          <View style={styles.recipientContainer}>
-            <Text style={styles.recipientText}>Recipient:</Text>
-            <Input2
-              selectable
-              value={recipient}
-              onChangeText={text => setRecipient(text)}
-              placeholder='Receiver email or public key'
-              inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
-            />
-          </View>
+        <Block flex style={styles.fund}>
+          {renderBuyCurrencyPicker()}
           <View style={styles.amountContainer}>
-            <Text style={styles.amountText}>Amount to send:</Text>
+            <Text style={styles.amountText}>Amount to buy:</Text>
             <Input2
-              selectable
               value={amount}
               onChangeText={text => setAmount(text)}
-              placeholder='Enter amount in figures'
+              placeholder='Enter amount'
               inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
               keyboardType='numeric'
             />
@@ -166,7 +127,6 @@ function Transfer (props) {
           <View style={styles.memoContainer}>
             <Text style={styles.memoText}>Memo:</Text>
             <Input2
-              selectable
               value={memo}
               onChangeText={text => onMemoChange(text)}
               placeholder='Must be at least 5 characters long'
@@ -174,9 +134,9 @@ function Transfer (props) {
             />
           </View>
           <Button2
-            buttonStyle={styles.transferButton}
-            title="Transfer"
-            onPress={makeTransfer}
+            buttonStyle={styles.fundButton}
+            title="Fund Account"
+            onPress={fundAccount}
           />
         </Block>
       </ScrollView>
@@ -184,9 +144,8 @@ function Transfer (props) {
     </Container>
   );
 }
-
 const styles = StyleSheet.create({
-  transfer: {
+  fund: {
     width: width,
     paddingHorizontal: 20,
     marginTop: 30,
@@ -196,11 +155,11 @@ const styles = StyleSheet.create({
   },
   inputField: {
     borderColor: theme.COLORS.INFO,
-    marginBottom: 30,
+    marginBottom: 40,
   },
-  transferButton: {
-    marginTop: 20,
-  },
+  fundButton: {
+    marginTop: 20
+  }
 });
 
-export default Transfer;
+export default FundAccount;

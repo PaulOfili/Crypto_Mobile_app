@@ -24,7 +24,7 @@ function CustomDrawerContent({
   const screens = [
     'Balance',
     'Create Account',
-    'Funds',
+    'Fund Account',
     'Transfer',
     'Withdraw',
     // 'Profile',

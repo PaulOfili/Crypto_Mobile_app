@@ -21,6 +21,7 @@ function* getCurrenciesWorker(action) {
 
     yield put({
       type: GET_CURRENCIES_FAILURE,
+      payload: error.message
     });
   }
 }

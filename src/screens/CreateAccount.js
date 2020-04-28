@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux'
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useFocusEffect } from '@react-navigation/native';
 import {
   StyleSheet,
   Dimensions,
@@ -13,31 +14,20 @@ import {
 import {Button, Block, theme, Checkbox} from 'galio-framework';
 import { Button as Button2} from 'react-native-elements';
 import Container from '../layouts/Container';
-import Toast from 'react-native-tiny-toast';
 import { getCurrencies } from '../store/actions/commonData';
 import { postCreateAccount } from '../store/actions/account';
 import { CurrencyCard } from '../components';
+import Toast from '../components/Toast';
 
 const {width} = Dimensions.get('screen');
-const mockCurrencies = [
-  {
-    label: 'Naira',
-    value: 'naira',
-  },
-  {
-    label: 'Bitcoin',
-    value: 'bitcoin',
-  },
-  {
-    label: 'Crypto',
-    value: 'crypto',
-  },
-];
 
 function CreateAccount(props) {
 
+  const toastRef = useRef();
+
   const createAccountLoading = useSelector((store) => store.account.isLoading)
   const currencies = useSelector((store) => store.commonData.currencies)
+
   const actionDispatch = useDispatch();
   const postCreateAccountDispatch = useCallback((data) => actionDispatch(postCreateAccount(data)),[actionDispatch]);
   const getCurrenciesDispatch = useCallback(() => actionDispatch(getCurrencies()), [actionDispatch]);
@@ -48,6 +38,21 @@ function CreateAccount(props) {
   useEffect(() => {
     getCurrenciesDispatch()
   }, [getCurrenciesDispatch])
+
+  useEffect(() => {
+    if (currencies.error) {
+      toastRef.current.openToast();
+    }
+  }, [currencies.error])
+
+  useFocusEffect(
+    useCallback(() => {
+      console.log(toastRef)
+      if (currencies.error) {
+        toastRef.current.openToast();
+      }
+    },[currencies.error])
+  );
 
   const onRefresh = useCallback(() => {
     getCurrenciesDispatch()
@@ -124,15 +129,8 @@ function CreateAccount(props) {
           />
         </Block>
       </ScrollView>
-      {/* <Toast
-        mask
-        visible={true}
-        position={-0.1} 
-        shadow={true}
-        containerStyle={{backgroundColor: 'red', borderRadius: 0, paddingTop: 20, opacity: 0.2}}
-        // animation={true}
-        // hideOnPress={true}
-    >Error retrieving data. Check your connectivitity or try again.</Toast> */}
+      
+    <Toast ref={toastRef} text={currencies.error}/>
     </Container>
   );
 }

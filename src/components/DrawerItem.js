@@ -37,7 +37,7 @@ class DrawerItem extends React.Component {
             color={focused ? 'white' : materialTheme.COLORS.MUTED}
           />
         );
-      case 'Funds':
+      case 'Fund Account':
         return (
           <Icon
             size={25}
@@ -123,25 +123,9 @@ class DrawerItem extends React.Component {
     }
   };
 
-  renderLabel = () => {
-    const {title} = this.props;
-
-    if (proScreens.includes(title)) {
-      return (
-        <Block middle style={styles.pro}>
-          <Text size={12} color="white">
-            PRO
-          </Text>
-        </Block>
-      );
-    }
-
-    return null;
-  };
-
   render() {
     const {focused, title, navigation} = this.props;
-    const proScreen = proScreens.includes(title);
+
     return (
       <TouchableOpacity
         style={{height: 55}}
@@ -164,13 +148,10 @@ class DrawerItem extends React.Component {
               color={
                 focused
                   ? 'white'
-                  : proScreen
-                  ? materialTheme.COLORS.MUTED
                   : 'black'
               }>
               {title}
             </Text>
-            {this.renderLabel()}
           </Block>
         </Block>
       </TouchableOpacity>
@@ -200,6 +181,7 @@ const styles = StyleSheet.create({
   },
   pro: {
     backgroundColor: materialTheme.COLORS.LABEL,
+    // materialTheme.COLORS.MUTED
     paddingHorizontal: 6,
     marginLeft: 8,
     borderRadius: 2,

@@ -3,13 +3,14 @@ import auth from './auth';
 import account from './account';
 import balance from './balance';
 import commonData from './commonData'
-
+import trade from './trade';
 
 const rootReducer = combineReducers({
   auth,
   account,
   balance,
-  commonData
+  commonData,
+  trade
 });
 
 export default rootReducer;

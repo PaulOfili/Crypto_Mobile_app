@@ -5,10 +5,9 @@ import {
   } from '../../contants';
   
   const initialState = {
-    data: [],
+    data: {},
     error: null,
     isLoading: false,
-    loadingBarProgress: 0
   };
   
   const banksReducer = function(state = initialState, action) {
@@ -17,8 +16,8 @@ import {
 
         return {
           ...state,
+          error: null,
           isLoading: true,
-          loadingBarProgress: 0
         };
       }
   
@@ -27,7 +26,6 @@ import {
           ...state,
           data: action.payload,
           isLoading: false,
-          loadingBarProgress: 100
         };
       }
       case GET_BANKS_FAILURE: {
@@ -35,7 +33,6 @@ import {
           ...state,
           error: action.payload,
           isLoading: false,
-          loadingBarProgress: 100
         };
       }
       default: {

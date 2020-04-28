@@ -8,7 +8,6 @@ import {
     data: [],
     error: null,
     isLoading: false,
-    loadingBarProgress: 0
   };
   
   const currenciesReducer = function(state = initialState, action) {
@@ -16,8 +15,8 @@ import {
       case GET_CURRENCIES_START: {
         return {
           ...state,
-          isLoading: true,
-          loadingBarProgress: 0
+          error: null,
+          isLoading: true
         };
       }
   
@@ -26,7 +25,6 @@ import {
           ...state,
           data: action.payload,
           isLoading: false,
-          loadingBarProgress: 100
         };
       }
 
@@ -35,7 +33,6 @@ import {
           ...state,
           error: action.payload,
           isLoading: false,
-          loadingBarProgress: 100
         };
       }
       default: {

@@ -1,24 +1,24 @@
 import {put, call, takeLatest, delay} from 'redux-saga/effects';
-import {POST_CREATE_ACCOUNT, POST_CREATE_ACCOUNT_START, POST_CREATE_ACCOUNT_SUCCESS, POST_CREATE_ACCOUNT_FAILURE} from '../../contants';
-import { postCreateAccount } from '../../../services/account.service';
+import {POST_FUND_ACCOUNT, POST_FUND_ACCOUNT_START, POST_FUND_ACCOUNT_SUCCESS, POST_FUND_ACCOUNT_FAILURE} from '../../contants';
+import { postFundAccount } from '../../../services/trade.service';
 import * as RootNavigation from '../../../navigation/RootNavigation';
 import { Alert } from 'react-native';
 
 
-export function* createAccountWorker(action) {
+export function* fundAccountWorker(action) {
     yield put({
-        type: POST_CREATE_ACCOUNT_START,
+        type: POST_FUND_ACCOUNT_START,
     });
 
     const requestBody = action.payload;
 
     try {
 
-        const response = yield call(postCreateAccount, requestBody);
+        const response = yield call(postFundAccount, requestBody);
         
         yield Alert.alert(
             'Success',
-            'Congratulations, you created an account',
+            'Congratulations, your transaction was successful!',
             [
                 {
                     text: 'Ok',
@@ -29,13 +29,13 @@ export function* createAccountWorker(action) {
         );
 
         yield put({
-            type: POST_CREATE_ACCOUNT_SUCCESS,
+            type: POST_FUND_ACCOUNT_SUCCESS,
             payload: 'paul@gmail.com',
         });
 
     } catch (error) {
         yield put({
-            type: POST_CREATE_ACCOUNT_FAILURE,
+            type: POST_FUND_ACCOUNT_FAILURE,
         });
 
         Alert.alert(error.message)
@@ -43,6 +43,6 @@ export function* createAccountWorker(action) {
 
 }
 
-export function* createAccountWatcher() {
-  yield takeLatest(POST_CREATE_ACCOUNT, createAccountWorker);
+export function* fundAccountWatcher() {
+  yield takeLatest(POST_FUND_ACCOUNT, fundAccountWorker);
 }

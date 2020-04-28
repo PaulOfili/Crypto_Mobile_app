@@ -15,3 +15,7 @@ export function checkPassword(password) {
 export function checkConfirmPassword(password, confirmPassword) {
     return password === confirmPassword;
 }
+
+export function checkMinimumLength(text) {
+    return text.length >= 5;
+}
