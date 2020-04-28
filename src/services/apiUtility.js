@@ -27,7 +27,7 @@ export const apiCall = (
     fetch(url, requestOptions)
     .then(handleResponse)
     .catch(handleError),
-    new Promise((_, reject) => setTimeout(() => reject(new Error('Request took too long. Please try again!')), 7000))
+    new Promise((_, reject) => setTimeout(() => reject(new Error('Request took too long. Please try again!')), 10000))
   ])
 };
 
@@ -62,7 +62,7 @@ const handleError = error => {
   const errorMessage = error.message || error.description;
 
   if(errorMessage === 'Network request failed') {
-    throw new Error('Check your internet connection or try again.')
+    throw new Error('Check your internet connection and reload page or try again.')
   } else {
     throw new Error(errorMessage);
   }
