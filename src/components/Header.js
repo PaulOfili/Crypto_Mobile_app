@@ -1,8 +1,8 @@
 import React from 'react';
 import {withNavigation} from '@react-navigation/compat';
+import { useIsDrawerOpen } from '@react-navigation/drawer';
 import {TouchableOpacity, StyleSheet, Platform, Dimensions} from 'react-native';
 import {Button, Block, NavBar, Input, Text, theme} from 'galio-framework';
-
 import { Icon } from './ArgonComponents';
 import materialTheme from '../constants/Theme';
 
@@ -11,15 +11,16 @@ const iPhoneX = () =>
   Platform.OS === 'ios' &&
   (height === 812 || width === 812 || height === 896 || width === 896);
 
-class Header extends React.Component {
-  handleLeftPress = () => {
-    const {previous, navigation} = this.props;
+
+function Header({title, hasNext, previous, navigation}) {
+
+  const isDrawerOpen = useIsDrawerOpen();
+
+  const handleLeftPress = () => {
     return previous ? navigation.goBack() : navigation.openDrawer();
   };
 
-  renderNext = () => {
-    const { hasNext } = this.props
-    
+  const renderNext = () => {    
     if (hasNext) {
       return (
         <TouchableOpacity>
@@ -27,15 +28,12 @@ class Header extends React.Component {
         </TouchableOpacity>
       )
     }
-
     return null;
   }
 
-  renderLeft = () => {
-    const { previous } = this.props
-
+  const renderLeft = () => {
     return (
-      <TouchableOpacity onPress={this.handleLeftPress}>
+      <TouchableOpacity onPress={handleLeftPress}>
         {(previous) ?
           <Icon
             size={24}
@@ -43,37 +41,40 @@ class Header extends React.Component {
             name="arrow-back"
             family="Material-Icons"
           /> 
+          : isDrawerOpen ?
+          <Icon 
+          size={24}
+          color={materialTheme.COLORS.ICON}
+          name="close"
+          family="AntDesign"
+          />
           :
           <Icon
-            size={18}
+            size={20}
             color={materialTheme.COLORS.ICON}
-            name="navicon"
-            family="Font-Awesome"
+            name="menu-fold"
+            family="AntDesign"
           /> 
       }
       </TouchableOpacity>
     )
   }
-  render() {
-    const { title, white } = this.props;
- 
-    return (
-      <Block>
-        <NavBar
-          title={title}
-          style={styles.navbar}
-          left={this.renderLeft()}
-          right={this.renderNext()}
-          rightStyle={{alignItems: 'center'}}
-          leftStyle={{flex: 0.3, paddingTop: 2}}
-          titleStyle={[
-            styles.title,
-            {color: theme.COLORS[white ? 'WHITE' : 'ICON']},
-          ]}
-        />
-      </Block>
-    );
-  }
+
+  return (
+    <Block>
+      <NavBar
+        title={title}
+        style={styles.navbar}
+        left={renderLeft()}
+        right={renderNext()}
+        rightStyle={{alignItems: 'center'}}
+        leftStyle={{flex: 0.3, paddingTop: 2}}
+        titleStyle={[
+          styles.title,
+        ]}
+      />
+    </Block>
+  );
 }
 
 export default withNavigation(Header);
@@ -86,7 +87,6 @@ const styles = StyleSheet.create({
   title: {
     width: '100%',
     fontSize: 20,
-    // fontWeight: 'bold',
   },
   navbar: {
     paddingVertical: 0,
