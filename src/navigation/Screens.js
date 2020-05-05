@@ -8,6 +8,7 @@ import BalanceScreen from '../screens/Balance';
 import CreateAccountScreen from '../screens/CreateAccount';
 import FundAccountScreen from '../screens/FundAccount';
 import TransferScreen from '../screens/Transfer';
+import CalculateRateScreen from '../screens/CalculateRate';
 import WithdrawScreen from '../screens/Withdraw';
 import RegisterScreen from '../screens/Register';
 import LoginScreen from '../screens/Login'
@@ -136,6 +137,20 @@ function TransferStack(props) {
           ),
         }}
       />
+      <Stack.Screen
+        name="CalculateRate"
+        component={CalculateRateScreen}
+        options={{
+          header: ({navigation, previous, scene}) => (
+            <Header
+              previous={previous}
+              title="Calculate Rates and Send"
+              scene={scene}
+              navigation={navigation}
+            />
+          ),
+        }}
+      />
     </Stack.Navigator>
   );
 }
@@ -233,6 +248,7 @@ function AppStack(props) {
           fontWeight: 'normal',
         },
       }}
+      drawerType='back'
       initialRouteName="Balance">
       <Drawer.Screen
         name="Balance"

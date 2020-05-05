@@ -11,10 +11,14 @@ export const apiCall = (
     ...customHeaders,
   };
 
+  const abortController = new AbortController();
+  const { signal } = abortController;
+
   const requestOptions = {
     method: requestType,
     headers,
     body: requestBody ? JSON.stringify(requestBody) : undefined,
+    signal
   };
 
   if (requestParams) {
@@ -22,14 +26,13 @@ export const apiCall = (
     url = `${url}?${urlParams}`;
   }
 
+  setTimeout(() => abortController.abort(), 18000)
+
   console.log('Total request', url, requestOptions)
-  return Promise.race([
-    fetch(url, requestOptions)
+  return fetch(url, requestOptions)
     .then(handleResponse)
-    .catch(handleError),
-    new Promise((_, reject) => setTimeout(() => reject(new Error('Request took too long. Please try again!')), 12000))
-  ])
-};
+    .catch(handleError);
+}
 
 const createUrlParams = (params, encode) => {
   const esc = encodeURIComponent;
@@ -43,7 +46,7 @@ const createUrlParams = (params, encode) => {
   return query;
 };
 const handleResponse = response => {
-  console.log('handle', response)
+  console.log('response from handleResponse', response)
   if (response.ok) {
     return response.json().then(responseData => {
       return responseData;
@@ -52,7 +55,6 @@ const handleResponse = response => {
     return response.json().then(responseData => {
       const errorMessage = responseData.message || responseData.description;
       throw new Error(errorMessage);
-      // return Promise.reject({...errorMessage, ...response});
     });
   }
 };
@@ -61,7 +63,9 @@ const handleError = error => {
   console.log('error from handleError', error.message);
   const errorMessage = error.message || error.description;
 
-  if(errorMessage === 'Network request failed') {
+  if (error.name === 'AbortError') {
+    throw new Error('Recent request took too long. Please try again')
+  } else if(errorMessage === 'Network request failed') {
     throw new Error('Check your internet connection and reload page or try again.')
   } else {
     throw new Error(errorMessage);

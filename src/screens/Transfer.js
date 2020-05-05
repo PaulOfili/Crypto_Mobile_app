@@ -7,7 +7,6 @@ import {
   Picker,
   Alert,
   View,
-  ActivityIndicator,
   RefreshControl,
   ScrollView
 } from 'react-native';
@@ -17,20 +16,20 @@ import Container from '../layouts/Container';
 import Toast from '../components/Toast';
 import { checkMinimumLength } from '../utilities/formValidation'
 import { getCurrencies } from '../store/actions/commonData';
-import { postMakeTransfer } from '../store/actions/trade';
+import { calculateRate } from '../services/trade.service';
 
 const {width} = Dimensions.get('screen');
 
-function Transfer (props) {
+function Transfer ({navigation}) {
 
   const toastRef = useRef();
 
   const currencies = useSelector((store) => store.commonData.currencies)
   const userData = useSelector((store) => store.auth.userData)
+  const balanceData = useSelector(store => store.balance.data)
 
   const actionDispatch = useDispatch();
   const getCurrenciesDispatch = useCallback(() => actionDispatch(getCurrencies()), [actionDispatch]);
-  const postMakeTransferDispatch = useCallback((data) => actionDispatch(postMakeTransfer(data)),[actionDispatch]);
 
   const [senderCurrencyType, setSenderCurrencyType] = useState('')
   const [recipientCurrencyType, setRecipientCurrencyType] = useState('')
@@ -38,6 +37,7 @@ function Transfer (props) {
   const [amount, setAmount] = useState('0');
   const [memo, setMemo] = useState('');
   const [memoError, setMemoError] = useState(false);
+  const [calculateRateLoading, setCalculateRateLoading] = useState(false)
 
   useEffect(() => {
     getCurrenciesDispatch()
@@ -69,7 +69,7 @@ function Transfer (props) {
 
   const makeTransfer = () => {
     
-    const requestBody = {
+    const transferRequestBody = {
       senderEmail: userData.email,
       recipientPublicKeyOrEmail: recipient,
       amount,
@@ -83,7 +83,32 @@ function Transfer (props) {
         recipient &&
         amount && parseFloat(amount) !== 0 &&
         memo && !memoError) {
-          postMakeTransferDispatch(requestBody);
+
+          const calculateRequestParams = {
+            senderAssetCode: senderCurrencyType,
+            recipientAssetCode: recipientCurrencyType,
+            recipientAmount: amount
+          }
+          setCalculateRateLoading(true)
+        
+          return calculateRate(calculateRequestParams)
+            .then(responseData => {
+              setCalculateRateLoading(false)
+              console.log(responseData)
+              //   navigation.navigate('CalculateRate', {
+              //   transferDetails: transferRequestBody,
+              //   calculateRateResponse: responseData
+              // })
+            })
+            .catch(error => {
+              setCalculateRateLoading(false)
+              Alert.alert(error.message)
+              navigation.navigate('CalculateRate', {
+                  transferDetails: transferRequestBody,
+                  calculateRateResponse: transferRequestBody,
+                  senderPublicKey: balanceData.publicKey
+                })
+            })         
         } else {
           Alert.alert("Please complete all fields properly")
         }
@@ -172,6 +197,7 @@ function Transfer (props) {
             />
           </View>
           <Button2
+            loading={calculateRateLoading}
             buttonStyle={styles.transferButton}
             title="Transfer"
             onPress={makeTransfer}

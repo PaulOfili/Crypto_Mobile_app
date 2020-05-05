@@ -15,6 +15,7 @@ import {
       case GET_CURRENCIES_START: {
         return {
           ...state,
+          data: [],
           error: null,
           isLoading: true
         };

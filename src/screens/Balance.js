@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
-import {StyleSheet, Dimensions, View, Image, ScrollView, ActivityIndicator, RefreshControl } from 'react-native';
+import {StyleSheet, Dimensions, View, Image, ScrollView, RefreshControl } from 'react-native';
 import {Button, Block, Text, Input, theme} from 'galio-framework';
 
 import {Icon, Product, Banner, CurrencyCard } from '../components';

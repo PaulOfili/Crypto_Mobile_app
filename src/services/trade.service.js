@@ -7,6 +7,12 @@ export function postMakeTransfer(requestBody) {
     return apiCall("POST", url, null, requestBody, null)
 }
 
+export function calculateRate(requestParams) {
+    let url = API_URLS.CALCULATE_RATE
+
+    return apiCall("GET", url, null, null, requestParams)
+}
+
 export function postMakeWithdraw(requestBody) {
     let url = API_URLS.MAKE_WITHDRAW
 

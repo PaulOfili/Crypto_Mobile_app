@@ -16,6 +16,7 @@ const balanceReducer = function(state = initialState, action) {
       return {
         ...state,
         isLoading: true,
+        data: {},
         error: null
       };
     }

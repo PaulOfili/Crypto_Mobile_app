@@ -4,7 +4,6 @@ import { useFocusEffect } from '@react-navigation/native';
 import {
   StyleSheet,
   Dimensions,
-  ActivityIndicator,
   Picker,
   Alert,
   View,
@@ -28,7 +27,8 @@ function Withdraw(props){
   const userData = useSelector((store) => store.auth.userData)
   const banks = useSelector((store) => store.commonData.banks)
   const currencies = useSelector((store) => store.commonData.currencies)
-  
+  const withdrawIsLoading = useSelector(store => store.trade.withdraw.isLoading)
+
   const actionDispatch = useDispatch();
   const getBanksDispatch = useCallback(() => actionDispatch(getBanks()), [actionDispatch]);
   const getCurrenciesDispatch = useCallback(() => actionDispatch(getCurrencies()), [actionDispatch]);
@@ -41,24 +41,24 @@ function Withdraw(props){
   const [memo, setMemo] = useState('');
   const [memoError, setMemoError] = useState(false);
 
-  useEffect(() => {
-    getBanksDispatch()
-    getCurrenciesDispatch()
-  }, [getBanksDispatch, getCurrenciesDispatch])
+  // useEffect(() => {
+  //   getBanksDispatch()
+  //   getCurrenciesDispatch()
+  // }, [getBanksDispatch, getCurrenciesDispatch])
 
-  useEffect(() => {
-    if (banks.error || currencies.error) {
-      toastRef.current.openToast();
-    }
-  }, [banks.error, currencies.error])
+  // useEffect(() => {
+  //   if (banks.error || currencies.error) {
+  //     toastRef.current.openToast();
+  //   }
+  // }, [banks.error, currencies.error])
 
-  useFocusEffect(
-    useCallback(() => {
-      if (banks.error || currencies.error) {
-        toastRef.current.openToast();
-      }
-    },[banks.error, currencies.error])
-  );
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     if (banks.error || currencies.error) {
+  //       toastRef.current.openToast();
+  //     }
+  //   },[banks.error, currencies.error])
+  // );
 
   const onRefresh = useCallback(() => {
     getBanksDispatch();
@@ -87,8 +87,7 @@ function Withdraw(props){
         recipient &&
         amount && parseFloat(amount) !== 0 &&
         memo && !memoError) {
-          Alert.alert("Coming Soon!!")
-          // postMakeWithdrawDispatch(requestBody);
+          postMakeWithdrawDispatch(requestBody);
         } else {
           Alert.alert("Please complete all fields properly")
         }
@@ -139,7 +138,8 @@ function Withdraw(props){
   
   return (
     <Container>
-      <ScrollView showsVerticalScrollIndicator={false}  refreshControl={
+      <Text>Coming Soon.....</Text>
+      {/* <ScrollView showsVerticalScrollIndicator={false}  refreshControl={
         <RefreshControl refreshing={banks.isLoading || currencies.isLoading} onRefresh={onRefresh} />
         }
       >
@@ -179,13 +179,14 @@ function Withdraw(props){
             />
           </View>
           <Button2
+            loading={withdrawIsLoading}
             buttonStyle={styles.withdrawButton}
             title="Withdraw"
             onPress={makeWithdraw}
           />
         </Block>
       </ScrollView>
-      <Toast ref={toastRef} text={currencies.error || banks.error}/>
+      <Toast ref={toastRef} text={currencies.error || banks.error}/> */}
     </Container>
   );
 }

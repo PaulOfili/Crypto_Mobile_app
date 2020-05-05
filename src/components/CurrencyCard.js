@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 export default function CurrencyCard({balanceData}) {
     return (
         <View style={[styles.container]}>
-            <Text style={styles.regionText}>{balanceData.currencyCode}</Text>
+            <Text style={styles.currency}>{balanceData.currencyCode}</Text>
             <Text>{parseFloat(balanceData.balance).toFixed(2)}</Text>
         </View>
     )
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         borderColor: '#586b71',
         borderWidth: 1
     },
-    regionText: {
+    currency: {
         fontSize: 16
     }
   });

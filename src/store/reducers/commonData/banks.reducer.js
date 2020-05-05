@@ -16,6 +16,7 @@ import {
 
         return {
           ...state,
+          data: {},
           error: null,
           isLoading: true,
         };

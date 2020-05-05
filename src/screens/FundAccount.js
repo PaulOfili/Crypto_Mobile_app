@@ -27,6 +27,7 @@ function FundAccount(props) {
 
   const currencies = useSelector((store) => store.commonData.currencies)
   const userData = useSelector((store) => store.auth.userData)
+  const fundIsLoading = useSelector(store => store.trade.fund.isLoading)
 
   const actionDispatch = useDispatch();
   const getCurrenciesDispatch = useCallback(() => actionDispatch(getCurrencies()), [actionDispatch]);
@@ -132,6 +133,7 @@ function FundAccount(props) {
             />
           </View>
           <Button2
+            loading={fundIsLoading}
             buttonStyle={styles.fundButton}
             title="Fund Account"
             onPress={fundAccount}
