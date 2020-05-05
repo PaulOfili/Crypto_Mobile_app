@@ -43,7 +43,7 @@ function Header({title, hasNext, previous, navigation}) {
           /> 
           : isDrawerOpen ?
           <Icon 
-          size={24}
+          size={28}
           color={materialTheme.COLORS.ICON}
           name="close"
           family="AntDesign"
