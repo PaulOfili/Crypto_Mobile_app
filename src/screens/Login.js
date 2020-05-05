@@ -61,7 +61,7 @@ function Login({navigation}) {
 
   return (
       <Block flex middle>
-        {/* <StatusBar translucent backgroundColor="transparent"/> */}
+        <StatusBar translucent hidden backgroundColor="transparent"/>
         <ImageBackground
           source={Images.RegisterBackground}
           style={{ width, height, zIndex: 1 }}
