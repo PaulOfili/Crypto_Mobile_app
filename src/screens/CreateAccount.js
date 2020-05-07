@@ -25,6 +25,7 @@ function CreateAccount(props) {
 
   const toastRef = useRef();
 
+  const userData = useSelector((store) => store.auth.userData)
   const createAccountLoading = useSelector((store) => store.account.isLoading)
   const currencies = useSelector((store) => store.commonData.currencies)
 
@@ -66,7 +67,7 @@ function CreateAccount(props) {
       Alert.alert('Pick a currency before proceeding!')
     } else {
       const requestBody = {
-        email: "paul@gmail.com",
+        email: userData.email,
         currencyCode: currencyType
       }
 

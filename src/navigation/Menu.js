@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import {
   View,
   ScrollView,
@@ -10,12 +11,10 @@ import {useSafeArea} from 'react-native-safe-area-context';
 
 import {Icon, DrawerItem as DrawerCustomItem} from '../components';
 import SignOutButton from '../components/SignOutButton';
-import {Images, materialTheme} from '../constants';
 
 function CustomDrawerContent({
   drawerPosition,
   navigation,
-  profile,
   focused,
   state,
   ...rest
@@ -27,10 +26,10 @@ function CustomDrawerContent({
     'Fund Account',
     'Transfer',
     'Withdraw',
-    // 'Profile',
-    // 'Settings',
-    // 'Components',
   ];
+
+  const userData = useSelector(store => store.auth.userData)
+  const { firstName, lastName, email } = userData
   return (
     <Block
       style={styles.container}
@@ -40,15 +39,17 @@ function CustomDrawerContent({
           // onPress={() => navigation.navigate('Profile')}
           >
           <Block style={styles.profile}>
-            {/* <Image source={{uri: profile.avatar}} style={styles.avatar} /> */}
             <Icon 
               size={100}
               name="user"
               family="EvilIcons"
               color='white'
             />
-            <Text h5 color={'white'}>
-              {profile.name}
+            <Text h5 color='white'>
+              {firstName} {lastName}
+            </Text>
+            <Text muted color='white'>
+              {email}
             </Text>
           </Block>
         </View>

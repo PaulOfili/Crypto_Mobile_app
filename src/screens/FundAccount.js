@@ -80,7 +80,7 @@ function FundAccount(props) {
         memo && !memoError) {
           postFundAccountDispatch(requestBody);
         } else {
-          Alert.alert('Please complete all fields properly.')
+          Alert.alert('Please complete all fields properly!')
         }
   };
 

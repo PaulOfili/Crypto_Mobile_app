@@ -18,7 +18,7 @@ export function* makeTransferWorker(action) {
         
         yield Alert.alert(
             'Success',
-            'Congratulations, your transaction was successful!',
+            `Congratulations, your transaction was successful! A service fee of ${response.fee} was deducted from your account.`,
             [
                 {
                     text: 'Ok',
@@ -30,7 +30,7 @@ export function* makeTransferWorker(action) {
 
         yield put({
             type: POST_MAKE_TRANSFER_SUCCESS,
-            payload: 'paul@gmail.com',
+            payload: requestBody.senderEmail,
         });
 
     } catch (error) {

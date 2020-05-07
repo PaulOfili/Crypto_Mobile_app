@@ -18,7 +18,7 @@ import { Images, argonTheme } from "../constants/ArgonConstants";
 import { signUpUser, loginUser } from '../store/actions/auth';
 import { checkEmail, checkPhoneNumber, checkConfirmPassword } from '../utilities/formValidation';
 import * as API_URLS from '../services/constants';
-import { object } from "prop-types";
+import { postSignUp } from '../services/auth.service';
 const { width, height } = Dimensions.get("screen");
 
 function Register({navigation}) {
@@ -90,42 +90,23 @@ function Register({navigation}) {
         
         setRegisterLoading(true);
 
-        let url = API_URLS.SIGNUP_USER        
-        return fetch(url,  { 
-          method: 'POST',
-          headers: {
-          'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(requestBody)
-        })
-        .then((response) => {
-            return response.json()
-        })
-        .then(responseData => {
-          setRegisterLoading(false)
-          if (responseData) {
+        let url = API_URLS.SIGNUP_USER   
+        return postSignUp(requestBody)
+          .then(responseData => {
+            setRegisterLoading(false)
             if (responseData.message && responseData.message === 'successful'){
-              
               loginUserDispatch({email, password})
-            } 
-            else {
+            } else {
               const errorMessage = responseData.message || responseData.description
               Alert.alert(errorMessage)
             }
-          }
-        })
-        .catch((error) => {
-          setRegisterLoading(false)
-          const errorMessage = error.message || error.description;
-
-          if(errorMessage === 'Network request failed') {
-            Alert.alert('Check your internet connection or try again.')
-          } else {
-            Alert.alert(errorMessage)
-          }
-        });
+          }) 
+          .catch(error => {
+            setRegisterLoading(false)
+            Alert.alert(error.message)
+          })    
     } else {
-      Alert.alert("Complete all fields")
+      Alert.alert("Please complete all fields properly!")
     }
   }
   return (
@@ -155,9 +136,9 @@ function Register({navigation}) {
                       <Block row style={{ width: width*0.8, marginBottom: 10 }}>
                         <Block flex style={{marginRight: 4}}>
                           <Input
+                            borderless
                             value={firstName}
                             onChangeText={text => setFirstName(text)}
-                            borderless
                             placeholder="First Name"
                             iconContent={
                               <Icon
@@ -172,9 +153,9 @@ function Register({navigation}) {
                         </Block>
                         <Block flex style={{marginLeft: 4}} >
                           <Input
+                            borderless
                             value={lastName}
                             onChangeText={text => setLastName(text)}
-                            borderless
                             placeholder="Last Name"
                             iconContent={null}
                           />
@@ -186,7 +167,6 @@ function Register({navigation}) {
                           value={email}
                           onChangeText={text => onEmailChange(text)}
                           onBlur={onEmailBlur}
-                          // borderless
                           placeholder="Email"
                           iconContent={
                             <Icon
@@ -206,7 +186,6 @@ function Register({navigation}) {
                           onChangeText={text => onPhoneNumberChange(text)}
                           onBlur={onPhoneBlur}
                           type='number-pad'
-                          // borderless
                           placeholder="Phone"
                           iconContent={
                             <Icon
@@ -224,9 +203,7 @@ function Register({navigation}) {
                           error={passwordError}
                           value={password}
                           onChangeText={text => onPasswordChange(text)}
-                          // onBlur={onPasswordBlur}
                           password
-                          // borderless
                           placeholder="Password"
                           iconContent={
                             <Icon
@@ -245,7 +222,6 @@ function Register({navigation}) {
                           value={confirmPassword}
                           onChangeText={text => onConfirmPasswordChange(text)}
                           password
-                          // borderless
                           placeholder="Confirm Password"
                           iconContent={
                             <Icon

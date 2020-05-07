@@ -12,47 +12,16 @@ import CalculateRateScreen from '../screens/CalculateRate';
 import WithdrawScreen from '../screens/Withdraw';
 import RegisterScreen from '../screens/Register';
 import LoginScreen from '../screens/Login'
-import ComponentsScreen from '../screens/Components';
 import OnboardingScreen from '../screens/Onboarding';
-import ProfileScreen from '../screens/Profile';
-import SettingsScreen from '../screens/Settings';
 
 import CustomDrawerContent from './Menu';
-import {Icon, Header} from '../components';
+import {Header} from '../components';
 import {Images, materialTheme} from '../constants';
 
 const {width} = Dimensions.get('screen');
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
-
-const profile = {
-  avatar: Images.Profile,
-  name: 'Paul Ofili',
-};
-
-function ProfileStack(props) {
-  return (
-    <Stack.Navigator initialRouteName="Profile" mode="card" headerMode="screen">
-      <Stack.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          header: ({navigation, scene}) => (
-            <Header
-              white
-              transparent
-              title="Profile"
-              scene={scene}
-              navigation={navigation}
-            />
-          ),
-          // headerTransparent: true,
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
 
 function BalanceStack(props) {
   return (
@@ -87,15 +56,11 @@ function CreateAccountStack(props) {
         options={{
           header: ({navigation, scene}) => (
             <Header
-              transparent
               title="Create Account"
               scene={scene}
               navigation={navigation}
             />
-          ),
-          headerLeft: ({navigation}) => (
-            <Button onPress={() => navigation.goBack()} title='Go back' />
-          ),
+          )
         }}
       />
     </Stack.Navigator>
@@ -176,54 +141,12 @@ function WithdrawStack(props) {
   );
 }
 
-function SettingsStack(props) {
-  return (
-    <Stack.Navigator
-      initialRouteName="Settings"
-      mode="card"
-      headerMode="screen">
-      <Stack.Screen
-        name="Settings"
-        component={SettingsScreen}
-        options={{
-          header: ({navigation, scene}) => (
-            <Header 
-              title="Settings" 
-              scene={scene} 
-              navigation={navigation} 
-            />
-          ),
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
-function ComponentsStack(props) {
-  return (
-    <Stack.Navigator mode="card" headerMode="screen">
-      <Stack.Screen
-        name="Components"
-        component={ComponentsScreen}
-        options={{
-          header: ({navigation, scene}) => (
-            <Header 
-              title="Components" 
-              scene={scene} 
-              navigation={navigation} 
-            />
-          ),
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
-
 function AppStack(props) {
   return (
     <Drawer.Navigator
       style={{flex: 1}}
       drawerContent={props => (
-        <CustomDrawerContent {...props} profile={profile} />
+        <CustomDrawerContent {...props}/>
       )}
       drawerStyle={{
         backgroundColor: 'white',
@@ -237,10 +160,8 @@ function AppStack(props) {
         itemStyle: {
           width: width * 0.74,
           paddingHorizontal: 12,
-          // paddingVertical: 4,
           justifyContent: 'center',
           alignContent: 'center',
-          // alignItems: 'center',
           overflow: 'hidden',
         },
         labelStyle: {

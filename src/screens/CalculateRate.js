@@ -14,37 +14,46 @@ import { postMakeTransfer } from '../store/actions/trade';
 const {width} = Dimensions.get('screen');
 
 function CalculateRate ({route}) {
+    const { calculateRateResponse, senderPublicKey, transferDetails } = route.params
 
     const transferIsLoading = useSelector(store => store.trade.transfer.isLoading)
 
     const actionDispatch = useDispatch();
     const postMakeTransferDispatch = useCallback((data) => actionDispatch(postMakeTransfer(data)),[actionDispatch]);
-    
-    console.log(route.params)
 
     const confirmAndTransfer = () => {
-        postMakeTransferDispatch(requestBody);
+        postMakeTransferDispatch(transferDetails);
     };
 
-    const { senderPublicKey } = route.params
     return (
         <Container>  
             <Block flex style={styles.calculateRate}>
                 <View style={styles.confirmContainer}>
                     <View style={styles.confirmRecipient}>
-                        <Text style={styles.confirmRecipientDetails}>paulofili@gmail</Text>
-                        <Text style={styles.confirmText}>would receive</Text>
+                        <Text style={styles.confirmRecipientDetails}>
+                            {(transferDetails.recipientPublicKeyOrEmail.length < 18) 
+                                ? transferDetails.recipientPublicKeyOrEmail
+                                : transferDetails.recipientPublicKeyOrEmail.substring(0, 4) 
+                                    + '...' 
+                                    + transferDetails.recipientPublicKeyOrEmail.substring(transferDetails.recipientPublicKeyOrEmail.length-4, transferDetails.recipientPublicKeyOrEmail.length)}
+                        </Text>
+                        {/* <Text style={styles.confirmText}>would receive</Text> */}
                     </View>
-                    <Text style={styles.confirmAmount}>USD FDFDF</Text>
+                    <Text style={styles.confirmAmount}>{transferDetails.currencyToReceive} {transferDetails.amount}</Text>
                 </View>
                 <View style={styles.senderAccountContainer}>
                     <Text>Sender Account</Text>
                     <View style={styles.senderAccountTile}>
-                        <Text>{(senderPublicKey) ? senderPublicKey : 'You have no account'}</Text>
+                        <Text>{(senderPublicKey) 
+                            ? senderPublicKey.substring(0,4) + '...' + senderPublicKey.substring(senderPublicKey.length-4, senderPublicKey.length) 
+                            // ? transferDetails.senderEmail 
+                            : 'You have no account'}
+                        </Text>
+                        <Text style={{color: 'red'}}> - {calculateRateResponse.senderAssetCode} {calculateRateResponse.amountToDeduct}</Text>
                     </View>
                     <View style={styles.senderAccountTile}>
                         <Text>Exchange rate</Text>
-                        <Text>3535</Text>
+                        <Text>{calculateRateResponse.recipientAssetCode} 1 = {calculateRateResponse.senderAssetCode} {calculateRateResponse.price}</Text>
                     </View>
                 </View>
                 <Button2
@@ -81,18 +90,18 @@ confirmRecipient:{
 confirmRecipientDetails: {
     color: '#6CCF00',
     fontSize: 22,
-    marginBottom: 10
+    // marginBottom: 10
 },
 confirmText: {
     color: 'white',
     fontSize: 15,
 },
 confirmAmount: {
-    color: 'white'
+    color: 'white',
+    fontSize: 22
 },
 senderAccountContainer: {
     marginTop: 40,
-    // borderWidth: 5,
     flex: 0.9
 },
 senderAccountTile: {

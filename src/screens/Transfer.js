@@ -94,23 +94,18 @@ function Transfer ({navigation}) {
           return calculateRate(calculateRequestParams)
             .then(responseData => {
               setCalculateRateLoading(false)
-              console.log(responseData)
-              //   navigation.navigate('CalculateRate', {
-              //   transferDetails: transferRequestBody,
-              //   calculateRateResponse: responseData
-              // })
+              navigation.navigate('CalculateRate', {
+                transferDetails: transferRequestBody,
+                calculateRateResponse: responseData,
+                senderPublicKey: balanceData.publicKey
+              })
             })
             .catch(error => {
               setCalculateRateLoading(false)
               Alert.alert(error.message)
-              navigation.navigate('CalculateRate', {
-                  transferDetails: transferRequestBody,
-                  calculateRateResponse: transferRequestBody,
-                  senderPublicKey: balanceData.publicKey
-                })
             })         
         } else {
-          Alert.alert("Please complete all fields properly")
+          Alert.alert("Please complete all fields properly!")
         }
   };
 

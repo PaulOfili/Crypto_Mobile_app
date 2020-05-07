@@ -89,7 +89,7 @@ function Withdraw(props){
         memo && !memoError) {
           postMakeWithdrawDispatch(requestBody);
         } else {
-          Alert.alert("Please complete all fields properly")
+          Alert.alert("Please complete all fields properly!")
         }
   };
 
@@ -138,13 +138,13 @@ function Withdraw(props){
   
   return (
     <Container>
-      <Text>Coming Soon.....</Text>
       {/* <ScrollView showsVerticalScrollIndicator={false}  refreshControl={
         <RefreshControl refreshing={banks.isLoading || currencies.isLoading} onRefresh={onRefresh} />
         }
-      >
+      > */}
         <Block flex style={styles.withdraw}>
-          {renderCurrencyPicker()}
+          <Text>Coming Soon.....</Text>
+          {/* {renderCurrencyPicker()}
           {renderBankPicker()}
           <View style={styles.recipientContainer}>
             <Text style={styles.recipientText}>Recipient:</Text>
@@ -183,9 +183,9 @@ function Withdraw(props){
             buttonStyle={styles.withdrawButton}
             title="Withdraw"
             onPress={makeWithdraw}
-          />
+          /> */}
         </Block>
-      </ScrollView>
+      {/* </ScrollView>
       <Toast ref={toastRef} text={currencies.error || banks.error}/> */}
     </Container>
   );

@@ -24,7 +24,7 @@ function Balance(props) {
   const getBalanceDispatch = useCallback((email) => actionDispatch(getBalance(email)), [actionDispatch]);
 
   useEffect(() => {
-    getBalanceDispatch('paul@gmail.com')
+    getBalanceDispatch(userData.email)
   }, [getBalanceDispatch])
 
   useEffect(() => {
@@ -42,7 +42,7 @@ function Balance(props) {
   );
 
   const onRefresh = useCallback(() => {
-    getBalanceDispatch('paul@gmail.com')
+    getBalanceDispatch(userData.email)
   })
 
   const renderCurrencies = () => {

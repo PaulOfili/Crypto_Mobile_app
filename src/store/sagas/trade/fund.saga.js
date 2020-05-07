@@ -30,7 +30,7 @@ export function* fundAccountWorker(action) {
 
         yield put({
             type: POST_FUND_ACCOUNT_SUCCESS,
-            payload: 'paul@gmail.com',
+            payload: requestBody.email,
         });
 
     } catch (error) {

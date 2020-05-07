@@ -30,7 +30,7 @@ export function* makeWithdrawWorker(action) {
 
         yield put({
             type: POST_MAKE_WITHDRAW_SUCCESS,
-            payload: 'paul@gmail.com',
+            payload: requestBody.email,
         });
 
     } catch (error) {

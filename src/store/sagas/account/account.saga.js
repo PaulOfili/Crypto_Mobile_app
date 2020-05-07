@@ -14,7 +14,7 @@ export function* createAccountWorker(action) {
 
     try {
 
-        const response = yield call(postCreateAccount, requestBody);
+        yield call(postCreateAccount, requestBody);
         
         yield Alert.alert(
             'Success',
@@ -30,7 +30,7 @@ export function* createAccountWorker(action) {
 
         yield put({
             type: POST_CREATE_ACCOUNT_SUCCESS,
-            payload: 'paul@gmail.com',
+            payload: requestBody.email,
         });
 
     } catch (error) {

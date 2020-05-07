@@ -12,7 +12,6 @@ import {
   POST_MAKE_TRANSFER_SUCCESS, 
   POST_MAKE_WITHDRAW_SUCCESS
 } from '../../contants';
-import { Alert } from 'react-native';
 
 function* getBalanceWorker(action) {
   yield put({
