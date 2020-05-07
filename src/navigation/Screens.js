@@ -69,7 +69,7 @@ function CreateAccountStack(props) {
 
 function FundAccountStack(props) {
   return (
-    <Stack.Navigator mode="card" headerMode="screen">
+    <Stack.Navigator initialRouteName="Fund Account" mode="card" headerMode="screen">
       <Stack.Screen
         name="Fund Account"
         component={FundAccountScreen}
@@ -88,7 +88,7 @@ function FundAccountStack(props) {
 
 function TransferStack(props) {
   return (
-    <Stack.Navigator mode="card" headerMode="screen">
+    <Stack.Navigator initialRouteName="Transfer" mode="card" headerMode="screen">
       <Stack.Screen
         name="Transfer"
         component={TransferScreen}
@@ -122,7 +122,7 @@ function TransferStack(props) {
 
 function WithdrawStack(props) {
   return (
-    <Stack.Navigator mode="card" headerMode="screen">
+    <Stack.Navigator initialRouteName="Withdraw" mode="card" headerMode="screen">
       <Stack.Screen
         name="Withdraw"
         component={WithdrawScreen}
