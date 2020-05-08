@@ -126,6 +126,7 @@ function FundAccount(props) {
           <View style={styles.memoContainer}>
             <Text style={styles.memoText}>Memo:</Text>
             <Input2
+              selectable
               value={memo}
               onChangeText={text => onMemoChange(text)}
               placeholder='Must be at least 5 characters long'

@@ -173,7 +173,6 @@ function Transfer ({navigation}) {
           <View style={styles.amountContainer}>
             <Text style={styles.amountText}>Amount to send:</Text>
             <Input2
-              selectable
               value={amount}
               onChangeText={text => setAmount(text)}
               placeholder='Enter amount in figures'
