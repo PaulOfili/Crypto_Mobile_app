@@ -48,14 +48,14 @@ function Login({navigation}) {
 
   const onLogin = () => {
     const requestBody = {
-      email,
-      password,
+      email: email,
+      password: password,
     }
     if (email && !emailError && 
         password && !passwordError) {
           loginUserDispatch(requestBody)
     } else {
-      Alert.alert('Complete all fields');
+      Alert.alert('Please complete all fields properly!');
     }
   }
 

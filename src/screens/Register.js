@@ -75,8 +75,8 @@ function Register({navigation}) {
   const onSignUp = () => {
     const requestBody = {
       username: email,
-      firstName,
-      lastName,
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
       password,
       confirmPassword,
       email,

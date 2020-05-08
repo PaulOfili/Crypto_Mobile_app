@@ -72,7 +72,7 @@ function FundAccount(props) {
       email: userData.email,
       currencyToBuy: buyCurrencyType,
       amount,
-      memo
+      memo: memo.trim()
     };
 
     if (buyCurrencyType &&

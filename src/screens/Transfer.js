@@ -71,11 +71,11 @@ function Transfer ({navigation}) {
     
     const transferRequestBody = {
       senderEmail: userData.email,
-      recipientPublicKeyOrEmail: recipient,
+      recipientPublicKeyOrEmail: recipient.trim(),
       amount,
       currencyToSend: senderCurrencyType,
       currencyToReceive: recipientCurrencyType,
-      memo
+      memo: memo.trim()
     };
 
     if (senderCurrencyType &&

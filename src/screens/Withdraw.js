@@ -74,11 +74,11 @@ function Withdraw(props){
   const makeWithdraw = () => {
     const requestBody = {
       senderEmail: userData.email,
-      recipientPublicKeyOrEmail: recipient,
+      recipientPublicKeyOrEmail: recipient.trim(),
       amount,
       bank: bankType,
       debitCurrency: currencyType,
-      memo
+      memo: memo.trim()
     };
 
 
