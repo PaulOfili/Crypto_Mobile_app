@@ -206,7 +206,6 @@ function Register({navigation}) {
                           viewPass
                           bottomHelp
                           help={<Text style={{color: argonTheme.COLORS.MUTED}}>Password must contain alphanumeric, uppercase and special characters and must be between 8 - 20 characters long.</Text>}
-                          // help=""
                           placeholder="Password"
                           iconContent={
                             <Icon
