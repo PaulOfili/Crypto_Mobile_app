@@ -123,6 +123,7 @@ function Login({navigation}) {
                         <Block middle>
                           <Button 
                             loading={loginLoading}
+                            disabled={loginLoading}
                             onPress={onLogin}
                             color="primary" style={styles.createButton}>
                             <Text bold size={14} color={argonTheme.COLORS.WHITE}>

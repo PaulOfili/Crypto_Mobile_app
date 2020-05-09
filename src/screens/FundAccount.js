@@ -15,7 +15,6 @@ import {Button, Block, Text, Input, theme} from 'galio-framework';
 import { Input as Input2, Button as Button2} from 'react-native-elements';
 import Container from '../layouts/Container';
 import Toast from '../components/Toast';
-import { checkMinimumLength } from '../utilities/formValidation'
 import { getCurrencies } from '../store/actions/commonData';
 import { postFundAccount } from '../store/actions/trade';
 
@@ -36,7 +35,6 @@ function FundAccount(props) {
   const [buyCurrencyType, setBuyCurrencyType] = useState('')
   const [amount, setAmount] = useState('0');
   const [memo, setMemo] = useState('');
-  const [memoError, setMemoError] = useState(false);
 
   useEffect(() => {
     getCurrenciesDispatch()
@@ -62,8 +60,6 @@ function FundAccount(props) {
 
   const onMemoChange = (newMemo) => {
     setMemo(newMemo)
-
-    setMemoError(!checkMinimumLength(newMemo))
   }
   
   const fundAccount = () => {
@@ -76,8 +72,7 @@ function FundAccount(props) {
     };
 
     if (buyCurrencyType &&
-        amount && parseFloat(amount) !== 0 &&
-        memo && !memoError) {
+        amount && parseFloat(amount) !== 0) {
           postFundAccountDispatch(requestBody);
         } else {
           Alert.alert('Please complete all fields properly!')
@@ -105,6 +100,15 @@ function FundAccount(props) {
     );
   };
 
+  if (fundIsLoading) {
+    return (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <ActivityIndicator size="large" color="#0000ff"/>
+            <Text style={{marginTop: 15}}>Processing Transaction</Text>
+        </View>
+    )
+}
+
   return (
     <Container>   
       <ScrollView showsVerticalScrollIndicator={false} refreshControl={
@@ -119,22 +123,21 @@ function FundAccount(props) {
               value={amount}
               onChangeText={text => setAmount(text)}
               placeholder='Enter amount'
-              inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
+              inputContainerStyle={styles.inputField}
               keyboardType='numeric'
             />
           </View>
           <View style={styles.memoContainer}>
             <Text style={styles.memoText}>Memo:</Text>
             <Input2
-              selectable
               value={memo}
+              maxLength={28}
               onChangeText={text => onMemoChange(text)}
-              placeholder='Must be at least 5 characters long'
-              inputContainerStyle={[styles.inputField, {borderColor: (memoError) ? 'red' : '#2196e6'}]}
+              placeholder='Must be at most 28 characters long'
+              inputContainerStyle={styles.inputField}
             />
           </View>
           <Button2
-            loading={fundIsLoading}
             buttonStyle={styles.fundButton}
             title="Fund Account"
             onPress={fundAccount}
@@ -155,11 +158,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   inputField: {
-    borderColor: theme.COLORS.INFO,
-    marginBottom: 40,
+    borderColor: '#2196e6',
+    marginBottom: 30,
   },
   fundButton: {
-    marginTop: 20
+    marginTop: 30
   }
 });
 

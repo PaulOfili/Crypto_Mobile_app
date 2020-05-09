@@ -14,7 +14,6 @@ import {Button, Block, Text, Input, theme} from 'galio-framework';
 import { Input as Input2, Button as Button2} from 'react-native-elements';
 import Container from '../layouts/Container';
 import Toast from '../components/Toast';
-import { checkMinimumLength } from '../utilities/formValidation'
 import { getCurrencies } from '../store/actions/commonData';
 import { calculateRate } from '../services/trade.service';
 
@@ -36,7 +35,6 @@ function Transfer ({navigation}) {
   const [recipient, setRecipient] = useState('');
   const [amount, setAmount] = useState('0');
   const [memo, setMemo] = useState('');
-  const [memoError, setMemoError] = useState(false);
   const [calculateRateLoading, setCalculateRateLoading] = useState(false)
 
   useEffect(() => {
@@ -63,8 +61,6 @@ function Transfer ({navigation}) {
 
   const onMemoChange = (newMemo) => {
     setMemo(newMemo)
-
-    setMemoError(!checkMinimumLength(newMemo))
   }
 
   const makeTransfer = () => {
@@ -81,8 +77,7 @@ function Transfer ({navigation}) {
     if (senderCurrencyType &&
         recipientCurrencyType &&
         recipient &&
-        amount && parseFloat(amount) !== 0 &&
-        memo && !memoError) {
+        amount && parseFloat(amount) !== 0) {
 
           const calculateRequestParams = {
             senderAssetCode: senderCurrencyType,
@@ -94,7 +89,7 @@ function Transfer ({navigation}) {
           return calculateRate(calculateRequestParams)
             .then(responseData => {
               setCalculateRateLoading(false)
-              navigation.navigate('CalculateRate', {
+              navigation.push('CalculateRate', {
                 transferDetails: transferRequestBody,
                 calculateRateResponse: responseData,
                 senderPublicKey: balanceData.publicKey
@@ -151,6 +146,7 @@ function Transfer ({navigation}) {
     );
   };
 
+
   return (
     <Container>   
       <ScrollView showsVerticalScrollIndicator={false} refreshControl={
@@ -163,11 +159,10 @@ function Transfer ({navigation}) {
           <View style={styles.recipientContainer}>
             <Text style={styles.recipientText}>Recipient:</Text>
             <Input2
-              selectable
               value={recipient}
               onChangeText={text => setRecipient(text)}
               placeholder='Receiver email or public key'
-              inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
+              inputContainerStyle={styles.inputField}
             />
           </View>
           <View style={styles.amountContainer}>
@@ -176,22 +171,23 @@ function Transfer ({navigation}) {
               value={amount}
               onChangeText={text => setAmount(text)}
               placeholder='Enter amount in figures'
-              inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
+              inputContainerStyle={styles.inputField}
               keyboardType='numeric'
             />
           </View>
           <View style={styles.memoContainer}>
             <Text style={styles.memoText}>Memo:</Text>
             <Input2
-              selectable
+              maxLength={28}
               value={memo}
               onChangeText={text => onMemoChange(text)}
-              placeholder='Must be at least 5 characters long'
-              inputContainerStyle={[styles.inputField, {borderColor: (memoError) ? 'red' : '#2196e6'}]}
+              placeholder='Must be at most 28 characters long'
+              inputContainerStyle={styles.inputField}
             />
           </View>
           <Button2
             loading={calculateRateLoading}
+            disabled={calculateRateLoading}
             buttonStyle={styles.transferButton}
             title="Transfer"
             onPress={makeTransfer}
@@ -213,11 +209,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   inputField: {
-    borderColor: theme.COLORS.INFO,
+    borderColor: '#2196e6',
     marginBottom: 30,
   },
   transferButton: {
-    marginTop: 20,
+    marginTop: 30,
   },
 });
 

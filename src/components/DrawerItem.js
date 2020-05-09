@@ -130,7 +130,11 @@ class DrawerItem extends React.Component {
       <TouchableOpacity
         style={{height: 55}}
         onPress={() => {
-          navigation.navigate(title);
+          if (title === 'Transfer') {
+            navigation.navigate('Transfer', { screen: 'TransferPage' })
+          } else{
+            navigation.navigate(title);
+          }
         }}>
         <Block
           flex

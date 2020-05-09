@@ -88,9 +88,9 @@ function FundAccountStack(props) {
 
 function TransferStack(props) {
   return (
-    <Stack.Navigator initialRouteName="Transfer" mode="card" headerMode="screen">
+    <Stack.Navigator mode="card" headerMode="screen">
       <Stack.Screen
-        name="Transfer"
+        name="TransferPage"
         component={TransferScreen}
         options={{
           header: ({navigation, scene}) => (

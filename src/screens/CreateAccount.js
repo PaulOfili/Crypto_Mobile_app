@@ -9,7 +9,8 @@ import {
   Alert,
   View,
   RefreshControl,
-  Text
+  Text,
+  ActivityIndicator
 } from 'react-native';
 import {Button, Block, theme, Checkbox} from 'galio-framework';
 import { Button as Button2} from 'react-native-elements';
@@ -93,13 +94,15 @@ function CreateAccount(props) {
     );
   };
 
-  // if (currencies.isLoading) {
-  //   return (
-  //     <Block flex safe middle>
-  //       <ActivityIndicator size='large'/>
-  //     </Block>
-  //   )
-  // }
+  if (createAccountLoading) {
+    return (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <ActivityIndicator size="large" color="#0000ff"/>
+            <Text style={{marginTop: 15}}>Processing Transaction</Text>
+        </View>
+    )
+  }
+
   return (
     
     <Container>
@@ -122,7 +125,6 @@ function CreateAccount(props) {
           </View>
           <Button2
             disabled={acceptTermsChecked}
-            loading={createAccountLoading}
             buttonStyle={styles.createAccountButton}
             title="Create Account"
             onPress={createAccount}

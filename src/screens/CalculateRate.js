@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Dimensions,
   View,
+  ActivityIndicator
 } from 'react-native';
 import {Button, Block, Text, Input, theme} from 'galio-framework';
 import { Input as Input2, Button as Button2} from 'react-native-elements';
@@ -25,6 +26,14 @@ function CalculateRate ({route}) {
         postMakeTransferDispatch(transferDetails);
     };
 
+    if (transferIsLoading) {
+        return (
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <ActivityIndicator size="large" color="#0000ff"/>
+                <Text style={{marginTop: 15}}>Processing Transaction</Text>
+            </View>
+        )
+    }
     return (
         <Container>  
             <Block flex style={styles.calculateRate}>
@@ -57,7 +66,6 @@ function CalculateRate ({route}) {
                     </View>
                 </View>
                 <Button2
-                    loading={transferIsLoading}
                     buttonStyle={styles.confirmButton}
                     title="Confirm and Transfer"
                     onPress={confirmAndTransfer}
