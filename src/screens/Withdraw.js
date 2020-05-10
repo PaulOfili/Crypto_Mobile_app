@@ -14,7 +14,6 @@ import {Button, Block, Text, Input, theme} from 'galio-framework';
 import { Input as Input2, Button as Button2} from 'react-native-elements';
 import Container from '../layouts/Container';
 import Toast from '../components/Toast';
-import { checkMinimumLength } from '../utilities/formValidation'
 import { getBanks, getCurrencies } from '../store/actions/commonData';
 import { postMakeWithdraw } from '../store/actions/trade';
 
@@ -67,8 +66,6 @@ function Withdraw(props){
 
   const onMemoChange = (newMemo) => {
     setMemo(newMemo)
-
-    setMemoError(!checkMinimumLength(newMemo))
   }
 
   const makeWithdraw = () => {
@@ -85,8 +82,7 @@ function Withdraw(props){
     if (currencyType &&
         bankType &&
         recipient &&
-        amount && parseFloat(amount) !== 0 &&
-        memo && !memoError) {
+        amount && parseFloat(amount) !== 0) {
           postMakeWithdrawDispatch(requestBody);
         } else {
           Alert.alert("Please complete all fields properly!")
@@ -153,7 +149,7 @@ function Withdraw(props){
               value={recipient}
               onChangeText={text => setRecipient(text)}
               placeholder='Receiver email or public key'
-              inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
+              inputContainerStyle={styles.inputField}
             />
           </View>
           <View style={styles.amountContainer}>
@@ -162,7 +158,7 @@ function Withdraw(props){
               value={amount}
               onChangeText={text => setAmount(text)}
               placeholder='Enter amount in figures'
-              inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
+              inputContainerStyle={styles.inputField}
               keyboardType='numeric'
             />
           </View>
@@ -170,15 +166,16 @@ function Withdraw(props){
             
             <Text style={styles.memoText}>Memo:</Text>
             <Input2
-              selectable
               value={memo}
+              maxLength={28}
               onChangeText={text => onMemoChange(text)}
-              placeholder='Must be at least 5 characters long'
-              inputContainerStyle={[styles.inputField, {borderColor: '#2196e6'}]}
+              placeholder='Must be at most 28 characters long'
+              inputContainerStyle={styles.inputField}
             />
           </View>
           <Button2
             loading={withdrawIsLoading}
+            disabled={withdrawIsLoading}
             buttonStyle={styles.withdrawButton}
             title="Withdraw"
             onPress={makeWithdraw}
@@ -203,12 +200,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   inputField: {
-    borderColor: theme.COLORS.INFO,
+    borderColor: '#2196e6',
     marginBottom: 30,
-    // height: 50
   },
   withdrawButton: {
-    marginTop: 20,
+    marginTop: 30,
   }
 });
 

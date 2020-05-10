@@ -11,14 +11,14 @@ export const apiCall = (
     ...customHeaders,
   };
 
-  // const abortController = new AbortController();
-  // const { signal } = abortController;
+  const abortController = new AbortController();
+  const { signal } = abortController;
 
   const requestOptions = {
     method: requestType,
     headers,
     body: requestBody ? JSON.stringify(requestBody) : undefined,
-    // signal
+    signal
   };
 
   if (requestParams) {
@@ -26,7 +26,7 @@ export const apiCall = (
     url = `${url}?${urlParams}`;
   }
 
-  // setTimeout(() => abortController.abort(), 30000)
+  setTimeout(() => abortController.abort(), 45000)
 
   console.log('Total request', url, requestOptions)
   return fetch(url, requestOptions)

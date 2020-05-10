@@ -19,7 +19,7 @@ function Onboarding({navigation}) {
       <StatusBar barStyle="light-content" translucent backgroundColor="transparent"/>
       <Block flex center>
         <ImageBackground
-          source={{uri: Images.Onboarding}}
+          source={Images.Onboarding}
           style={{height: height-100, width: width, marginTop: '-15%', zIndex: 1, opacity: 0.3}}
         />
       </Block>

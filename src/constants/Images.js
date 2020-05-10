@@ -1,4 +1,4 @@
-const Onboarding = 'https://source.unsplash.com/JrjhtBJ-pGU/840x840';
+const Onboarding = require("../assets/images/Stellar_onboarding_pic.jpeg");
 const Pro =
   'https://images.unsplash.com/photo-1485796826113-174aa68fd81b?fit=crop&w=840&q=80';
 const Products = {

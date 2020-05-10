@@ -85,7 +85,7 @@ function Register({navigation}) {
     if (firstName && lastName && 
         email && !emailError && 
         phone && !phoneError && 
-        password && !passwordError && 
+        password && 
         confirmPassword && !confirmPasswordError) {
         
         setRegisterLoading(true);
@@ -200,10 +200,12 @@ function Register({navigation}) {
                       </Block>
                       <Block style={{ width: width*0.8, marginBottom: 10 }}>
                         <Input
-                          error={passwordError}
                           value={password}
                           onChangeText={text => onPasswordChange(text)}
                           password
+                          viewPass
+                          bottomHelp
+                          help={<Text style={{color: argonTheme.COLORS.MUTED}}>Password must contain alphanumeric, uppercase and special characters and must be between 8 - 20 characters long.</Text>}
                           placeholder="Password"
                           iconContent={
                             <Icon
@@ -222,6 +224,7 @@ function Register({navigation}) {
                           value={confirmPassword}
                           onChangeText={text => onConfirmPasswordChange(text)}
                           password
+                          viewPass
                           placeholder="Confirm Password"
                           iconContent={
                             <Icon
@@ -245,7 +248,7 @@ function Register({navigation}) {
                           label="I agree with the"
                         />
                         <Button
-                          style={{ width: 100, elevation: 0 }}
+                          style={{ width: 80, elevation: 0 }}
                           color="transparent"
                           textStyle={{
                             color: argonTheme.COLORS.PRIMARY,
@@ -258,7 +261,7 @@ function Register({navigation}) {
                       <Block middle>
                         <Button2
                           loading={registerLoading}
-                          disabled={acceptTermsChecked}
+                          disabled={acceptTermsChecked || registerLoading}
                           buttonStyle={styles.signUpButton}
                           title="Sign Up"
                           onPress={onSignUp}
