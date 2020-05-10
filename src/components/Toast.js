@@ -10,7 +10,8 @@ const Toast = forwardRef(({text}, ref) => {
                 animatedValue,
                 {
                     toValue: 0,
-                    duration: 50
+                    duration: 50,
+                    useNativeDriver: true
                 }
             ).start(closeToast())
        }
@@ -22,7 +23,8 @@ const Toast = forwardRef(({text}, ref) => {
                 animatedValue,
                 {
                     toValue: 70,
-                    duration: 1000
+                    duration: 1000,
+                    useNativeDriver: true
                 }
             ).start()
         }, 2000)
