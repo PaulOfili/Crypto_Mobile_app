@@ -78,15 +78,31 @@ function Transfer ({navigation}) {
         recipientCurrencyType &&
         recipient &&
         amount && parseFloat(amount) !== 0) {
+          if (senderCurrencyType === recipientCurrencyType) {
 
-          const calculateRequestParams = {
-            senderAssetCode: senderCurrencyType,
-            recipientAssetCode: recipientCurrencyType,
-            recipientAmount: amount
-          }
-          setCalculateRateLoading(true)
+            const sameCurrencyResponse = {
+              senderAssetCode: currencyToSend,
+              recipientAssetCode: currencyToReceive,
+              price: 1,
+              amountToDeduct: amount
+            };
+
+            navigation.push('CalculateRate', {
+              transferDetails: transferRequestBody,
+              calculateRateResponse: sameCurrencyResponse,
+              senderPublicKey: balanceData.publicKey
+            })
+
+          } else {
+
+            const calculateRequestParams = {
+              senderAssetCode: senderCurrencyType,
+              recipientAssetCode: recipientCurrencyType,
+              recipientAmount: amount
+            }
+            setCalculateRateLoading(true)
         
-          return calculateRate(calculateRequestParams)
+            return calculateRate(calculateRequestParams)
             .then(responseData => {
               setCalculateRateLoading(false)
               navigation.push('CalculateRate', {
@@ -99,9 +115,10 @@ function Transfer ({navigation}) {
               setCalculateRateLoading(false)
               Alert.alert(error.message)
             })         
-        } else {
-          Alert.alert("Please complete all fields properly!")
-        }
+          }
+    } else {
+      Alert.alert("Please complete all fields properly!")
+    }
   };
 
   const renderSenderCurrencyPicker = () => {

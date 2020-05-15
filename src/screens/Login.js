@@ -38,7 +38,7 @@ function Login({navigation}) {
   }
 
   const onEmailBlur = () => {
-    setEmailError(!checkEmail(email))
+    setEmailError(!checkEmail(email.trim()))
   }
 
   const onPasswordChange = (newPassword) => {
@@ -48,7 +48,7 @@ function Login({navigation}) {
 
   const onLogin = () => {
     const requestBody = {
-      email: email,
+      email: email.trim(),
       password: password,
     }
     if (email && !emailError && 
