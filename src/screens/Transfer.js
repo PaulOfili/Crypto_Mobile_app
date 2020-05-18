@@ -81,8 +81,8 @@ function Transfer ({navigation}) {
           if (senderCurrencyType === recipientCurrencyType) {
 
             const sameCurrencyResponse = {
-              senderAssetCode: currencyToSend,
-              recipientAssetCode: currencyToReceive,
+              senderAssetCode: senderCurrencyType,
+              recipientAssetCode: recipientCurrencyType,
               price: 1,
               amountToDeduct: amount
             };
