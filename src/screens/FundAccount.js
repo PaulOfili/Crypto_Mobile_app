@@ -17,6 +17,7 @@ import Container from '../layouts/Container';
 import Toast from '../components/Toast';
 import { getCurrencies } from '../store/actions/commonData';
 import { postFundAccount } from '../store/actions/trade';
+import { WebView } from 'react-native-webview';
 
 const {width} = Dimensions.get('screen');
 
@@ -109,6 +110,18 @@ function FundAccount(props) {
     )
 }
 
+const html = `
+  <html>
+  <head></head>
+  <body>
+    <script>
+      setTimeout(function () {
+        window.ReactNativeWebView.postMessage("Hello!")
+      }, 2000)
+    </script>
+  </body>
+  </html>
+  `;
   return (
     <Container>   
       <ScrollView showsVerticalScrollIndicator={false} refreshControl={
@@ -116,6 +129,14 @@ function FundAccount(props) {
         }
       >
         <Block flex style={styles.fund}>
+            <View style={{ flex: 1 }}>
+              <WebView
+                source={{ html }}
+                // onMessage={event => {
+                //   alert(event.nativeEvent.data);
+                // }}
+              />
+          </View>
           {renderBuyCurrencyPicker()}
           <View style={styles.amountContainer}>
             <Text style={styles.amountText}>Amount to buy:</Text>
