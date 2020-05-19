@@ -9,7 +9,7 @@ import {
   View,
   ActivityIndicator,
   RefreshControl,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import {Button, Block, Text, Input, theme} from 'galio-framework';
 import { Input as Input2, Button as Button2} from 'react-native-elements';
