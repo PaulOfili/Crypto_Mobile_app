@@ -7,6 +7,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import BalanceScreen from '../screens/Balance';
 import CreateAccountScreen from '../screens/CreateAccount';
 import FundAccountScreen from '../screens/FundAccount';
+import PaymentScreen from '../screens/PaymentScreen';
 import TransferScreen from '../screens/Transfer';
 import CalculateRateScreen from '../screens/CalculateRate';
 import WithdrawScreen from '../screens/Withdraw';
@@ -79,6 +80,18 @@ function FundAccountStack(props) {
               title="Fund Account" 
               scene={scene} 
               navigation={navigation} />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="PaymentScreen"
+        component={PaymentScreen}
+        options={{
+          header: ({navigation, previous, scene}) => (
+            <Header 
+              title="Confirm Payment" 
+              previous={previous}
+           />
           ),
         }}
       />
