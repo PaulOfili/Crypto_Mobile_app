@@ -21,7 +21,7 @@ import { WebView } from 'react-native-webview';
 
 const {width} = Dimensions.get('screen');
 
-function FundAccount(props) {
+function FundAccount({navigation}) {
 
   const toastRef = useRef();
 
@@ -64,20 +64,20 @@ function FundAccount(props) {
   }
   
   const fundAccount = () => {
-    
-    const requestBody = {
-      email: userData.email,
-      currencyToBuy: buyCurrencyType,
-      amount,
-      memo: memo.trim()
-    };
+    navigation.push('PaymentScreen')
+    // const requestBody = {
+    //   email: userData.email,
+    //   currencyToBuy: buyCurrencyType,
+    //   amount,
+    //   memo: memo.trim()
+    // };
 
-    if (buyCurrencyType &&
-        amount && parseFloat(amount) !== 0) {
-          postFundAccountDispatch(requestBody);
-        } else {
-          Alert.alert('Please complete all fields properly!')
-        }
+    // if (buyCurrencyType &&
+    //     amount && parseFloat(amount) !== 0) {
+    //       postFundAccountDispatch(requestBody);
+    //     } else {
+    //       Alert.alert('Please complete all fields properly!')
+    //     }
   };
 
   const renderBuyCurrencyPicker = () => {
@@ -110,18 +110,6 @@ function FundAccount(props) {
     )
 }
 
-const html = `
-  <html>
-  <head></head>
-  <body>
-    <script>
-      setTimeout(function () {
-        window.ReactNativeWebView.postMessage("Hello!")
-      }, 2000)
-    </script>
-  </body>
-  </html>
-  `;
   return (
     <Container>   
       <ScrollView showsVerticalScrollIndicator={false} refreshControl={
@@ -129,14 +117,6 @@ const html = `
         }
       >
         <Block flex style={styles.fund}>
-            <View style={{ flex: 1 }}>
-              <WebView
-                source={{ html }}
-                // onMessage={event => {
-                //   alert(event.nativeEvent.data);
-                // }}
-              />
-          </View>
           {renderBuyCurrencyPicker()}
           <View style={styles.amountContainer}>
             <Text style={styles.amountText}>Amount to buy:</Text>
