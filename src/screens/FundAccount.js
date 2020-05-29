@@ -18,7 +18,38 @@ import Toast from '../components/Toast';
 import { getCurrencies } from '../store/actions/commonData';
 import { postFundAccount } from '../store/actions/trade';
 import { WebView } from 'react-native-webview';
+import IswMobileSdk, { IswPaymentInfo, Environment, IswSdkConfig } from 'react-native-isw-mobile-sdk';
 
+
+// get your credentials
+const merchantId = "IKIA67ED34E2A0FF344EAAED7B7CE06A6C3C9D609BBA",
+ merchantCode = "MX13712",
+ merchantSecret = "J9n/3deZBnSJMJrdj1fPtO4CUCWX4HnepShsqaDUt+Q=",
+ currencyCode = "566"; // e.g. 566
+
+// create configuration for payment
+// using the credentials
+const config = new IswSdkConfig(
+    merchantId, 
+    merchantSecret,
+    merchantCode,
+    currencyCode
+)
+
+
+/**
+ *  callback function for initialized sdk
+ *  @param isSuccessful boolean flag indicating the result of initializing sdk
+ */
+
+const onSdkInitialized = (isSuccessful) => {
+    // handle result
+}
+
+// initialize the sdk at the start of application
+// you can point to a specific environment -> TEST || PRODUCTION
+const env = Environment.TEST;
+IswMobileSdk.initialize(config, env, onSdkInitialized);
 const {width} = Dimensions.get('screen');
 
 function FundAccount(props) {
@@ -110,18 +141,6 @@ function FundAccount(props) {
     )
 }
 
-const html = `
-  <html>
-  <head></head>
-  <body>
-    <script>
-      setTimeout(function () {
-        window.ReactNativeWebView.postMessage("Hello!")
-      }, 2000)
-    </script>
-  </body>
-  </html>
-  `;
   return (
     <Container>   
       <ScrollView showsVerticalScrollIndicator={false} refreshControl={
@@ -129,14 +148,6 @@ const html = `
         }
       >
         <Block flex style={styles.fund}>
-            <View style={{ flex: 1 }}>
-              <WebView
-                source={{ html }}
-                // onMessage={event => {
-                //   alert(event.nativeEvent.data);
-                // }}
-              />
-          </View>
           {renderBuyCurrencyPicker()}
           <View style={styles.amountContainer}>
             <Text style={styles.amountText}>Amount to buy:</Text>
