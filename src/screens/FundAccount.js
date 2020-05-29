@@ -64,7 +64,7 @@ function FundAccount({navigation}) {
   }
   
   const fundAccount = () => {
-    navigation.push('PaymentScreen')
+    // navigation.push('PaymentScreen')
     // const requestBody = {
     //   email: userData.email,
     //   currencyToBuy: buyCurrencyType,
@@ -78,6 +78,7 @@ function FundAccount({navigation}) {
     //     } else {
     //       Alert.alert('Please complete all fields properly!')
     //     }
+    console.log('yeah')
   };
 
   const renderBuyCurrencyPicker = () => {
