@@ -131,16 +131,24 @@ function Withdraw(props){
     );
   };
 
+  if (withdrawIsLoading) {
+    return (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <ActivityIndicator size="large" color="#0000ff"/>
+            <Text style={{marginTop: 15}}>Processing Transaction</Text>
+        </View>
+    )
+}
   
   return (
     <Container>
-      {/* <ScrollView showsVerticalScrollIndicator={false}  refreshControl={
+      <ScrollView showsVerticalScrollIndicator={false}  refreshControl={
         <RefreshControl refreshing={banks.isLoading || currencies.isLoading} onRefresh={onRefresh} />
         }
-      > */}
+      >
         <Block flex style={styles.withdraw}>
           <Text>Coming Soon.....</Text>
-          {/* {renderCurrencyPicker()}
+          {renderCurrencyPicker()}
           {renderBankPicker()}
           <View style={styles.recipientContainer}>
             <Text style={styles.recipientText}>Recipient:</Text>
@@ -174,15 +182,13 @@ function Withdraw(props){
             />
           </View>
           <Button2
-            loading={withdrawIsLoading}
-            disabled={withdrawIsLoading}
             buttonStyle={styles.withdrawButton}
             title="Withdraw"
             onPress={makeWithdraw}
-          /> */}
+          />
         </Block>
-      {/* </ScrollView>
-      <Toast ref={toastRef} text={currencies.error || banks.error}/> */}
+      </ScrollView>
+      <Toast ref={toastRef} text={currencies.error || banks.error}/>
     </Container>
   );
 }
