@@ -8,7 +8,8 @@ import {
   Alert,
   View,
   RefreshControl,
-  ScrollView
+  ScrollView,
+  ActivityIndicator
 } from 'react-native';
 import {Button, Block, Text, Input, theme} from 'galio-framework';
 import { Input as Input2, Button as Button2} from 'react-native-elements';
@@ -38,26 +39,25 @@ function Withdraw(props){
   const [recipient, setRecipient] = useState('');
   const [amount, setAmount] = useState('0');
   const [memo, setMemo] = useState('');
-  const [memoError, setMemoError] = useState(false);
 
-  // useEffect(() => {
-  //   getBanksDispatch()
-  //   getCurrenciesDispatch()
-  // }, [getBanksDispatch, getCurrenciesDispatch])
+  useEffect(() => {
+    getBanksDispatch()
+    getCurrenciesDispatch()
+  }, [getBanksDispatch, getCurrenciesDispatch])
 
-  // useEffect(() => {
-  //   if (banks.error || currencies.error) {
-  //     toastRef.current.openToast();
-  //   }
-  // }, [banks.error, currencies.error])
+  useEffect(() => {
+    if (banks.error || currencies.error) {
+      toastRef.current.openToast();
+    }
+  }, [banks.error, currencies.error])
 
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     if (banks.error || currencies.error) {
-  //       toastRef.current.openToast();
-  //     }
-  //   },[banks.error, currencies.error])
-  // );
+  useFocusEffect(
+    useCallback(() => {
+      if (banks.error || currencies.error) {
+        toastRef.current.openToast();
+      }
+    },[banks.error, currencies.error])
+  );
 
   const onRefresh = useCallback(() => {
     getBanksDispatch();
@@ -70,12 +70,12 @@ function Withdraw(props){
 
   const makeWithdraw = () => {
     const requestBody = {
-      senderEmail: userData.email,
-      recipientPublicKeyOrEmail: recipient.trim(),
+      email: userData.email,
+      creditNuban: recipient.trim(),
       amount,
-      bank: bankType,
-      debitCurrency: currencyType,
-      memo: memo.trim()
+      creditBankCode: bankType,
+      currencyCode: currencyType,
+      narration: memo.trim()
     };
 
 
@@ -147,16 +147,15 @@ function Withdraw(props){
         }
       >
         <Block flex style={styles.withdraw}>
-          <Text>Coming Soon.....</Text>
           {renderCurrencyPicker()}
           {renderBankPicker()}
           <View style={styles.recipientContainer}>
-            <Text style={styles.recipientText}>Recipient:</Text>
+            <Text style={styles.recipientText}>Destination Account:</Text>
             <Input2
               selectable
               value={recipient}
               onChangeText={text => setRecipient(text)}
-              placeholder='Receiver email or public key'
+              placeholder='Account number'
               inputContainerStyle={styles.inputField}
             />
           </View>
