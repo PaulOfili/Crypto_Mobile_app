@@ -44,12 +44,13 @@ const config = new IswSdkConfig(
 
 const onSdkInitialized = (isSuccessful) => {
     // handle result
+    console.log('Yeah')
 }
 
 // initialize the sdk at the start of application
 // you can point to a specific environment -> TEST || PRODUCTION
 const env = Environment.TEST;
-IswMobileSdk.initialize(config, env, onSdkInitialized);
+// IswMobileSdk.initialize(config, env, onSdkInitialized);
 const {width} = Dimensions.get('screen');
 
 function FundAccount(props) {
