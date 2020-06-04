@@ -133,6 +133,8 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+
+        multiDexEnabled true
     }
 
     signingConfigs {
@@ -205,6 +207,8 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+    implementation 'com.android.support:multidex:1.0.3'
 }
 
 // Run this once to be able to run the application with BUCK

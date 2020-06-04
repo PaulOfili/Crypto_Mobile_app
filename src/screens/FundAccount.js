@@ -29,6 +29,7 @@ const merchantId = "IKIA67ED34E2A0FF344EAAED7B7CE06A6C3C9D609BBA",
 
 // create configuration for payment
 // using the credentials
+
 const config = new IswSdkConfig(
     merchantId, 
     merchantSecret,
@@ -44,13 +45,13 @@ const config = new IswSdkConfig(
 
 const onSdkInitialized = (isSuccessful) => {
     // handle result
-    console.log('Yeah')
+    console.log('Initialized: ', isSuccessful)
 }
 
 // initialize the sdk at the start of application
 // you can point to a specific environment -> TEST || PRODUCTION
 const env = Environment.TEST;
-// IswMobileSdk.initialize(config, env, onSdkInitialized);
+IswMobileSdk.initialize(config, env, onSdkInitialized);
 const {width} = Dimensions.get('screen');
 
 function FundAccount(props) {
@@ -95,8 +96,43 @@ function FundAccount(props) {
     setMemo(newMemo)
   }
   
+  const makePayment = () => {
+    if (buyCurrencyType &&
+        amount && parseFloat(amount) !== 0) {
+
+          const customerId = userData.email;
+          const customerName = userData.firstName;
+          const customerEmail = userData.email;
+          const customerMobile = '08011223344';
+          const reference = memo.trim();
+          const payableAmount = amount * 100;
+      
+          const paymentInfo = new IswPaymentInfo(
+            customerId,
+            customerName,
+            customerEmail,
+            customerMobile,
+            reference,
+            payableAmount
+          )
+      
+          const userDidComplete = result => {
+            console.log(result);
+            fundAccount();
+          }
+
+          const userDidCancel = () => {
+            console.log('The user cancelled the process!');
+          }
+
+          IswMobileSdk.pay(paymentInfo, userDidComplete, userDidCancel);
+
+    } else {
+      Alert.alert('Please complete all fields properly!')
+    }
+  }
+
   const fundAccount = () => {
-    
     const requestBody = {
       email: userData.email,
       currencyToBuy: buyCurrencyType,
@@ -104,12 +140,7 @@ function FundAccount(props) {
       memo: memo.trim()
     };
 
-    if (buyCurrencyType &&
-        amount && parseFloat(amount) !== 0) {
-          postFundAccountDispatch(requestBody);
-        } else {
-          Alert.alert('Please complete all fields properly!')
-        }
+    postFundAccountDispatch(requestBody);
   };
 
   const renderBuyCurrencyPicker = () => {
@@ -173,7 +204,7 @@ function FundAccount(props) {
           <Button2
             buttonStyle={styles.fundButton}
             title="Fund Account"
-            onPress={fundAccount}
+            onPress={makePayment}
           />
         </Block>
       </ScrollView>
