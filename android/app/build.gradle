@@ -133,6 +133,8 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+
+        multiDexEnabled true
     }
 
     signingConfigs {
@@ -191,6 +193,8 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-isw-mobile-sdk')
+    implementation project(':react-native-webview')
     implementation "androidx.appcompat:appcompat:1.1.0-rc01"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02"
     implementation fileTree(dir: "libs", include: ["*.jar"])
@@ -203,6 +207,8 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+    implementation 'com.android.support:multidex:1.0.3'
 }
 
 // Run this once to be able to run the application with BUCK

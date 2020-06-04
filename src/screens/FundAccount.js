@@ -9,7 +9,7 @@ import {
   View,
   ActivityIndicator,
   RefreshControl,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import {Button, Block, Text, Input, theme} from 'galio-framework';
 import { Input as Input2, Button as Button2} from 'react-native-elements';
@@ -18,7 +18,40 @@ import Toast from '../components/Toast';
 import { getCurrencies } from '../store/actions/commonData';
 import { postFundAccount } from '../store/actions/trade';
 import { WebView } from 'react-native-webview';
+import IswMobileSdk, { IswPaymentInfo, Environment, IswSdkConfig } from 'react-native-isw-mobile-sdk';
 
+
+// get your credentials
+const merchantId = "IKIA67ED34E2A0FF344EAAED7B7CE06A6C3C9D609BBA",
+ merchantCode = "MX13712",
+ merchantSecret = "J9n/3deZBnSJMJrdj1fPtO4CUCWX4HnepShsqaDUt+Q=",
+ currencyCode = "566"; // e.g. 566
+
+// create configuration for payment
+// using the credentials
+
+const config = new IswSdkConfig(
+    merchantId, 
+    merchantSecret,
+    merchantCode,
+    currencyCode
+)
+
+
+/**
+ *  callback function for initialized sdk
+ *  @param isSuccessful boolean flag indicating the result of initializing sdk
+ */
+
+const onSdkInitialized = (isSuccessful) => {
+    // handle result
+    console.log('Initialized: ', isSuccessful)
+}
+
+// initialize the sdk at the start of application
+// you can point to a specific environment -> TEST || PRODUCTION
+const env = Environment.TEST;
+IswMobileSdk.initialize(config, env, onSdkInitialized);
 const {width} = Dimensions.get('screen');
 
 function FundAccount({navigation}) {
@@ -63,22 +96,51 @@ function FundAccount({navigation}) {
     setMemo(newMemo)
   }
   
-  const fundAccount = () => {
-    // navigation.push('PaymentScreen')
-    // const requestBody = {
-    //   email: userData.email,
-    //   currencyToBuy: buyCurrencyType,
-    //   amount,
-    //   memo: memo.trim()
-    // };
+  const makePayment = () => {
+    if (buyCurrencyType &&
+        amount && parseFloat(amount) !== 0) {
 
-    // if (buyCurrencyType &&
-    //     amount && parseFloat(amount) !== 0) {
-    //       postFundAccountDispatch(requestBody);
-    //     } else {
-    //       Alert.alert('Please complete all fields properly!')
-    //     }
-    console.log('yeah')
+          const customerId = userData.email;
+          const customerName = userData.firstName;
+          const customerEmail = userData.email;
+          const customerMobile = '08011223344';
+          const reference = memo.trim();
+          const payableAmount = amount * 100;
+      
+          const paymentInfo = new IswPaymentInfo(
+            customerId,
+            customerName,
+            customerEmail,
+            customerMobile,
+            reference,
+            payableAmount
+          )
+      
+          const userDidComplete = result => {
+            console.log(result);
+            fundAccount();
+          }
+
+          const userDidCancel = () => {
+            console.log('The user cancelled the process!');
+          }
+
+          IswMobileSdk.pay(paymentInfo, userDidComplete, userDidCancel);
+
+    } else {
+      Alert.alert('Please complete all fields properly!')
+    }
+  }
+
+  const fundAccount = () => {
+    const requestBody = {
+      email: userData.email,
+      currencyToBuy: buyCurrencyType,
+      amount,
+      memo: memo.trim()
+    };
+
+    postFundAccountDispatch(requestBody);
   };
 
   const renderBuyCurrencyPicker = () => {
@@ -142,7 +204,7 @@ function FundAccount({navigation}) {
           <Button2
             buttonStyle={styles.fundButton}
             title="Fund Account"
-            onPress={fundAccount}
+            onPress={makePayment}
           />
         </Block>
       </ScrollView>

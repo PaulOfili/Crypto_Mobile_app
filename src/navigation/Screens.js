@@ -77,7 +77,7 @@ function FundAccountStack(props) {
         options={{
           header: ({navigation, scene}) => (
             <Header 
-              title="Fund Account" 
+              title="Deposit" 
               scene={scene} 
               navigation={navigation} />
           ),
