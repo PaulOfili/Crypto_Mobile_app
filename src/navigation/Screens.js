@@ -195,7 +195,7 @@ function AppStack(props) {
       />
 
       <Drawer.Screen
-        name="Fund Account"
+        name="Deposit"
         component={FundAccountStack}
       />
 
