@@ -19,7 +19,7 @@ import { getCurrencies } from '../store/actions/commonData';
 import { postFundAccount } from '../store/actions/trade';
 import { WebView } from 'react-native-webview';
 import IswMobileSdk, { IswPaymentInfo, Environment, IswSdkConfig } from 'react-native-isw-mobile-sdk';
-
+import cuid from 'cuid';
 
 // get your credentials
 const merchantId = "IKIA67ED34E2A0FF344EAAED7B7CE06A6C3C9D609BBA",
@@ -104,9 +104,9 @@ function FundAccount({navigation}) {
           const customerName = userData.firstName;
           const customerEmail = userData.email;
           const customerMobile = '08011223344';
-          const reference = memo.trim();
+          const reference = cuid();
           const payableAmount = amount * 100;
-      
+          console.log(reference)
           const paymentInfo = new IswPaymentInfo(
             customerId,
             customerName,
@@ -118,7 +118,9 @@ function FundAccount({navigation}) {
       
           const userDidComplete = result => {
             console.log(result);
-            fundAccount();
+            if (result.isSuccessful) {
+              fundAccount();
+            }
           }
 
           const userDidCancel = () => {

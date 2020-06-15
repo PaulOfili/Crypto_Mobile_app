@@ -82,6 +82,7 @@ function Withdraw(props){
     if (currencyType &&
         bankType &&
         recipient &&
+        memo.trim() &&
         amount && parseFloat(amount) !== 0) {
           postMakeWithdrawDispatch(requestBody);
         } else {
@@ -176,7 +177,7 @@ function Withdraw(props){
               value={memo}
               maxLength={28}
               onChangeText={text => onMemoChange(text)}
-              placeholder='Must be at most 28 characters long'
+              placeholder='Must not be empty and at most 28 characters long'
               inputContainerStyle={styles.inputField}
             />
           </View>
